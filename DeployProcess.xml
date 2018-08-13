@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wps:DeployProcess service="WPS" version="2.0.0" xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:owc="http://www.opengis.net/owc/1.0" xmlns:eoc="http://www.opengis.net/wps/2.0/profile/tb13/eoc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<wps:ProcessOffering jobControlOptions="async-execute dismiss" outputTransmission="value reference">
+		<wps:Process>
+			<ows:Title>Land Cover Mapping</ows:Title>
+			<ows:Abstract>Lang Cover Mapping is based on the Sentinel-2 processing workflow generated for the F-TEP platform.</ows:Abstract>
+			<ows:Identifier>LandCover</ows:Identifier>
+			<ows:Metadata xlink:role="http://www.opengis.net//tb13/eoc/applicationContext">
+				[ApplicationContent subset - see below example ]
+			</ows:Metadata>
+			<wps:Input>
+				<ows:Title>Sentinel-2 Image</ows:Title>
+				<ows:Abstract>URL of Sentinel-2 Level 1C image product in the format offered by AWS or IPT, with a size of up to multiple gigabytes.</ows:Abstract>
+				<ows:Identifier>Image</ows:Identifier>
+				<wps:ComplexData>
+					<wps:Format mimeType="text/directory" default="true"/>
+				</wps:ComplexData>
+			</wps:Input>
+			<wps:Input minOccurs="0">
+				<ows:Title>Reference Data</ows:Title>
+				<ows:Abstract>Representative training data set with land cover class attributes, in OGR vector format supported by GDAL, such as ESRI shapefile, in a flat zip structure containing .shp and the supporting files.</ows:Abstract>
+				<ows:Identifier>ReferenceData</ows:Identifier>
+				<wps:ComplexData>
+					<wps:Format mimeType="application/zip" encoding="base64" default="true"/>
+				</wps:ComplexData>
+			</wps:Input>
+			<wps:Input>
+				<ows:Title>Area Of Interest</ows:Title>
+				<ows:Identifier>AreaOfInterest</ows:Identifier>
+				<wps:LiteralData>
+					<!-- Not sure if WKT has a MIME type -->
+					<wps:Format mimeType="text/plain" default="true"/>
+					<LiteralDataDomain default="true">
+						<ows:AnyValue/>
+						<ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#string">String</ows:DataType>
+						<ows:DefaultValue>POLYGON((-92.906633 16.190411,-92.066559 16.188383,-92.070266 15.376645,-92.907004 15.378567,-92.906633 16.190411))</ows:DefaultValue>ows:DefaultValue>
+					</LiteralDataDomain>
+				</wps:LiteralData>
+			</wps:Input>
+			<wps:Input>
+				<ows:Title>EPSG Code</ows:Title>
+				<ows:Abstract>Coordinate reference system expressed as a code from the EPSG database using the format "EPSG:NNNN".</ows:Abstract>
+				<ows:Identifier>EPSGCode</ows:Identifier>
+				<wps:LiteralData>
+					<wps:Format mimeType="text/plain" default="true"/>
+					<LiteralDataDomain>
+						<ows:ValuesReference ows:reference="http://...."/>
+						<ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#string">String</ows:DataType>
+						<ows:DefaultValue>EPSG:4326</ows:DefaultValue>
+					</LiteralDataDomain>
+				</wps:LiteralData>
+			</wps:Input>
+			<wps:Input minOccurs="0">
+				<ows:Title>Target Resolution</ows:Title>
+				<ows:Abstract>Some description of what the target resolution means.</ows:Abstract>
+				<ows:Identifier>TargetResolution</ows:Identifier>
+				<wps:LiteralData>
+					<wps:Format mimeType="text/plain" default="true"/>
+					<LiteralDataDomain>
+						<ows:AnyValue/>
+						<ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#long">Long Integer</ows:DataType>
+						<ows:DefaultValue>20</ows:DefaultValue>
+					</LiteralDataDomain>
+				</wps:LiteralData>
+			</wps:Input>
+			<wps:Output>
+				<ows:Title>GeoTIF Image</ows:Title>
+				<ows:Abstract>Labeled GeoTIF file containing, for each pixel, one of the class codes specified in the training reference data.</ows:Abstract>
+				<ows:Identifier>Image_Result</ows:Identifier>
+				<wps:ComplexData>
+					<wps:Format mimeType="image/tiff" default="true"/>
+				</wps:ComplexData>
+			</wps:Output>
+		</wps:Process>
+	</wps:ProcessOffering>
+	<wps:DeploymentProfile>
+		<wps:DeploymentProfileName>http://spacebel.be/profile/docker.xsd</wps:DeploymentProfileName>
+		<wps:ExecutionUnit>
+			<wps:Reference href="registry.hub.docker.com/cnlspacebel/landcover"/>
+		</wps:ExecutionUnit>
+	</wps:DeploymentProfile>
+</wps:DeployProcess>
