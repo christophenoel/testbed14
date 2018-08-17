@@ -1,0 +1,73 @@
+{
+    "process": {
+      "id": "MultiSensorNDVI",
+      "title": "Multi Sensor NDVI",
+      "abstract": "NDVI is calculated after the two bands values Near Infrared and red. It is calculated by this formula : NDVI = (NIR-Red)/(NIR+Red)",
+      "keywords": [
+        "NDVI"
+      ],
+      "inputs": [
+        {
+          "id": "toi",
+          "title": "Time of Interest",
+          "abstract": "Time of Interest (defined as Start date - End date)",
+          "formats": [
+            {
+              "mimeType": "text/plain",
+              "default": true
+            }
+          ],
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "LiteralDataDomain": { "dataType": "String"}
+        },
+        {
+          "id": "aoi",
+          "title": "Area of Interest",
+          "abstract": "Area of Interest (Bounding Box)",
+          "formats": [
+            {
+              "mimeType": "OGC-WKT",
+              "default": true
+            }
+          ],
+          "minOccurs": 1,
+          "maxOccurs": 1
+        },
+        {
+          "id": "platform",
+          "title": "Platform where request the data.",
+          "abstract": "Platform where request the data (PV01, Sentinel-1, Sentinel2)",
+          "formats": [
+            {
+              "mimeType": "text/plain",
+              "default": true
+            }
+          ],
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "LiteralDataDomain": { "dataType": "String"}
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ndviOut",
+          "title": "NDVI output file",
+          "formats": [
+            {
+              "mimeType": "application/octet-stream",
+              "default": true
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "jobControlOptions": [
+        "async-execute"
+      ],
+      "outputTransmission": [
+        "reference"
+      ],
+      "executeEndpoint": "http://tbd14.geomatys.com/examind/WS/wps/ems/processes/MultiSensorNDVI/jobs"
+    }
+}
