@@ -8,7 +8,7 @@
       ],
       "inputs": [
         {
-          "id": "toi",
+          "id": "StartDate",
           "title": "Time of Interest",
           "abstract": "Time of Interest (defined as Start date - End date)",
           "formats": [
@@ -19,7 +19,59 @@
           ],
           "minOccurs": 1,
           "maxOccurs": 1,
-          "LiteralDataDomain": { "dataType": "String"}
+          "LiteralDataDomain": { "dataType": "String"},
+          "additionalParameters": [
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters": [
+                {
+                  "name": "CatalogSearchField",
+                  "value": "startDate"
+                }
+              ]
+            } 
+          ],
+          "owsContext": {
+            "offering": {
+              "code": "anyCode",
+              "content": {
+                "href": "anyRef"
+              }
+            }
+          }
+        },
+        {
+          "id": "EndDate",
+          "title": "Time of Interest",
+          "abstract": "Time of Interest (defined as Start date - End date)",
+          "formats": [
+            {
+              "mimeType": "text/plain",
+              "default": true
+            }
+          ],
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "LiteralDataDomain": { "dataType": "String"},
+          "additionalParameters": [
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters": [
+                {
+                  "name": "CatalogSearchField",
+                  "value": "endDate"
+                }
+              ]
+            } 
+          ],
+          "owsContext": {
+            "offering": {
+              "code": "anyCode",
+              "content": {
+                "href": "anyRef"
+              }
+            }
+          }
         },
         {
           "id": "aoi",
@@ -35,9 +87,9 @@
           "maxOccurs": 1
         },
         {
-          "id": "platform",
-          "title": "Platform where request the data.",
-          "abstract": "Platform where request the data (PV01, Sentinel-1, Sentinel2)",
+          "id": "collection",
+          "title": "Collection of the data.",
+          "abstract": "Collection",
           "formats": [
             {
               "mimeType": "text/plain",
@@ -46,7 +98,26 @@
           ],
           "minOccurs": 1,
           "maxOccurs": 1,
-          "LiteralDataDomain": { "dataType": "String"}
+          "LiteralDataDomain": { "dataType": "String"},
+          "additionalParameters": [
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters": [
+                {
+                  "name": "CatalogSearchField",
+                  "value": "parentIdentifier"
+                }
+              ]
+            }
+          ],
+          "owsContext": {
+            "offering": {
+              "code": "anyCode",
+              "content": {
+                "href": "anyRef"
+              }
+            }
+          }
         }
       ],
       "outputs": [
