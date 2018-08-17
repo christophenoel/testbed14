@@ -21,8 +21,8 @@
           "maxOccurs": 1,
           "additionalParameters": [
             {
-              role: "http://www.opengis.net/eoc/applicationContext/inputMetadata",
-              parameters: [
+              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters": [
                 {
                   "name": "EOImage",
                   "value": "true"
@@ -34,7 +34,7 @@
             "offering": {
               "code": "anyCode",
               "content": {
-                href: "anyRef"
+                "href": "anyRef"
               }
             }
           }
