@@ -10,7 +10,8 @@
 			<wps:Input minOccurs="0" maxOccurs="unbounded">
 				<ows:Title>Input Image</ows:Title>
 				<ows:Identifier>inputImage</ows:Identifier>
-				<!-- The following block includes all CWL properties -->
+				<!-- The following block includes all CWL properties  -->
+				<!-- Note that they can be directly generated from the provided CWL file -->
 				<ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext/cwl">
 					<ows:AdditionalParameter>
 						<ows:Name>position</ows:Name>
@@ -74,7 +75,7 @@
 		<wps:DeploymentProfileName>http://www.opengis.net/profiles/eoc/dockerizedApplicationxsd</wps:DeploymentProfileName>
 		<wps:ExecutionUnit>
 			<!-- In our case, the Execution Unit is not a BPEL, a Java, but is the Docker Image reference -->
-			<wps:Reference href="registry.hub.docker.com/testbed14/multisensor_ndvi"/>
+			<wps:Reference href="http://somehost/MultiSensorNDVI.cwl"/>
 		</wps:ExecutionUnit>
 	</wps:DeploymentProfile>
 </wps:DeployProcess>
