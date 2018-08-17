@@ -62,24 +62,6 @@
 				<ows:Title>Input Parameter</ows:Title>
 				<ows:Identifier>inputParameter</ows:Identifier>
 				<!-- The following block includes all CWL properties -->
-				<ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext/cwl">
-					<ows:AdditionalParameter>
-						<ows:Name>position</ows:Name>
-						<ows:Value>1</ows:Value>
-					</ows:AdditionalParameter>
-					<ows:AdditionalParameter>
-						<ows:Name>prefix</ows:Name>
-						<ows:Value>parameter</ows:Value>
-					</ows:AdditionalParameter>
-					<ows:AdditionalParameter>
-						<ows:Name>separate</ows:Name>
-						<ows:Value>false</ows:Value>
-					</ows:AdditionalParameter>
-					<ows:AdditionalParameter>
-						<ows:Name>itemSeparator</ows:Name>
-						<ows:Value>=</ows:Value>
-					</ows:AdditionalParameter>
-				</ows:AdditionalParameters>
 				<wps:LiteralData>
 					<wps:Format mimeType="application/wkt" default="true"/>
 					<LiteralDataDomain default="true">
