@@ -31,7 +31,12 @@
 <link href="http://geo.spacebel.be/opensearch/request/?httpAccept=application/ld%2Bjson&amp;parentIdentifier=LANDSAT.ETM.GTC&amp;uid=LS07_RMPS_ETM_GTC_1P_20000123T111514_20000123T111543_004119_0205_0038_EBB6" rel="alternate" title="JSON-LD format" type="application/ld+json"/>
 <link href="http://geo.spacebel.be/opensearch/request/?httpAccept=text/turtle&amp;parentIdentifier=LANDSAT.ETM.GTC&amp;uid=LS07_RMPS_ETM_GTC_1P_20000123T111514_20000123T111543_004119_0205_0038_EBB6" rel="alternate" title="Turtle format" type="text/turtle"/>
 <link href="http://landsat-ds.eo.esa.int/metadata/LANDSAT_ETM/2000/01/23/LS07_RMPS_ETM_GTC_1P_20000123T111514_20000123T111543_004119_0205_0038_EBB6.BP.PNG" rel="icon" title="Quicklook" type="image/png"/>
-<summary type="html"><![CDATA[<table xmlns="" xmlns:eop="http://www.opengis.net/eop/2.1" xmlns:om="http://www.opengis.net/om/2.0">
+<owc:offering code="http://www.opengis.net/spec/owc-atom/1.0/req/wfs">
+	<owc:operation method="GET" code="GetCapabilities" type="application/xml" href="http://services.interactive-instruments.de/xsprojects/ows9-tds/services/ltds/wfs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetCapabilities"/>
+	<owc:operation method="GET" code="GetFeature" type="text/xml" href="http://services.interactive-instruments.de/xsprojects/ows9-tds/services/ltds/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&NAMESPACES=xmlns(tds,http:%2F%2Fmetadata.dod.mil%2Fmdr%2Fns%2FGSIP%2F3.0%2Ftds%2F3.0)&OUTPUTFORMAT=text/xml;subtype=gml/3.2.1&BBOX=-90,-180,90,180&TYPENAME=tds:AerodromeBoundaryGeocurve&featureID=V_feature"/>
+</owc:offering>
+
+	<summary type="html"><![CDATA[<table xmlns="" xmlns:eop="http://www.opengis.net/eop/2.1" xmlns:om="http://www.opengis.net/om/2.0">
 <tr>
 <td valign="top">
 <table>
