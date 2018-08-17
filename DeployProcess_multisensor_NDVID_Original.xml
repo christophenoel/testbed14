@@ -5,35 +5,12 @@
 			<ows:Title>MultiSensor NDVI</ows:Title>
 			<ows:Identifier>multisensor_ndvi</ows:Identifier>
 			<!-- The CWL file reference is provided here -->
-			<ows:Metadata  xlink:role="http://www.opengis.net/eoc/applicationContext/cwl/reference" xlink:href="http://somewhere.com/cwl/multisensor_ndvi.cwl" />
 			<!--  INPUT IMAGES  -->
 			<wps:Input minOccurs="0" maxOccurs="unbounded">
 				<ows:Title>Input Image</ows:Title>
 				<ows:Identifier>inputImage</ows:Identifier>
 				<!-- The following block includes all CWL properties  -->
 				<!-- Note that they can be directly generated from the provided CWL file -->
-				<ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext/cwl">
-					<ows:AdditionalParameter>
-						<ows:Name>position</ows:Name>
-						<ows:Value>1</ows:Value>
-					</ows:AdditionalParameter>
-					<ows:AdditionalParameter>
-						<ows:Name>prefix</ows:Name>
-						<ows:Value>inImageFolder</ows:Value>
-					</ows:AdditionalParameter>
-					<ows:AdditionalParameter>
-						<ows:Name>separate</ows:Name>
-						<ows:Value>false</ows:Value>
-					</ows:AdditionalParameter>
-					<ows:AdditionalParameter>
-						<ows:Name>itemSeparator</ows:Name>
-						<ows:Value>=</ows:Value>
-					</ows:AdditionalParameter>
-					<ows:AdditionalParameter>
-						<ows:Name>cwlName</ows:Name>
-						<ows:Value>inImageFolder</ows:Value>
-					</ows:AdditionalParameter>
-				</ows:AdditionalParameters>
 				<!-- The following block holds a flag indicating that this input is an Earth Observation image (it will heps the EMS to know that this input is found using a Gateway search)  -->
 				<ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext/inputMetadata">
 					<ows:AdditionalParameter>
