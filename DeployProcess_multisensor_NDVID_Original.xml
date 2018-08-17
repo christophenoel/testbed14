@@ -29,6 +29,23 @@
 					<wps:Format mimeType="application/zip" default="true"/>
 				</wps:ComplexData>
 			</wps:Input>
+		        <wps:Input minOccurs="0" maxOccurs="1">
+				<ows:Title>Sample Parameter (for demo purpose)</ows:Title>
+				<ows:Identifier>inputParameter</ows:Identifier>
+				<!--If we need to provide any OWS Context Metadata, this is hold in the following element (as in OGC Testbed 13 project)-->
+				<eoc:ApplicationContext>
+					<owc:offering code="XXX">
+						<owc:content type="application/xxxx" href="xxx"/>
+					</owc:offering>
+				</eoc:ApplicationContext>
+				<wps:LiteralData>
+					<wps:Format mimeType="text/plain" default="true"/>
+					<LiteralDataDomain default="true">
+						<ows:AnyValue/>
+						<ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#dateTime">string</ows:DataType>
+					</LiteralDataDomain>
+				</wps:LiteralData>
+			</wps:Input>
 			<!--  NDVI OUTPUT FILE(S)  -->
 			<wps:Output>
 				<ows:Title>GeoTIF Image</ows:Title>
