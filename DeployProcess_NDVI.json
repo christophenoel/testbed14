@@ -19,6 +19,25 @@
           ],
           "minOccurs": 1,
           "maxOccurs": 1,
+          "additionalParameters": [
+            {
+              role: "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              parameters: [
+                {
+                  "name": "EOImage",
+                  "value": "true"
+                }
+              ]
+            }
+          ],
+          "owsContext": {
+            "offering": {
+              "code": "anyCode",
+              "content": {
+                href: "anyRef"
+              }
+            }
+          }
         }
       ],
       "outputs": [
