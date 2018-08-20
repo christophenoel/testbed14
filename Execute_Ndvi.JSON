@@ -1,0 +1,30 @@
+{
+  "inputs": [
+    {
+      "id": "startDate",
+      "value": "2016-05-05T00:00"
+    },
+    {
+      "id": "endDate",
+      "value": "2016-05-05T23:59"
+    },
+    {
+      "id": "aoi",
+      "value": "POLYGON((44 3.5,43.2 3.5,43.2 4.5,44 4.5,44 3.5))"
+    },
+    {
+      "id": "collectionId",
+      "value": "Sentinel-2"
+    },
+    {
+      "id": "inputParameter",
+      "value": "myParameterValue"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "ndviOut",
+      "transmissionMode": "REFERENCE"
+    }
+  ]
+}
