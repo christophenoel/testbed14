@@ -1,0 +1,18 @@
+{
+  "inputs": [
+    {
+      "id": "image",
+      "reference": "http://landsat.host/productXXX.zip"
+    },
+    {
+      "id": "inputParameter",
+      "value": "myParameterValue"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "ndviOut",
+      "transmissionMode": "REFERENCE"
+    }
+  ]
+}
