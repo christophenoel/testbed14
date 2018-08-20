@@ -1,0 +1,92 @@
+{
+  "processOffering": {
+    "process": {
+      "id": "MultiSensorNDVI",
+      "title": "Multi Sensor NDVI",
+      "abstract": "NDVI is calculated after the two bands values Near Infrared and red. It is calculated by this formula : NDVI = (NIR-Red)/(NIR+Red)",
+      "keywords": [
+        "NDVI"
+      ],
+      "inputs": [
+        {
+          "id": "inputImage",
+          "title": "Input Image",
+          "formats": [
+            {
+              "mimeType": "application/zip",
+              "default": true
+            }
+          ],
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "additionalParameters": [
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters": [
+                {
+                  "name": "EOImage",
+                  "value": "true"
+                }
+              ]
+            }
+          ],
+          "owsContext": {
+            "offering": {
+              "code": "anyCode",
+              "content": {
+                "href": "anyRef"
+              }
+            }
+          }
+        },
+        {
+          "id": "inputParameter",
+          "title": "Sample Parameter",
+          "abstract": "Sample Parameter (for demo purpose)",
+          "formats": [
+            {
+              "mimeType": "text/plain",
+              "default": true
+            }
+          ],
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "LiteralDataDomain": { "dataType": "String"},
+          "owsContext": {
+            "offering": {
+              "code": "anyCode",
+              "content": {
+                "href": "anyRef"
+              }
+            }
+          }
+        }        
+      ],
+      "outputs": [
+        {
+          "id": "ndviOut",
+          "title": "NDVI output file",
+          "formats": [
+            {
+              "mimeType": "application/octet-stream",
+              "default": true
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "jobControlOptions": [
+        "async-execute"
+      ],
+      "outputTransmission": [
+        "reference"
+      ]
+    }
+  },
+  "deploymentProfile": {
+    "deploymentProfileName": "???",
+    "executionUnit": {
+            "reference" : "http://somehost/MultiSensorNDVI.cwl"
+    },
+  }
+}
