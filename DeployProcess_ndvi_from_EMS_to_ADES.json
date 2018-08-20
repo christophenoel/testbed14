@@ -21,11 +21,23 @@
           "maxOccurs": 1,
           "additionalParameters": [
             {
-              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "role": "http://www.opengis.net/eoc/applicationContext/cwl",
               "parameters": [
                 {
-                  "name": "EOImage",
-                  "value": "true"
+                  "name": "position",
+                  "value": "1"
+                },
+                {
+                  "name": "prefix",
+                  "value": "image"
+                },
+                {
+                  "name": "separate",
+                  "value": "false"
+                },
+                {
+                  "name": "itemSeparator",
+                  "value": "="
                 }
               ]
             }
@@ -52,6 +64,29 @@
           "minOccurs": 1,
           "maxOccurs": 1,
           "LiteralDataDomain": { "dataType": "String"},
+          "additionalParameters": [
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/cwl",
+              "parameters": [
+                {
+                  "name": "position",
+                  "value": "1"
+                },
+                {
+                  "name": "prefix",
+                  "value": "parameter"
+                },
+                {
+                  "name": "separate",
+                  "value": "false"
+                },
+                {
+                  "name": "itemSeparator",
+                  "value": "="
+                }
+              ]
+            }
+          ],
           "owsContext": {
             "offering": {
               "code": "anyCode",
