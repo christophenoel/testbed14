@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wps:DeployProcess service="WPS" version="2.0.0" xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:owc="http://www.opengis.net/owc/1.0" xmlns:eoc="http://www.opengis.net/wps/2.0/profile/tb13/eoc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <wps:ProcessOffering xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:atom="http://www.w3.org/2005/Atom" jobControlOptions="async-execute dismiss" outputTransmission="value reference">
+        <wps:Process>
+            <ows:Title>MultiSensor NDVI</ows:Title>
+            <ows:Identifier>multisensor_ndvi</ows:Identifier>
+            <!-- The CWL file reference is provided here -->
+            <ows:metadata role="://www.opengis.net/eoc/applicationContext/cwl" href="http://some.host/applications/cwl/multisensorNDVI.cwl" />
+            <!--  INPUT IMAGES  -->
+            <wps:Input minOccurs="0" maxOccurs="unbounded">
+                <ows:Title>Input Image</ows:Title>
+                <ows:Identifier>inputImage</ows:Identifier>
+                <!-- The following block includes all CWL properties  -->
+                <!-- Note that they can be directly generated from the provided CWL file -->
+                <!-- The following block holds a flag indicating that this input is an Earth Observation image (it will heps the EMS to know that this input is found using a Gateway search)  -->
+                <ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext/inputMetadata">
+                    <ows:AdditionalParameter>
+                        <ows:Name>EOImage</ows:Name>
+                        <ows:Value>true</ows:Value>
+                    </ows:AdditionalParameter>
+                </ows:AdditionalParameters>
+                <!--If we need to provide any OWS Context Metadata, this is hold in the following element (as in OGC Testbed 13 project)-->
+                <eoc:ApplicationContext>
+                    <owc:offering code="XXX">
+                        <owc:content type="application/xxxx" href="xxx"/>
+                    </owc:offering>
+                </eoc:ApplicationContext>
+                <!-- EO Image is always of type ComplexData (= file). In this example, maxOccurs set as unbounded, indicates it may be a list of files -->
+                <wps:ComplexData>
+                    <wps:Format mimeType="application/zip" default="true"/>
+                </wps:ComplexData>
+            </wps:Input>
+            <wps:Input minOccurs="0" maxOccurs="1">
+                <ows:Title>Sample Parameter (for demo purpose)</ows:Title>
+                <ows:Identifier>inputParameter</ows:Identifier>
+                <!--If we need to provide any OWS Context Metadata, this is hold in the following element (as in OGC Testbed 13 project)-->
+                <eoc:ApplicationContext>
+                    <owc:offering code="XXX">
+                        <owc:content type="application/xxxx" href="xxx"/>
+                    </owc:offering>
+                </eoc:ApplicationContext>
+                <wps:LiteralData>
+                    <wps:Format mimeType="text/plain" default="true"/>
+                    <LiteralDataDomain default="true">
+                        <ows:AnyValue/>
+                        <ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#dateTime">string</ows:DataType>
+                    </LiteralDataDomain>
+                </wps:LiteralData>
+            </wps:Input>
+            <!--  NDVI OUTPUT FILE(S)  -->
+            <wps:Output>
+                <ows:Title>GeoTIF Image</ows:Title>
+                <ows:Abstract>Labeled GeoTIF file containing, for each pixel, one of the class codes specified in the training reference data.</ows:Abstract>
+                <ows:Identifier>output</ows:Identifier>
+                <wps:ComplexData>
+                    <wps:Format mimeType="image/tiff" default="true"/>
+                </wps:ComplexData>
+                <ows:AdditionalParameters xlink:role="http://www.opengis.net/profiles/eoc/output">
+                    <!-- Path provides the path of the output-->
+                    <ows:AdditionalParameter>
+                        <ows:Name>path</ows:Name>
+                        <ows:Value>output/image.tiff</ows:Value>
+                    </ows:AdditionalParameter>
+                </ows:AdditionalParameters>
+            </wps:Output>
+        </wps:Process>
+    </wps:ProcessOffering>
+    <wps:DeploymentProfile>
+        <!-- The deployment profile is a WPS-T property to define the application package format (in this case the dockerized application for EOC)-->
+        <wps:DeploymentProfileName>http://www.opengis.net/profiles/eoc/dockerizedApplication</wps:DeploymentProfileName>
+        <wps:ExecutionUnit>
+            <!-- In our case, the Execution Unit is not a BPEL, a Java, but is the Docker Image reference -->
+            <wps:Reference href="docker.registry.host/multisensorNDVI"/>
+        </wps:ExecutionUnit>
+    </wps:DeploymentProfile>
+</wps:DeployProcess>
