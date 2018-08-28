@@ -1,9 +1,9 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "title" : "OGC Testbed 14 EOC - Transactional Web Processing Service 2.0 with Quotation - REST/JSON Extension API",
-    "version" : "0.0.2",
-    "description" : "WARNING - THIS IS WORK IN PROGRESS\\\nTODO - Add a description of the sample service.\\\nTODO - Add security elements in a separate example.\\\nTODO - Connect to a live service.",
+    "title" : "OGC Testbed 14 EOC - Transactional Web Processing Service 2.0 with Billing and Quotation - REST/JSON Extension API",
+    "version" : "0.2",
+    "description" : "This is the Transactional Web Processing Service 2.0 with Billing and Quotation REST/JSON Extension API developped in the frame of the OGC Testbed 14 EOC. This work is based on the WPS REST binding (https://github.com/opengeospatial/wps-rest-binding) by Benjamin Proß with updates from Patrick Jacques (Spacebel)",
     "contact" : {
       "name" : "Open Geospatial Consortium",
       "email" : "standards@opengeospatial.org",
@@ -17,12 +17,12 @@
   "paths" : {
     "/api" : {
       "get" : {
-        "summary" : "the API description - this document",
+        "summary" : "The API description - this document",
         "operationId" : "getApiDescription",
         "tags" : [ "Capabilities" ],
         "responses" : {
           "200" : {
-            "description" : "The formal documentation of this API according to the OpenAPI specification, version 3.0. I.e., this document.",
+            "description" : "The formal documentation of this API according to the OpenAPI specification, version 3.0. i.e., this document.",
             "content" : {
               "application/openapi+json;version=3.0" : {
                 "schema" : {
@@ -46,8 +46,7 @@
     },
     "/processes" : {
       "get" : {
-        "summary" : "retrieve available processes",
-        "description" : "TODO",
+        "summary" : "Retrieve available processes",
         "operationId" : "getProcesses",
         "tags" : [ "Processes" ],
         "responses" : {
@@ -74,9 +73,14 @@
         }
       },
       "post" : {
-        "summary" : "deploy a process.",
+        "summary" : "Deploy a process.",
         "operationId" : "deployProcess",
         "tags" : [ "Deploy" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
         "requestBody" : {
           "description" : "Mandatory deploy request JSON",
           "required" : true,
@@ -99,6 +103,26 @@
               }
             }
           },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
           "default" : {
             "description" : "An error occured.",
             "content" : {
@@ -114,7 +138,7 @@
     },
     "/processes/{id}" : {
       "get" : {
-        "summary" : "retrieve a process description",
+        "summary" : "Retrieve a process description",
         "operationId" : "getProcessDescription",
         "tags" : [ "ProcessDescription" ],
         "parameters" : [ {
@@ -195,9 +219,14 @@
         }
       },
       "delete" : {
-        "summary" : "undeploy a process",
+        "summary" : "Undeploy a process",
         "operationId" : "undeployProcess",
         "tags" : [ "Undeploy" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
@@ -219,6 +248,26 @@
               }
             }
           },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
           "default" : {
             "description" : "An error occured.",
             "content" : {
@@ -234,9 +283,14 @@
     },
     "/processes/{id}/jobs" : {
       "get" : {
-        "summary" : "retrieve the list of jobs for a process.",
+        "summary" : "Retrieve the list of jobs for a process.",
         "operationId" : "getJobList",
         "tags" : [ "JobList" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
@@ -253,6 +307,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/jobList"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
                 }
               }
             }
@@ -280,9 +354,14 @@
         }
       },
       "post" : {
-        "summary" : "execute a process.",
+        "summary" : "Execute a process.",
         "operationId" : "execute",
         "tags" : [ "Execute" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
@@ -315,6 +394,26 @@
               }
             }
           },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
           "404" : {
             "description" : "The process with id {id} does not exist.",
             "content" : {
@@ -340,9 +439,14 @@
     },
     "/processes/{id}/jobs/{jobID}" : {
       "get" : {
-        "summary" : "retrieve the status of a job",
+        "summary" : "Retrieve the status of a job",
         "operationId" : "getStatus",
         "tags" : [ "Status" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
@@ -367,6 +471,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/statusInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
                 }
               }
             }
@@ -394,9 +518,14 @@
         }
       },
       "delete" : {
-        "summary" : "dismiss a job",
+        "summary" : "Dismiss a job",
         "operationId" : "dismiss",
         "tags" : [ "Dismiss" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
@@ -421,6 +550,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/statusInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
                 }
               }
             }
@@ -450,9 +599,14 @@
     },
     "/processes/{id}/jobs/{jobID}/result" : {
       "get" : {
-        "summary" : "retrieve the result(s) of a job",
+        "summary" : "Retrieve the result(s) of a job",
         "operationId" : "getResult",
         "tags" : [ "Result" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
@@ -477,6 +631,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/result"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
                 }
               }
             }
@@ -506,18 +680,25 @@
     },
     "/processes/{id}/quotations" : {
       "get" : {
-        "summary" : "retrieve the list of quotation ids for a process.",
+        "summary" : "Retrieve the list of quotation ids for a given process.",
         "operationId" : "getQuotationList",
         "tags" : [ "QuotationList" ],
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "id",
-          "description" : "The id of a process.",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        "security" : [
+          {
+            "bearerAuth" : []
           }
-        } ],
+        ],
+        "parameters" : [
+          {
+            "in" : "path",
+            "name" : "id",
+            "description" : "The id of a process.",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
         "responses" : {
           "200" : {
             "description" : "A list of quotation ids for this process.",
@@ -525,6 +706,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/quotationList"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
                 }
               }
             }
@@ -552,18 +753,25 @@
         }
       },
       "post" : {
-        "summary" : "request a quotation for a process.",
+        "summary" : "Request a quotation for a given process.",
         "operationId" : "quote",
         "tags" : [ "Quote" ],
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "id",
-          "description" : "The id of a process.",
-          "required" : true,
-          "schema" : {
-            "type" : "integer"
+        "security" : [
+          {
+            "bearerAuth" : []
           }
-        } ],
+        ],
+        "parameters" : [
+          {
+            "in" : "path",
+            "name" : "id",
+            "description" : "The id of a process.",
+            "required" : true,
+            "schema" : {
+              "type" : "integer"
+            }
+          }
+        ],
         "requestBody" : {
           "description" : "Mandatory execute request JSON",
           "required" : true,
@@ -582,6 +790,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/quotation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
                 }
               }
             }
@@ -611,33 +839,61 @@
     },
     "/processes/{id}/quotations/{quotationID}" : {
       "get" : {
-        "summary" : "retrieve a quotation",
+        "summary" : "Retrieve quotation information",
         "operationId" : "getQuotation",
         "tags" : [ "Quotation" ],
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "id",
-          "description" : "The id of a process",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        "security" : [
+          {
+            "bearerAuth" : []
           }
-        }, {
-          "in" : "path",
-          "name" : "quotationID",
-          "description" : "The id of a quotation",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        ],
+        "parameters" : [
+          {
+            "in" : "path",
+            "name" : "id",
+            "description" : "The id of a process",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          {
+            "in" : "path",
+            "name" : "quotationID",
+            "description" : "The id of a quotation",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
           }
-        } ],
+        ],
         "responses" : {
           "200" : {
-            "description" : "Result of the quotation.",
+            "description" : "Quotation information.",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/quotation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
                 }
               }
             }
@@ -665,26 +921,34 @@
         }
       },
       "post" : {
-        "summary" : "execute a quoted process",
+        "summary" : "Execute a quoted process",
         "operationId" : "executeQuotation",
         "tags" : [ "Execute (as per Quotation)" ],
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "id",
-          "description" : "The id of a process",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        "security" : [
+          {
+            "bearerAuth" : []
           }
-        }, {
-          "in" : "path",
-          "name" : "quotationID",
-          "description" : "The id of a quotation",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        ],
+        "parameters" : [
+          {
+            "in" : "path",
+            "name" : "id",
+            "description" : "The id of a process",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          {
+            "in" : "path",
+            "name" : "quotationID",
+            "description" : "The id of a quotation",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
           }
-        } ],
+        ],
         "responses" : {
           "201" : {
             "description" : "Started execution. Created job.",
@@ -694,6 +958,26 @@
                   "type" : "string"
                 },
                 "description" : "URL to check the status of the execution/job."
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
               }
             }
           },
@@ -729,9 +1013,676 @@
           }
         }
       }
+    },
+    "/processes/{id}/visibility" : {
+      "get" : {
+        "summary" : "Retrieve the visibility status for a process.",
+        "operationId" : "getVisibility",
+        "tags" : [ "Visibility" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The visibility status (public or private) for this process.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/visibility"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Change the visibility status for a process.",
+        "operationId" : "changeVisibility",
+        "tags" : [ "ChangeVisibility" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "New visibility parameters as JSON",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/visibility"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Process visibility status updated.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/visibility"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quotations" : {
+      "get" : {
+        "summary" : "Retrieve the list of all quotation ids.",
+        "operationId" : "getQuotationList",
+        "tags" : [ "QuotationList" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "A list of quotation ids for all server processes.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/quotationList"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quotations/{quotationID}" : {
+      "get" : {
+        "summary" : "Retrieve quotation information",
+        "operationId" : "getQuotation",
+        "tags" : [ "Quotation" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "parameters" : [
+          {
+            "in" : "path",
+            "name" : "quotationID",
+            "description" : "The id of a quotation",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "Quotation information.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/quotation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The quotation with id {quotationID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Execute a quoted process",
+        "operationId" : "executeQuotation",
+        "tags" : [ "Execute (as per Quotation)" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "parameters" : [
+          {
+            "in" : "path",
+            "name" : "quotationID",
+            "description" : "The id of a quotation",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
+        "responses" : {
+          "201" : {
+            "description" : "Started execution. Created job.",
+            "headers" : {
+              "Location" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "description" : "URL to check the status of the execution/job."
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The quotation with id {quotationID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "410" : {
+            "description" : "The quotation with id {quotationID} expired.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bills" : {
+      "get" : {
+        "summary" : "Retrieve the list of all bills ids.",
+        "operationId" : "getBillList",
+        "tags" : [ "BillList" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "A list of bills ids.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/billList"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bills/{billID}" : {
+      "get" : {
+        "summary" : "Retrieve bill information",
+        "operationId" : "getBill",
+        "tags" : [ "Bill" ],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "parameters" : [
+          {
+            "in" : "path",
+            "name" : "billID",
+            "description" : "The id of a bill",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "Bill information.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/bill"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The bill with id {billID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications" : {
+      "get" : {
+        "summary" : "Retrieve information about available application packages",
+        "description" : "Retrieve summary of all or part (filters) of the Application Packages available in the EMS Appllication Package Registry",
+        "operationId" : "getApplications",
+        "tags" : [ "Applications" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "filters",
+          "description" : "Find application by filters (i.e. cwlId, cwlLabel, cwlDoc)",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "cwlId=multisensor_ndvi_ipt"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Information about the available application packages",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/applicationCollection"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Register an application package.",
+        "operationId" : "registerApplication",
+        "tags" : [ "Register" ],
+        "requestBody" : {
+          "description" : "Mandatory register request JSON",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/register"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Application Package registered.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/registerResult"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}" : {
+      "get" : {
+        "summary" : "Retrieve an Application Package",
+        "operationId" : "getApplication",
+        "tags" : [ "Application Package" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of the application",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "application123"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "An application package.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/applicationPackage"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The application with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Unregister an application",
+        "operationId" : "deregisterApplication",
+        "tags" : [ "Deregister" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of the application",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "application123"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Application Package deregistered.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/deregisterResult"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme": "bearer",
+        "bearerFormat" : "JWT"
+      }
+    },
     "schemas" : {
       "exception" : {
         "type" : "object",
@@ -1049,6 +2000,12 @@
             "items" : {
               "$ref" : "#/components/schemas/metadata"
             }
+          },
+          "additionalParameters": {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/additionalParameters"
+            }
           }
         }
       },
@@ -1060,6 +2017,20 @@
           },
           "href" : {
             "type" : "string"
+          }
+        }
+      },
+      "additionalParameters" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
           }
         }
       },
@@ -1085,23 +2056,214 @@
           }
         }
       },
-      "quotation" : {
+      "billList" : {
         "type" : "object",
-        "required" : [ "totalPrice", "expiration" ],
         "properties" : {
-          "expiration" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "totalPrice" : {
-            "type" : "string"
-          },
-          "componentPrice" : {
+          "bills" : {
             "type" : "array",
             "items" : {
               "type" : "string"
             }
           }
+        }
+      },
+      "quotation" : {
+        "type" : "object",
+        "required" : [ "id", "processId", "price", "currency", "expire", "created", "userId", "processParameters" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The id of the quotation"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A name of the quotation"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A description of what the quotation is related"
+          },
+          "processId" : {
+            "type" : "string",
+            "description" : "The id of the parent process"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "currency" : {
+            "type" : "string",
+            "description": "Currency code in ISO 4217 format"
+          },
+          "expire" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation will expire"
+          },
+          "created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation was created"
+          },
+          "userId" : {
+            "type" : "string",
+            "description" : "User id that requested this quotation"
+          },
+          "details" : {
+            "type" : "string"
+          },
+          "estimatedTime" : {
+            "type" : "string",
+            "description" : "The estimated duration for the process to be performed (in ISO 8601 duration format)"
+          },
+          "processParameters" : {
+            "$ref" : "#/components/schemas/execute"
+          },
+          "alternativeQuotations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/alternateQuotation"
+            }
+          }
+        },
+        "example" : {
+          "id" : "Q-12345-A",
+          "title" : "Mosaicing",
+          "description" : "High resolutionmosaicing(10 meters)",
+          "processId" : "P-12345",
+          "price" : "15",
+          "currency" : "EUR",
+          "created" : "2018-05-23T17:24:37Z",
+          "expire" : "2018-06-15T10:00:00Z",
+          "userId" : "U-XXX-YYY-Z",
+          "details" : "Toulouse area  10000 km2  Sentinel-2",
+          "estimatedTime" : "P5M",
+          "processParameters" : {
+            "inputs" : [ {
+              "id" : "input1",
+              "title" : "input title 1",
+              "formats" : [ {
+                "mimeType" : "application/json",
+                "maximumMegabytes" : 3,
+                "default" : true
+              }, {
+                "mimeType" : "application/x-zipped-shp",
+                "maximumMegabytes" : 3
+              } ]
+            } ],
+            "outputs" : [ {
+              "id" : "output1",
+              "title" : "output title 1",
+              "formats" : [ {
+                "mimeType" : "application/json",
+                "default" : true
+              }, {
+                "mimeType" : "application/x-zipped-shp"
+              } ]
+            } ]
+          },
+          "alternativeQuotations" : {
+            "id" : "Q12345B",
+            "title" : "Mosaicing(lowpriority)",
+            "description" : "High resolutionmosaicing(10 meters)",
+            "price" : "5",
+            "currency" : "EUR",
+            "expire" : "2018-06-15T10:00:00Z",
+            "details" : "Toulouse area – 10000 km2 – Sentinel-2",
+            "estimatedTime" : "P20M"
+          }
+        }
+      },
+      "alternateQuotation" : {
+        "type" : "object",
+        "required" : [ "id", "price", "currency", "expire", "created" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The id of the quotation"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The name of the quotation"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The description of what the quotation is related to"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "currency" : {
+            "type" : "string",
+            "description": "Currency code in ISO 4217 format"
+          },
+          "expire" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation will expire"
+          },
+          "created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation was created"
+          },
+          "details" : {
+            "type" : "string"
+          },
+          "estimatedTime" : {
+            "type" : "string",
+            "description" : "The estimated duration for the process to be performed (in ISO 8601 duration format)"
+          }
+        }
+      },
+      "bill" : {
+        "type" : "object",
+        "required" : [ "id", "title", "price", "currency", "created", "userId" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The id of the bill"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The name of the bill"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A description of what is charged"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "currency" : {
+            "type" : "string",
+            "description": "Currency code in ISO 4217 format"
+          },
+          "created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the bill was created"
+          },
+          "userId" : {
+            "type" : "string",
+            "description" : "User id that is charged for this bill"
+          },
+          "quotationId" : {
+            "type" : "string",
+            "description" : "Reference to the quotation id corresponding to this bill"
+          }
+        },
+        "example" : {
+          "id" : "B-12345-A",
+          "title" : "Mosaicing",
+          "description" : "High resolutionmosaicing (10 meters)",
+          "price" : "15",
+          "currency" : "EUR",
+          "created" : "2018-05-23T17:24:37Z",
+          "userId" : "U-XXX-YYY-Z",
+          "quotationId" : "Q-12345-A"
         }
       },
       "execute" : {
@@ -1200,6 +2362,76 @@
             "type" : "string"
           }
         }
+      },
+      "applicationCollection" : {
+        "type" : "object",
+        "required" : [ "applications" ],
+        "properties" : {
+          "applications" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/applicationSummary"
+            }
+          }
+        }
+      },
+      "applicationSummary" : {
+        "type" : "object",
+        "required" : [ "cwlId" ],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "cwlId" : {
+            "type" : "string"
+          },
+          "cwlLabel" : {
+            "type" : "string"
+          },
+          "cwlDoc" : {
+            "type" : "string"
+          }
+        }
+      },
+      "visibility" : {
+        "type" : "object",
+        "required" : [ "value" ],
+        "properties" : {
+          "value" : {
+            "type" : "string",
+            "enum" : [ "public", "private" ]
+          }
+        }
+      },
+      "deregisterResult" : {
+        "type" : "object",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "applicationPackage" : {
+        "type" : "object"
+      },
+      "register" : {
+        "type" : "object",
+        "required" : [ "package" ],
+        "properties" : {
+          "package" : {
+            "$ref" : "#/components/schemas/applicationPackage"
+          }
+        }
+      },
+      "registerResult" : {
+        "type" : "object",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          }
+        }
       }
     }
   },
@@ -1212,6 +2444,6 @@
   } ],
   "servers" : [ {
     "description" : "SwaggerHub API Auto Mocking",
-    "url" : "https://virtserver.swaggerhub.com/geoprocessing/WPS/0.01"
+    "url" : "https://virtserver.swaggerhub.com/geoprocessing/WPS/0.1"
   } ]
 }
