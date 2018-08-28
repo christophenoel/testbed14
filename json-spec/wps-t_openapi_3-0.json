@@ -1,0 +1,1217 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "OGC Testbed 14 EOC - Transactional Web Processing Service 2.0 with Quotation - REST/JSON Extension API",
+    "version" : "0.0.2",
+    "description" : "WARNING - THIS IS WORK IN PROGRESS\\\nTODO - Add a description of the sample service.\\\nTODO - Add security elements in a separate example.\\\nTODO - Connect to a live service.",
+    "contact" : {
+      "name" : "Open Geospatial Consortium",
+      "email" : "standards@opengeospatial.org",
+      "url" : "http://www.opengeospatial.org"
+    },
+    "license" : {
+      "name" : "CC-BY 4.0 license",
+      "url" : "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "paths" : {
+    "/api" : {
+      "get" : {
+        "summary" : "the API description - this document",
+        "operationId" : "getApiDescription",
+        "tags" : [ "Capabilities" ],
+        "responses" : {
+          "200" : {
+            "description" : "The formal documentation of this API according to the OpenAPI specification, version 3.0. I.e., this document.",
+            "content" : {
+              "application/openapi+json;version=3.0" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processes" : {
+      "get" : {
+        "summary" : "retrieve available processes",
+        "description" : "TODO",
+        "operationId" : "getProcesses",
+        "tags" : [ "Processes" ],
+        "responses" : {
+          "200" : {
+            "description" : "Information about the available processes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/processCollection"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "deploy a process.",
+        "operationId" : "deployProcess",
+        "tags" : [ "Deploy" ],
+        "requestBody" : {
+          "description" : "Mandatory deploy request JSON",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/deploy"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Process deployed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/deployResult"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processes/{id}" : {
+      "get" : {
+        "summary" : "retrieve a process description",
+        "operationId" : "getProcessDescription",
+        "tags" : [ "ProcessDescription" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "my.test.process"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A process description.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/processOffering"
+                },
+                "example" : {
+                  "process" : {
+                    "id" : "my.test.process",
+                    "title" : "Example process",
+                    "abstract" : "Example process",
+                    "keywords" : [ "example", "process" ],
+                    "inputs" : [ {
+                      "id" : "input1",
+                      "title" : "input title 1",
+                      "formats" : [ {
+                        "mimeType" : "application/json",
+                        "maximumMegabytes" : 3,
+                        "default" : true
+                      }, {
+                        "mimeType" : "application/x-zipped-shp",
+                        "maximumMegabytes" : 3
+                      } ]
+                    } ],
+                    "outputs" : [ {
+                      "id" : "output1",
+                      "title" : "output title 1",
+                      "formats" : [ {
+                        "mimeType" : "application/json",
+                        "default" : true
+                      }, {
+                        "mimeType" : "application/x-zipped-shp"
+                      } ]
+                    } ],
+                    "version" : 1.1,
+                    "jobControlOptions" : [ "sync-execute", "async-execute" ],
+                    "outputTransmission" : [ "value", "reference" ],
+                    "executeEndpoint" : "https://virtserver.swaggerhub.com/geoprocessing/WPS/0.01/processes/my.test.process"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "undeploy a process",
+        "operationId" : "undeployProcess",
+        "tags" : [ "Undeploy" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "my.test.process"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Process undeployed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/undeployResult"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processes/{id}/jobs" : {
+      "get" : {
+        "summary" : "retrieve the list of jobs for a process.",
+        "operationId" : "getJobList",
+        "tags" : [ "JobList" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A list of jobs for this process.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/jobList"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "execute a process.",
+        "operationId" : "execute",
+        "tags" : [ "Execute" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Mandatory execute request JSON",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/execute"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Started execution. Created job.",
+            "headers" : {
+              "Location" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "description" : "URL to check the status of the execution/job."
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processes/{id}/jobs/{jobID}" : {
+      "get" : {
+        "summary" : "retrieve the status of a job",
+        "operationId" : "getStatus",
+        "tags" : [ "Status" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "jobID",
+          "description" : "The id of a job",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The status of a job.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/statusInfo"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} or the job with id {jobID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "dismiss a job",
+        "operationId" : "dismiss",
+        "tags" : [ "Dismiss" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "jobID",
+          "description" : "The id of a job",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The status of a job.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/statusInfo"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} or the job with id {jobID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processes/{id}/jobs/{jobID}/result" : {
+      "get" : {
+        "summary" : "retrieve the result(s) of a job",
+        "operationId" : "getResult",
+        "tags" : [ "Result" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "jobID",
+          "description" : "The id of a job",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The result of a job.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/result"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} or the job with id {jobID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processes/{id}/quotations" : {
+      "get" : {
+        "summary" : "retrieve the list of quotation ids for a process.",
+        "operationId" : "getQuotationList",
+        "tags" : [ "QuotationList" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A list of quotation ids for this process.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/quotationList"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "request a quotation for a process.",
+        "operationId" : "quote",
+        "tags" : [ "Quote" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Mandatory execute request JSON",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/execute"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Result of the quotation.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/quotation"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processes/{id}/quotations/{quotationID}" : {
+      "get" : {
+        "summary" : "retrieve a quotation",
+        "operationId" : "getQuotation",
+        "tags" : [ "Quotation" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "quotationID",
+          "description" : "The id of a quotation",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Result of the quotation.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/quotation"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} or the quotation with id {quotationID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "execute a quoted process",
+        "operationId" : "executeQuotation",
+        "tags" : [ "Execute (as per Quotation)" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "The id of a process",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "quotationID",
+          "description" : "The id of a quotation",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Started execution. Created job.",
+            "headers" : {
+              "Location" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "description" : "URL to check the status of the execution/job."
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} or the quotation with id {quotationID} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "410" : {
+            "description" : "The quotation with id {quotationID} expired.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "exception" : {
+        "type" : "object",
+        "required" : [ "code" ],
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "processCollection" : {
+        "type" : "object",
+        "required" : [ "processes" ],
+        "properties" : {
+          "processes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/processSummary"
+            }
+          }
+        }
+      },
+      "processSummary" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/descriptionType"
+        }, {
+          "type" : "object",
+          "required" : [ "version" ],
+          "properties" : {
+            "version" : {
+              "type" : "string"
+            },
+            "jobControlOptions" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/jobControlOptions"
+              }
+            },
+            "processDescriptionURL" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "deploy" : {
+        "type" : "object",
+        "required" : [ "processOffering", "deploymentProfile" ],
+        "properties" : {
+          "processOffering" : {
+            "$ref" : "#/components/schemas/processOffering"
+          },
+          "deploymentProfile" : {
+            "$ref" : "#/components/schemas/deploymentProfile"
+          }
+        }
+      },
+      "deploymentProfile" : {
+        "type" : "object",
+        "required" : [ "deploymentProfileName" ],
+        "properties" : {
+          "deploymentProfileName" : {
+            "type" : "string"
+          },
+          "executionUnit" : {
+            "$ref" : "#/components/schemas/executionUnit"
+          },
+          "profileExtension" : {
+            "type" : "object"
+          }
+        }
+      },
+      "executionUnit" : {
+        "oneOf" : [ {
+          "type" : "object",
+          "required" : [ "package" ],
+          "properties" : {
+            "package" : {
+              "type" : "object"
+            }
+          }
+        }, {
+          "type" : "object",
+          "required" : [ "reference" ],
+          "properties" : {
+            "reference" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "deployResult" : {
+        "type" : "object",
+        "required" : [ "deploymentDone" ],
+        "properties" : {
+          "deploymentDone" : {
+            "type" : "string"
+          },
+          "processSummary" : {
+            "$ref" : "#/components/schemas/processSummary"
+          }
+        }
+      },
+      "undeployResult" : {
+        "type" : "object",
+        "required" : [ "undeploymentDone" ],
+        "properties" : {
+          "deploymentDone" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "processOffering" : {
+        "type" : "object",
+        "required" : [ "process" ],
+        "properties" : {
+          "process" : {
+            "$ref" : "#/components/schemas/process"
+          }
+        }
+      },
+      "process" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/descriptionType"
+        }, {
+          "type" : "object",
+          "required" : [ "id" ],
+          "properties" : {
+            "inputs" : {
+              "type" : "array",
+              "items" : {
+                "oneOf" : [ {
+                  "$ref" : "#/components/schemas/LiteralInputType"
+                }, {
+                  "$ref" : "#/components/schemas/ComplexInputType"
+                }, {
+                  "$ref" : "#/components/schemas/BoundingBoxInputType"
+                } ]
+              }
+            },
+            "outputs" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/outputDescription"
+              }
+            },
+            "version" : {
+              "type" : "string"
+            },
+            "jobControlOptions" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/jobControlOptions"
+              }
+            },
+            "outputTransmission" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/transmissionMode"
+              }
+            },
+            "executeEndpoint" : {
+              "type" : "string",
+              "format" : "url"
+            }
+          }
+        } ]
+      },
+      "jobControlOptions" : {
+        "type" : "string",
+        "enum" : [ "sync-execute", "async-execute" ]
+      },
+      "transmissionMode" : {
+        "type" : "string",
+        "enum" : [ "value", "reference" ]
+      },
+      "inputDescription" : {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/LiteralInputType"
+        }, {
+          "$ref" : "#/components/schemas/ComplexInputType"
+        }, {
+          "$ref" : "#/components/schemas/BoundingBoxInputType"
+        } ]
+      },
+      "outputDescription" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/dataDescriptionType"
+        } ]
+      },
+      "LiteralInputType" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/dataDescriptionType"
+        }, {
+          "type" : "object",
+          "required" : [ "formats" ],
+          "properties" : {
+            "minOccurs" : {
+              "type" : "integer"
+            },
+            "maxOccurs" : {
+              "type" : "integer"
+            },
+            "LiteralDataDomain" : {
+              "type" : "object"
+            }
+          }
+        } ]
+      },
+      "ComplexInputType" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/dataDescriptionType"
+        }, {
+          "type" : "object",
+          "required" : [ "formats" ],
+          "properties" : {
+            "minOccurs" : {
+              "type" : "integer"
+            },
+            "maxOccurs" : {
+              "type" : "integer"
+            }
+          }
+        } ]
+      },
+      "BoundingBoxInputType" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/dataDescriptionType"
+        }, {
+          "type" : "object",
+          "required" : [ "formats" ],
+          "properties" : {
+            "minOccurs" : {
+              "type" : "integer"
+            },
+            "maxOccurs" : {
+              "type" : "integer"
+            }
+          }
+        } ]
+      },
+      "formatDescription" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/format"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "maximumMegabytes" : {
+              "type" : "integer"
+            },
+            "default" : {
+              "type" : "boolean",
+              "default" : false
+            }
+          }
+        } ]
+      },
+      "format" : {
+        "type" : "object",
+        "required" : [ "mimeType" ],
+        "properties" : {
+          "mimeType" : {
+            "type" : "string"
+          },
+          "schema" : {
+            "type" : "string"
+          },
+          "encoding" : {
+            "type" : "string"
+          }
+        }
+      },
+      "dataDescriptionType" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/descriptionType"
+        }, {
+          "type" : "object",
+          "required" : [ "id", "formats" ],
+          "properties" : {
+            "formats" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/formatDescription"
+              }
+            }
+          }
+        } ]
+      },
+      "descriptionType" : {
+        "type" : "object",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "abstract" : {
+            "type" : "string"
+          },
+          "keywords" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "metadata" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/metadata"
+            }
+          }
+        }
+      },
+      "metadata" : {
+        "type" : "object",
+        "properties" : {
+          "role" : {
+            "type" : "string"
+          },
+          "href" : {
+            "type" : "string"
+          }
+        }
+      },
+      "jobList" : {
+        "type" : "object",
+        "properties" : {
+          "jobs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "quotationList" : {
+        "type" : "object",
+        "properties" : {
+          "quotations" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "quotation" : {
+        "type" : "object",
+        "required" : [ "totalPrice", "expiration" ],
+        "properties" : {
+          "expiration" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "totalPrice" : {
+            "type" : "string"
+          },
+          "componentPrice" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "execute" : {
+        "type" : "object",
+        "required" : [ "outputs" ],
+        "properties" : {
+          "inputs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/input"
+            }
+          },
+          "outputs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/output"
+            }
+          }
+        }
+      },
+      "input" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/dataType"
+        }, {
+          "type" : "object",
+          "required" : [ "value" ],
+          "properties" : {
+            "value" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "output" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/dataType"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "transmissionMode" : {
+              "$ref" : "#/components/schemas/transmissionMode"
+            }
+          }
+        } ]
+      },
+      "dataType" : {
+        "type" : "object",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "format" : {
+            "$ref" : "#/components/schemas/format"
+          }
+        }
+      },
+      "statusInfo" : {
+        "type" : "object",
+        "required" : [ "status" ],
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "enum" : [ "accepted", "running", "successful", "failed" ]
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "progress" : {
+            "type" : "integer",
+            "minimum" : 0,
+            "maximum" : 100
+          }
+        }
+      },
+      "result" : {
+        "type" : "object",
+        "required" : [ "outputs" ],
+        "properties" : {
+          "outputs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/outputInfo"
+            }
+          }
+        }
+      },
+      "outputInfo" : {
+        "type" : "object",
+        "required" : [ "id", "value", "x" ],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  },
+  "tags" : [ {
+    "name" : "Capabilities",
+    "description" : "Essential characteristics of this API including information about the data."
+  }, {
+    "name" : "Processes",
+    "description" : "Access to processes."
+  } ],
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/geoprocessing/WPS/0.01"
+  } ]
+}
