@@ -34,7 +34,7 @@ steps:
         source: aoi
     out:
       - id: img
-    run: 'http://ems-host/WPS/CWL/multisensorndvi-ipt.cwl'
+    run: 'wps-ndvi.sh'
   - id: multisensor-ndvi-vito
     label: MultiSensorNDVI-VITO
     in:
@@ -46,7 +46,7 @@ steps:
         source: aoi
     out:
       - id: img
-    run: 'http://ems-host/WPS/CWL/multisensorndvi-vito.cwl'
+    run: 'wps-ndvi.sh'
     'sbg:x': -1114
     'sbg:y': -360
   - id: multisensor-ndvi-urthecast
@@ -60,7 +60,7 @@ steps:
         source: aoi
     out:
       - id: img
-    run: 'http://ems-host/WPS/CWL/multisensorndvi-urthecast.cwl'
+    run: 'wps-ndvi.sh'
   - id: ndvi-stacker-pfc
     label: NDVIStacker-PFC
     in:
@@ -73,4 +73,4 @@ steps:
           - multisensor-ndvi-urthecast/img
     out:
       - id: img-out
-    run: 'http://ems-host/WPS/CWL/ndvistacker-pfc.cwl'
+    run: 'wps-stacker.sh'
