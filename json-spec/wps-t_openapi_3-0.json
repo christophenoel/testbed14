@@ -1434,6 +1434,21 @@
           }
         }
       },
+      "req-classes" : {
+        "type" : "object",
+        "required" : [
+          "conformsTo"
+        ],
+        "properties" : {
+          "conformsTo" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "example" : "http://www.opengis.net/spec/wps-rest/1.0/req/core"
+            }
+          }
+        }
+      },
       "processCollection" : {
         "type" : "object",
         "required" : ["processes"],
@@ -1465,7 +1480,7 @@
               "outputTransmission" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "transmissionMode.yaml"
+                  "$ref" : "#/components/schemas/transmissionMode"
                 }
               },
               "processDescriptionURL" : {

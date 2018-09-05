@@ -34,7 +34,7 @@ steps:
         source: aoi
     out:
       - id: img
-    run: 'http://ems-host/WPS/CWL/multisensorndvi-ipt.cwl'
+    run: 'Multiple'
   - id: multisensor-ndvi-vito
     label: MultiSensorNDVI-VITO
     in:
