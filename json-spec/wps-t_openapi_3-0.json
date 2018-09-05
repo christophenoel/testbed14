@@ -2056,10 +2056,25 @@
             "required" : ["value"],
             "properties" : {
               "value" : {
-                "type" : "string"
+                "$ref" : "#/components/schemas/valueType"
               }
             }
           }]
+      },
+      "valueType" : {
+        "oneOf" : [{
+            "$ref" : "#/components/schemas/inlineValue"
+          },
+          {
+            "$ref" : "#/components/schemas/valueReference"
+          }
+        ]
+      },
+      "valueReference" : {
+        "type" : "string"
+      },
+      "inlineValue" : {
+        "type" : "string"
       },
       "output" : {
         "allOf" : [{
