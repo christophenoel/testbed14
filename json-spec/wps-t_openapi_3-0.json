@@ -3,7 +3,7 @@
   "info" : {
     "title" : "OGC Testbed 14 EOC - Transactional Web Processing Service 2.0 with Billing and Quotation - REST/JSON Extension API",
     "version" : "0.2",
-    "description" : "This is the Transactional Web Processing Service 2.0 with Billing and Quotation REST/JSON Extension API developped in the frame of the OGC Testbed 14 EOC. This work is based on the WPS REST binding (https://github.com/opengeospatial/wps-rest-binding) by Benjamin Proß with updates from Patrick Jacques (Spacebel)",
+    "description" : "This is the Transactional Web Processing Service 2.0 with Billing and Quotation REST/JSON Extension API developped in the frame of the OGC Testbed 14 EOC. This work is based on the WPS REST binding (https://github.com/opengeospatial/wps-rest-binding) by Benjamin Proß with updates from Patrick Jacques (Spacebel), Jerome Gasperi (Geomatys) and Christophe Noël (Spacebel).",
     "contact" : {
       "name" : "Open Geospatial Consortium",
       "email" : "standards@opengeospatial.org",
