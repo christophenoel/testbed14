@@ -3,20 +3,17 @@ cwlVersion: v1.0
 id: multisensor_ndvi_stack_generator
 doc: This is a mockup of the MultiSensorNDVIStackGenerator.
 label: MultiSensor-NDVI-Stack-Generator
-'sbg:toolAuthor': Patrick Jacques
 requirements:
   - class: MultipleInputFeatureRequirement
 inputs:
   - id: access-token
     type: string
-  - id: img-ref-s2
-    type: string
-  - id: img-ref-probav
-    type: string
-  - id: img-ref-urthecast
-    type: string
-  - id: aoi
-    type: string
+  - id: image-s2
+    type: File
+  - id: image-probav
+    type: File
+  - id: image-urthecast
+    type: File
 outputs:
   - id: image
     outputSource:
@@ -28,49 +25,41 @@ steps:
     in:
       - id: access-token
         source: access-token
-      - id: img-ref
-        source: img-ref-s2
-      - id: aoi
-        source: aoi
+      - id: image
+        source: image-s2
     out:
-      - id: img
-    run: 'Multiple'
+      - id: output
+    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\multisensorndvi-ipt.cwl'
   - id: multisensor-ndvi-vito
     label: MultiSensorNDVI-VITO
     in:
       - id: access-token
         source: access-token
-      - id: img-ref
-        source: img-ref-probav
-      - id: aoi
-        source: aoi
+      - id: image
+        source: image-probav
     out:
-      - id: img
-    run: 'http://ems-host/WPS/CWL/multisensorndvi-vito.cwl'
-    'sbg:x': -1114
-    'sbg:y': -360
+      - id: output
+    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\multisensorndvi-vito.cwl'
   - id: multisensor-ndvi-urthecast
     label: MultiSensorNDVI-UrtheCast
     in:
       - id: access-token
         source: access-token
-      - id: img-ref
-        source: img-ref-urthecast
-      - id: aoi
-        source: aoi
+      - id: image
+        source: image-urthecast
     out:
-      - id: img
-    run: 'http://ems-host/WPS/CWL/multisensorndvi-urthecast.cwl'
+      - id: output
+    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\multisensorndvi-urthecast.cwl'
   - id: ndvi-stacker-pfc
     label: NDVIStacker-PFC
     in:
       - id: access-token
         source: access-token
-      - id: img-in
+      - id: files
         source:
           - multisensor-ndvi-ipt/img
           - multisensor-ndvi-vito/img
           - multisensor-ndvi-urthecast/img
     out:
-      - id: img-out
-    run: 'http://ems-host/WPS/CWL/ndvistacker-pfc.cwl'
+      - id: output
+    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\ndvistacker-pfc.cwl'
