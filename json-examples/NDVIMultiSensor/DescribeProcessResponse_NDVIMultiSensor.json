@@ -1,9 +1,9 @@
 {
   "processOffering" : {
     "process" : {
-      "id" : "multisensor_ndvi_stack_generator",
-      "title" : "Multi Sensor NDVI Stack Generator",
-      "abstract" : "Workflow Multi Sensor NDVI Stack Generator",
+      "id" : "multisensor_ndvi",
+      "title" : "Multi Sensor NDVI",
+      "abstract" : "Workflow Multi Sensor NDVI",
       "keywords" : [
         "NDVI"
       ],
@@ -11,44 +11,14 @@
         "offering" : {
           "code" : "http://www.opengis.net/eoc/applicationContext/cwl",
           "content" : {
-            "href" : "http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl"
+            "href" : "http://some.host/applications/cwl/multisensor_ndvi.cwl"
           }
         }
       },
       "inputs" : [
         {
-          "id" : "collectionId_image-s2",
-          "title" : "Collection Identifer for input image-s2",
-          "formats" : [
-            {
-              "mimeType" : "text/plain",
-              "default" : true
-            }
-          ],
-          "minOccurs" : 1,
-          "maxOccurs" : 1,
-          "LiteralDataDomain" : {
-            "dataType" : "String"
-          }
-        },
-        {
-          "id" : "collectionId_image-probav",
-          "title" : "Collection Identifer for input image-probav",
-          "formats" : [
-            {
-              "mimeType" : "text/plain",
-              "default" : true
-            }
-          ],
-          "minOccurs" : 1,
-          "maxOccurs" : 1,
-          "LiteralDataDomain" : {
-            "dataType" : "String"
-          }
-        },
-        {
-          "id" : "collectionId_image-urthecast",
-          "title" : "Collection Identifer for input image-urthecast",
+          "id" : "collectionId_files",
+          "title" : "Collection Identifer for input files",
           "formats" : [
             {
               "mimeType" : "text/plain",
@@ -130,9 +100,9 @@
     }
   },
   "deploymentProfile" : {
-    "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/workflow",
+    "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/dockerizedApplication",
     "executionUnit" : {
-      "reference" : "docker.registry.host/multisensor_ndvi_stack_generator"
+      "reference" : "images.geomatys.com/ndvims:latest"
     }
   }
 }
