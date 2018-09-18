@@ -47,8 +47,8 @@
           }
         },
         {
-          "id" : "collectionId_image-urthecast",
-          "title" : "Collection Identifer for input image-urthecast",
+          "id" : "collectionId_image-deimos",
+          "title" : "Collection Identifer for input image-deimos",
           "formats" : [
             {
               "mimeType" : "text/plain",

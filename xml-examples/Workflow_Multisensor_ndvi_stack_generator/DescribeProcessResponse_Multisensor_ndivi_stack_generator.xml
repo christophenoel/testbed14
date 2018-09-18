@@ -32,8 +32,8 @@
         </wps:LiteralData>
       </wps:Input>
             <wps:Input  minOccurs="1" maxOccurs="1">
-        <ows:Title>Collection Identifer for input image-urthecast</ows:Title>
-        <ows:Identifier>collectionId_image-urthecast</ows:Identifier>
+        <ows:Title>Collection Identifer for input image-deimos</ows:Title>
+        <ows:Identifier>collectionId_image-deimos</ows:Identifier>
         <!-- The following block includes all CWL properties -->
         <wps:LiteralData>
           <wps:Format mimeType="text/plain" default="true"/>

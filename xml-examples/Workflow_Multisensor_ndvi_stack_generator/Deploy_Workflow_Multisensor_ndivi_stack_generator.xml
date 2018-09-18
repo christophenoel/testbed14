@@ -48,8 +48,8 @@
         </wps:ComplexData>
       </wps:Input>
       <wps:Input minOccurs="0" maxOccurs="unbounded">
-        <ows:Title>urthecast Input Image</ows:Title>
-        <ows:Identifier>image-urthecast</ows:Identifier>
+        <ows:Title>Deimos Input Image</ows:Title>
+        <ows:Identifier>image-deimos</ows:Identifier>
         <ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext/inputMetadata">
           <ows:AdditionalParameter>
             <ows:Name>EOImage</ows:Name>

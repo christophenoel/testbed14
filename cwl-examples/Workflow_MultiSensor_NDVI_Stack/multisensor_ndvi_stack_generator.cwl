@@ -12,12 +12,12 @@ inputs:
     type: File
   - id: image-probav
     type: File
-  - id: image-urthecast
+  - id: image-deimos
     type: File
 outputs:
-  - id: image
+  - id: output
     outputSource:
-      - ndvi-stacker-pfc/img-out
+      - ndvi-stacker-pfc/output
     type: File
 steps:
   - id: multisensor-ndvi-ipt
@@ -25,41 +25,41 @@ steps:
     in:
       - id: access-token
         source: access-token
-      - id: image
+      - id: files
         source: image-s2
     out:
       - id: output
-    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\multisensorndvi-ipt.cwl'
+    run: 'multisensor_ndvi.cwl'
   - id: multisensor-ndvi-vito
     label: MultiSensorNDVI-VITO
     in:
       - id: access-token
         source: access-token
-      - id: image
+      - id: files
         source: image-probav
     out:
       - id: output
-    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\multisensorndvi-vito.cwl'
+    run: 'multisensor_ndvi.cwl'
   - id: multisensor-ndvi-urthecast
     label: MultiSensorNDVI-UrtheCast
     in:
       - id: access-token
         source: access-token
-      - id: image
-        source: image-urthecast
+      - id: files
+        source: image-deimos
     out:
       - id: output
-    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\multisensorndvi-urthecast.cwl'
+    run: 'multisensor_ndvi.cwl'
   - id: ndvi-stacker-pfc
-    label: NDVIStacker-PFC
+    label: NDVIStacker
     in:
       - id: access-token
         source: access-token
       - id: files
         source:
-          - multisensor-ndvi-ipt/img
-          - multisensor-ndvi-vito/img
-          - multisensor-ndvi-urthecast/img
+          - multisensor-ndvi-ipt/output
+          - multisensor-ndvi-vito/output
+          - multisensor-ndvi-urthecast/output
     out:
       - id: output
-    run: 'D:\Projects\OGC Testbed 14\Work\Rabix Composer\ndvistacker-pfc.cwl'
+    run: 'stack.cwl'

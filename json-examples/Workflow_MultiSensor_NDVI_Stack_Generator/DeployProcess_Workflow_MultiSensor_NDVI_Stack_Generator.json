@@ -78,8 +78,8 @@
           ]
         },
         {
-          "id" : "image-urthecast",
-          "title" : "Urthecast Input Image",
+          "id" : "image-deimos",
+          "title" : "Deimos Input Image",
           "formats" : [
             {
               "mimeType" : "application/zip",

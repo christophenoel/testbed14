@@ -19,7 +19,7 @@
             "class": "File"
         }
     ],
-   "image-urthecast": [
+   "image-deimos": [
         {
             "location": "./urthecast-S2A_MSIL1C_20180610T154901_N0206_R054_T18TXR_20180610T193029.SAFE.zip",
             "class": "File"
