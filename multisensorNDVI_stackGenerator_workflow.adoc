@@ -1,0 +1,478 @@
+== MultiSensorNDVI_StackGenerator Workflow
+
+This document introduces the prototyped MultiSensorNDVI_StackGenerator Workflow and related documents.
+
+=== Reminder
+
+As a reminder, the diagram shown below describes the sequence that has been agreed for the execution of a workflow through the EMS:
+
+1. The EMS receives process parameters, and the OpenSearch query parameters required to retrieve the EO Images inputs of the workflow: unique collection identifier, area of interest (AOI) and time of interest (TOI).
+2. The OpenSearch gateway returns the metadata of EO Image results indicating on which MEP the images of this collection can be executed.
+3. The EMS executes the workflow and invoke the ADES execution on the MEP indicated in the previous step.
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_execution_sequence.png[Execution Sequence]
+
+=== SOW
+
+The statement of work defines the use case of "MultiSensorNDVIStackGenerator" composed of MultiNDVISensor application and Stack application:
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/sow_wf.png[sow]
+
+As the DAG must include 3 executions (on different MEP), the workflow diagram was synthetised by the following diagram:
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_schema.png[MultiSensorNDVI_StackGenerator Diagram]
+
+=== Rabix Design
+
+The concrete MultiSensorNDVIStackGenerator workflow can be designed using Rabix Composer which is a DAG workflow designing supporting CWL.
+
+The CWL documents of the MultiSensorNDVI application and the Stack application needs to be retrieved. Then the DAG can be drawn by connecting the workflow inputs to the MultiSensorNDVI processes inputs, then connecting the individual inputs to the single NDVIStacker input.
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_rabix.png[Worfklow Rabix Composer]
+
+As reminded on the figure below, the MultiSensorNDVI interface is the files input array (EO images). The output is also an array of files.
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/rabix_multisensor_interface.png[MultiSensor Interface]
+
+As reminded on the figure below, the StackNDVI interface is the files input array (EO images). The output is also an array of files. (Note: _currently, the StackNDVI application designed by CRIM includes an outputName and outputType, I recommend simplifying the interface by removing these parameters for the ease of understanding_.
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/rabix_stack.png[Stack interface]
+
+=== Workflow CWL
+
+A simplified version of the MultiSensorNDVIStackGenerator is shown below. The 4 steps of the workflow are highlighted, and the input source can be easily identified.
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_cwl.png[Workflow CWL]
+
+=== Workflow Deployment Request
+
+Like for Applications, Alice puts in the Deployment request message a description of the workflow. For each of the input (image-s2, image-probav and image-deimos), Alice defines the input as a ComplexData a set the flag EOImage to indicates the input files should be retrieved using a OpenSearch Catalog query.
+
+Additionally, Alice may restrict the choice of collection for the particular input by adding the list in the AllowedCollection parameter.
+
+[source,json]
+----
+      "inputs" : [
+        {
+          "id" : "image-s2",
+          "title" : "S2 Input Image",
+          "formats" : [
+            {
+              "mimeType" : "application/zip",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : "unbounded",
+          "additionalParameters" : [
+            {
+              "role" : "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters" : [
+                {
+                  "name" : "EOImage",
+                  "value" : "true"
+                },
+                {
+                  "name" : "AllowedCollections",
+                  "value" : "s2-collection-1,s2-collection-2,s2-sentinel2,s2-landsat8"
+                }
+              ]
+            }
+          ]
+        },
+----
+
+Alice also decides that the same AOI and TOI parameter should be shared by all the tree EO Image collection (s2, probav, deimos). This can be defined in the global parameters UniqueAOI and UniqueTOI.
+
+[source,json]
+----
+      "additionalParameters" : [
+        {
+          "role" : "http://www.opengis.net/eoc/applicationContext",
+          "parameters" : [
+            {
+              "name" : "UniqueAOI",
+              "value" : "true"
+            },
+            {
+              "name" : "UniqueTOI",
+              "value" : "true"
+            }
+          ]
+  
+----
+
+The flags are simply useless if only a single (or none) EO Image input is defined.
+
+The full deployment request also includes the workflow CWL reference (URL) in the ExecutionUnit element, and the WPS deployment profile name defined for workflows as shown below.
+
+[source,json]
+----
+{
+  "processOffering" : {
+    "process" : {
+      "id" : "multisensor_ndvi_stack_generator",
+      "title" : "Multi Sensor NDVI Stack Generator",
+      "abstract" : "Workflow Multi Sensor NDVI Stack Generator",
+      "keywords" : [
+        "NDVI"
+      ],
+      "additionalParameters" : [
+        {
+          "role" : "http://www.opengis.net/eoc/applicationContext",
+          "parameters" : [
+            {
+              "name" : "UniqueAOI",
+              "value" : "true"
+            },
+            {
+              "name" : "UniqueTOI",
+              "value" : "true"
+            }
+          ]
+        }
+      ],
+      "inputs" : [
+        {
+          "id" : "image-s2",
+          "title" : "S2 Input Image",
+          "formats" : [
+            {
+              "mimeType" : "application/zip",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : "unbounded",
+          "additionalParameters" : [
+            {
+              "role" : "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters" : [
+                {
+                  "name" : "EOImage",
+                  "value" : "true"
+                },
+                {
+                  "name" : "AllowedCollections",
+                  "value" : "s2-collection-1,s2-collection-2,s2-sentinel2,s2-landsat8"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id" : "image-probav",
+          "title" : "ProbaV Input Image",
+          "formats" : [
+            {
+              "mimeType" : "application/zip",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : "unbounded",
+          "additionalParameters" : [
+            {
+              "role" : "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters" : [
+                {
+                  "name" : "EOImage",
+                  "value" : "true"
+                },
+                {
+                  "name" : "AllowedCollections",
+                  "value" : "probav-collection-1,probav-collection-2"
+                }
+
+              ]
+            }
+          ]
+        },
+        {
+          "id" : "image-deimos",
+          "title" : "Deimos Input Image",
+          "formats" : [
+            {
+              "mimeType" : "application/zip",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : "unbounded",
+          "additionalParameters" : [
+            {
+              "role" : "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters" : [
+                {
+                  "name" : "EOImage",
+                  "value" : "true"
+                },
+                {
+                  "name" : "AllowedCollections",
+                  "value" : "deimos-collection-1,deimos-collection-2"
+                }
+              ]
+            }
+          ]
+        }      
+      ],
+      "outputs" : [
+        {
+          "id" : "output",
+          "title" : "NDVI output file",
+          "formats" : [
+            {
+              "mimeType" : "application/octet-stream",
+              "default" : true
+            }
+          ]
+        }
+      ],
+      "version" : "1.0.0",
+      "jobControlOptions" : [
+        "async-execute"
+      ],
+      "outputTransmission" : [
+        "reference"
+      ]
+    }
+  },
+  "deploymentProfile" : {
+    "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/workflow",
+    "executionUnit" : {
+      "reference" : "http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl"
+    }
+  }
+}
+----
+
+=== Deployment Response
+
+As explained earlier, the EMS should generate a process description including the OpenSearch query parameters required to retrieved the EO Images.
+
+For each input, the corresponding OpenSearch collection query parameter is generated. If the AllowedValues flag was used, then the input defines the list of allowed values in the description.
+
+[source,json]
+----
+ {
+          "id" : "collectionId_image-s2",
+          "title" : "Collection Identifer for input image-s2",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "allowedValues" : ["s2-collection-1", "s2-collection-2", "s2-sentinel2", "s2-landsat8"],
+            "dataType" : "String"
+          }
+        },
+----
+
+A unique start date input, end date input, and AOI input is described and will be shared for retrieving the EO Images for the three inputs (s2, probav, deimos).
+
+[source,json]
+----
+{
+          "id" : "StartDate",
+          "title" : "Time of Interest",
+          "abstract" : "Time of Interest (defined as Start date - End date)",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "dataType" : "String"
+          }
+        },
+        {
+          "id" : "EndDate",
+          "title" : "Time of Interest",
+          "abstract" : "Time of Interest (defined as Start date - End date)",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "dataType" : "String"
+          }
+        },
+        {
+          "id" : "aoi",
+          "title" : "Area of Interest",
+          "abstract" : "Area of Interest (Bounding Box)",
+          "formats" : [
+            {
+              "mimeType" : "OGC-WKT",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1
+        }
+----
+
+The whole DescribeProcess reponse message generated by the EMS is shown on the figure below.
+
+[source,json]
+----
+{
+  "processOffering" : {
+    "process" : {
+      "id" : "multisensor_ndvi_stack_generator",
+      "title" : "Multi Sensor NDVI Stack Generator",
+      "abstract" : "Workflow Multi Sensor NDVI Stack Generator",
+      "keywords" : [
+        "NDVI"
+      ],
+      "owsContext" : {
+        "offering" : {
+          "code" : "http://www.opengis.net/eoc/applicationContext/cwl",
+          "content" : {
+            "href" : "http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl"
+          }
+        }
+      },
+      "inputs" : [
+        {
+          "id" : "collectionId_image-s2",
+          "title" : "Collection Identifer for input image-s2",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "allowedValues" : ["s2-collection-1", "s2-collection-2", "s2-sentinel2", "s2-landsat8"],
+            "dataType" : "String"
+          }
+        },
+        {
+          "id" : "collectionId_image-probav",
+          "title" : "Collection Identifer for input image-probav",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "allowedValues" : ["probav-collection-1", "probav-collection-2"],
+            "dataType" : "String"
+          }
+        },
+        {
+          "id" : "collectionId_image-deimos",
+          "title" : "Collection Identifer for input image-deimos",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "allowedValues" : ["deimos-collection-1", "deimos-collection-2"],
+            "dataType" : "String"
+          }
+        },
+
+        {
+          "id" : "StartDate",
+          "title" : "Time of Interest",
+          "abstract" : "Time of Interest (defined as Start date - End date)",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "dataType" : "String"
+          }
+        },
+        {
+          "id" : "EndDate",
+          "title" : "Time of Interest",
+          "abstract" : "Time of Interest (defined as Start date - End date)",
+          "formats" : [
+            {
+              "mimeType" : "text/plain",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1,
+          "LiteralDataDomain" : {
+            "dataType" : "String"
+          }
+        },
+        {
+          "id" : "aoi",
+          "title" : "Area of Interest",
+          "abstract" : "Area of Interest (Bounding Box)",
+          "formats" : [
+            {
+              "mimeType" : "OGC-WKT",
+              "default" : true
+            }
+          ],
+          "minOccurs" : 1,
+          "maxOccurs" : 1
+        }
+      ],
+      "outputs" : [
+        {
+          "id" : "output",
+          "title" : "GeoTIF Image",
+          "formats" : [
+            {
+              "mimeType" : "image/tiff",
+              "default" : true
+            }
+          ]
+        }
+      ],
+      "version" : "1.0.0",
+      "jobControlOptions" : [
+        "async-execute"
+      ],
+      "outputTransmission" : [
+        "reference"
+      ]
+    }
+  },
+  "deploymentProfile" : {
+    "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/workflow",
+    "executionUnit" : {
+      "reference" : "docker.registry.host/multisensor_ndvi_stack_generator"
+    }
+  }
+}
+----
+
+=== EMS Mapping Rules 
+
+As already mentioned, the workflow consumes EO Images (Files) while the EMS receives OpenSearch parameters. For flexiblity, the following rules are recommended to support a large set of scenarios:
+
+image::https://github.com/spacebel/testbed14/blob/master/pictures/rules.png[rules]
+
