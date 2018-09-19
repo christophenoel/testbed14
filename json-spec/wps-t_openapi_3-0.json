@@ -17,26 +17,44 @@
   "paths" : {
     "/" : {
       "get" : {
-        "summary" : "The API description - this document",
-        "operationId" : "getApiDescription",
-        "tags" : ["Capabilities"],
+        "summary" : "undefined",
+        "description" : "undefined",
+        "operationId" : "getLandingPage",
+        "tags" : [
+          "LandingPage"
+        ],
+        "parameters" : [
+          {
+            "$ref" : "#/components/parameters/f"
+          }
+        ],
         "responses" : {
           "200" : {
-            "description" : "The formal documentation of this API according to the OpenAPI specification, version 3.0. i.e., this document.",
+            "description" : "undefined",
             "content" : {
-              "application/openapi+json;version=3.0" : {
+              "application/json" : {
                 "schema" : {
-                  "type" : "object"
+                  "$ref" : "#/components/schemas/landingPage"
+                }
+              },
+              "text/html" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
           },
           "default" : {
-            "description" : "An error occured.",
+            "description" : "undefined",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/exception"
+                }
+              },
+              "text/html" : {
+                "schema" : {
+                  "type" : "string"
                 }
               }
             }
@@ -1040,6 +1058,161 @@
         }
       }
     },
+    "/processes/{id}/visibility" : {
+      "get" : {
+        "summary" : "Retrieve the visibility status for a process.",
+        "operationId" : "getVisibility",
+        "tags" : ["Visibility"],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "parameters" : [{
+            "in" : "path",
+            "name" : "id",
+            "description" : "The id of a process.",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }],
+        "responses" : {
+          "200" : {
+            "description" : "The visibility status (public or private) for this process.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/visibility"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Change the visibility status for a process.",
+        "operationId" : "changeVisibility",
+        "tags" : ["ChangeVisibility"],
+        "security" : [
+          {
+            "bearerAuth" : []
+          }
+        ],
+        "parameters" : [{
+            "in" : "path",
+            "name" : "id",
+            "description" : "The id of a process.",
+            "required" : true,
+            "schema" : {
+              "type" : "integer"
+            }
+          }],
+        "requestBody" : {
+          "description" : "New visibility parameters as JSON",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/visibility"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Process visibility status updated.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/visibility"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Unauthorized.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The process with id {id} does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "An error occured.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/quotations" : {
       "get" : {
         "summary" : "Retrieve the list of all quotation ids.",
@@ -1422,6 +1595,20 @@
       }
     },
     "schemas" : {
+      "landingPage" : {
+        "type" : "object",
+        "required" : [
+          "links"
+        ],
+        "properties" : {
+          "links" : {
+            "type" : "array",
+            "jobs" : {
+              "$ref" : "#/components/schemas/jsonLink"
+            }
+          }
+        }
+      },
       "exception" : {
         "type" : "object",
         "required" : ["code"],
