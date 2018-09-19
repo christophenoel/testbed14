@@ -4,8 +4,6 @@
     <wps:Process>
       <ows:Title>MultiSensor NDVI Stack Generator</ows:Title>
       <ows:Identifier>multisensor_ndvi_stack_generator</ows:Identifier>
-      <!-- The CWL file reference is provided here -->
-      <ows:metadata role="://www.opengis.net/eoc/applicationContext/cwl" href="http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl" />
       <ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext">
         <ows:AdditionalParameter>
           <!-- Indicate a single AOI will be used for Catalog search (default is true) -->
@@ -93,7 +91,7 @@
     <wps:DeploymentProfileName>http://www.opengis.net/profiles/eoc/workflow</wps:DeploymentProfileName>
     <wps:ExecutionUnit>
       <!-- In our case, the Execution Unit is not a BPEL, a Java, but is the Docker Image reference -->
-      <wps:Reference href="docker.registry.host/multisensor_ndvi_stack_generator"/>
+      <wps:Reference href="http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl"/>
     </wps:ExecutionUnit>
   </wps:DeploymentProfile>
 </wps:DeployProcess>
