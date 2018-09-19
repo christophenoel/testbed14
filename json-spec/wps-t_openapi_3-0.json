@@ -1609,34 +1609,34 @@
           }
         }
       },
-      "jsonLink": {
-         "type": "object",
-         "required": [
-           "href"
-         ],
-         "properties": {
-           "href": {
-             "type": "string",
-             "format": "uri"
-           },
-           "rel": {
-             "type": "string",
-             "example": "next"
-           },
-           "type": {
-             "type": "string",
-             "example": "application/gml+xml;version=3.2"
-           },
-           "hreflang": {
-             "type": "string",
-             "example": "el"
-           },
-           "title": {
-             "type": "string",
-             "example": "Trierer Strasse 70, 53115 Bonn"
-           }
-         }
-       },
+      "jsonLink" : {
+        "type" : "object",
+        "required" : [
+          "href"
+        ],
+        "properties" : {
+          "href" : {
+            "type" : "string",
+            "format" : "uri"
+          },
+          "rel" : {
+            "type" : "string",
+            "example" : "next"
+          },
+          "type" : {
+            "type" : "string",
+            "example" : "application/gml+xml;version=3.2"
+          },
+          "hreflang" : {
+            "type" : "string",
+            "example" : "el"
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Trierer Strasse 70, 53115 Bonn"
+          }
+        }
+      },
       "exception" : {
         "type" : "object",
         "required" : ["code"],
@@ -1877,7 +1877,6 @@
             "$ref" : "#/components/schemas/dataDescriptionType"
           }, {
             "type" : "object",
-            "required" : ["formats"],
             "properties" : {
               "minOccurs" : {
                 "type" : "integer"
@@ -1886,10 +1885,27 @@
                 "type" : "integer"
               },
               "LiteralDataDomain" : {
-                "type" : "object"
+                "type" : "#/components/schemas/literalDataDomainType"
               }
             }
           }]
+      },
+      "literalDataDomainType" : {
+            "type" : "object",
+            "properties" : {
+              "allowedValues" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "defaultValue" : {
+                "type" : "string"
+              },
+              "dataType" : {
+                "type" : "string"
+              }
+            }
       },
       "complexInputType" : {
         "allOf" : [{
