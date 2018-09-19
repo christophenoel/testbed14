@@ -27,6 +27,11 @@
             <ows:Name>EOImage</ows:Name>
             <ows:Value>true</ows:Value>
           </ows:AdditionalParameter>
+          <!-- (Optional) Specify allowed collections -->
+          <ows:AdditionalParameter>
+            <ows:Name>AllowedCollections</ows:Name>
+            <ows:Value>s2-collection-1,s2-collection-2,s2-sentinel2,s2-landsat8</ows:Value>
+          </ows:AdditionalParameter>
         </ows:AdditionalParameters>
         <!-- EO Image is always of type ComplexData (= file). In this example, maxOccurs set as unbounded, indicates it may be a list of files -->
         <wps:ComplexData>
@@ -41,6 +46,11 @@
             <ows:Name>EOImage</ows:Name>
             <ows:Value>true</ows:Value>
           </ows:AdditionalParameter>
+          <!-- (Optional) Specify allowed collections -->
+          <ows:AdditionalParameter>
+            <ows:Name>AllowedCollections</ows:Name>
+            <ows:Value>proba-collection-1,proba-collection-2</ows:Value>
+          </ows:AdditionalParameter>
         </ows:AdditionalParameters>
         <!-- EO Image is always of type ComplexData (= file). In this example, maxOccurs set as unbounded, indicates it may be a list of files -->
         <wps:ComplexData>
@@ -54,6 +64,11 @@
           <ows:AdditionalParameter>
             <ows:Name>EOImage</ows:Name>
             <ows:Value>true</ows:Value>
+          </ows:AdditionalParameter>
+          <!-- (Optional) Specify allowed collections -->
+          <ows:AdditionalParameter>
+            <ows:Name>AllowedCollections</ows:Name>
+            <ows:Value>deimos-collection-1,deimos-collection-2</ows:Value>
           </ows:AdditionalParameter>
         </ows:AdditionalParameters>
         <!-- EO Image is always of type ComplexData (= file). In this example, maxOccurs set as unbounded, indicates it may be a list of files -->

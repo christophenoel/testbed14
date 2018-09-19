@@ -49,6 +49,10 @@
                 {
                   "name" : "EOImage",
                   "value" : "true"
+                },
+                {
+                  "name" : "AllowedCollections",
+                  "value" : "s2-collection-1,s2-collection-2,s2-sentinel2,s2-landsat8"
                 }
               ]
             }
@@ -72,7 +76,12 @@
                 {
                   "name" : "EOImage",
                   "value" : "true"
+                },
+                {
+                  "name" : "AllowedCollections",
+                  "value" : "probav-collection-1,probav-collection-2"
                 }
+
               ]
             }
           ]
@@ -95,6 +104,10 @@
                 {
                   "name" : "EOImage",
                   "value" : "true"
+                },
+                {
+                  "name" : "AllowedCollections",
+                  "value" : "deimos-collection-1,deimos-collection-2"
                 }
               ]
             }
