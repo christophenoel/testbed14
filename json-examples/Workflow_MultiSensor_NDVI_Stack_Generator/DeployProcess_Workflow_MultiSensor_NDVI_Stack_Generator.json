@@ -7,14 +7,6 @@
       "keywords" : [
         "NDVI"
       ],
-      "owsContext" : {
-        "offering" : {
-          "code" : "http://www.opengis.net/eoc/applicationContext/cwl",
-          "content" : {
-            "href" : "http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl"
-          }
-        }
-      },
       "additionalParameters" : [
         {
           "role" : "http://www.opengis.net/eoc/applicationContext",
@@ -138,7 +130,7 @@
   "deploymentProfile" : {
     "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/workflow",
     "executionUnit" : {
-      "reference" : "docker.registry.host/multisensor_ndvi_stack_generator"
+      "reference" : "http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl"
     }
   }
 }

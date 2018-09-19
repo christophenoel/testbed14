@@ -131,12 +131,5 @@
         "reference"
       ]
     }
-  },
-  "deploymentProfile" : {
-    "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/workflow",
-    "executionUnit" : {
-      "reference" : "docker.registry.host/multisensor_ndvi_stack_generator"
-    }
   }
 }
-
