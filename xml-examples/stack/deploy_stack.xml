@@ -8,7 +8,7 @@
       <!-- The CWL file reference is provided here -->
       <ows:Metadata xlink:role="http://www.opengis.net/eoc/applicationContext/cwl">
         <owc:offering code="http://www.opengis.net/eoc/applicationContext/cwl">
-          <owc:content href="https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/StackCreation-graph-json-remote.cwl"/>
+          <owc:content href="https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/Stack/stack.cwl"/>
         </owc:offering>
       </ows:Metadata>
       <wps:Input minOccurs="0" maxOccurs="unbounded">

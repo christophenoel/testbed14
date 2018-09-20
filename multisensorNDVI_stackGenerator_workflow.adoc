@@ -474,3 +474,4 @@ As already mentioned, the workflow consumes EO Images (Files) while the EMS rece
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/rules.png[rules]
 
+image::https://www.reliablecounter.com/count.php?page=github.com/spacebel/testbed14/blob/master/multisensorNDVI_stackGenerator_workflow.adoc&digit=style/plain/34/&reloads=0[counter]

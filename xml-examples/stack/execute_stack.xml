@@ -2,16 +2,16 @@
 <wps:Execute xmlns:ows="http://www.opengis.net/ows/2.0"  xmlns:xlink="http://www.w3.org/1999/xlink"  xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WPS" version="2.0.0" mode="sync" response="document" xsi:schemaLocation="http://www.opengis.net/wps/2.0 wpsExecute.xsd">
   <ows:Identifier>Stack1</ows:Identifier>
   <wps:Input id="files">
-    <wps:Reference xlink:href="./input1.zip"/>
+    <wps:Reference xlink:href="/dummy-store/S2A_MSIL1C_20180610T154901_N0206_R054_T18TXR_20180610T193029.SAFE.zip"/>
   </wps:Input>
   <wps:Input id="files">
-    <wps:Reference xlink:href="./input2.zip"/>
+    <wps:Reference xlink:href="/dummy-store/S1A_IW_GRDH_1SDV_20170413T224356_20170413T224421_016132_01AA52_90ED.SAFE.zip"/>
   </wps:Input>
   <wps:Input id="output_file_type">
-    <wps:Data>fileType1</wps:Data>
+    <wps:Data>GeoTIFF</wps:Data>
   </wps:Input>
   <wps:Input id="output_name">
-    <wps:Data>output_name1</wps:Data>
+    <wps:Data>stack_result.tif</wps:Data>
   </wps:Input>
   <wps:Output id="output" transmission="reference">
   </wps:Output>
