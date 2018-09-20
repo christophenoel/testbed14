@@ -704,7 +704,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "https://raw.githubusercontent.com/bpross-52n/wps-rest-oas/master/schemas/exception.yaml"
+                  "$ref" : "#/components/schemas/exceptionReportType"
                 }
               }
             }
