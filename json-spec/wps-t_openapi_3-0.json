@@ -1594,6 +1594,40 @@
         "bearerFormat" : "JWT"
       }
     },
+    "parameters" : {
+      "lang" : {
+        "name" : "lang",
+        "in" : "query",
+        "description" : "undefined",
+        "required" : false,
+        "allowEmptyValue" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "form",
+        "explode" : true
+      },
+      "f" : {
+        "name" : "f",
+        "in" : "query",
+        "description" : "undefined",
+        "required" : false,
+        "allowEmptyValue" : true,
+        "schema" : {
+          "type" : "string",
+          "enum" : [
+            "html",
+            "text/html",
+            "xml",
+            "text/xml",
+            "json",
+            "application/json"
+          ]
+        },
+        "style" : "form",
+        "explode" : true
+      }
+    },
     "schemas" : {
       "landingPage" : {
         "type" : "object",
@@ -1603,7 +1637,7 @@
         "properties" : {
           "links" : {
             "type" : "array",
-            "jobs" : {
+            "items" : {
               "$ref" : "#/components/schemas/jsonLink"
             }
           }
@@ -1885,27 +1919,27 @@
                 "type" : "integer"
               },
               "LiteralDataDomain" : {
-                "type" : "#/components/schemas/literalDataDomainType"
+                "$ref" : "#/components/schemas/literalDataDomainType"
               }
             }
           }]
       },
       "literalDataDomainType" : {
-            "type" : "object",
-            "properties" : {
-              "allowedValues" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "string"
-                }
-              },
-              "defaultValue" : {
-                "type" : "string"
-              },
-              "dataType" : {
-                "type" : "string"
-              }
+        "type" : "object",
+        "properties" : {
+          "allowedValues" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
             }
+          },
+          "defaultValue" : {
+            "type" : "string"
+          },
+          "dataType" : {
+            "type" : "string"
+          }
+        }
       },
       "complexInputType" : {
         "allOf" : [{
@@ -2385,6 +2419,16 @@
           },
           "value" : {
             "type" : "string"
+          }
+        }
+      },
+       "visibility" : {
+        "type" : "object",
+        "required" : [ "value" ],
+        "properties" : {
+          "value" : {
+            "type" : "string",
+            "enum" : [ "public", "private" ]
           }
         }
       }
