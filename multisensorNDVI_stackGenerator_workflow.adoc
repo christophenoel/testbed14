@@ -1,46 +1,44 @@
 == MultiSensorNDVI_StackGenerator Workflow
 
-This document introduces the prototyped MultiSensorNDVI_StackGenerator Workflow and related documents.
+This document introduces the workflow MultiSensorNDVI_StackGenerator and the related documents to this OGC Testbed 14 use case.
 
 === Reminder
 
-As a reminder, the diagram shown below describes the sequence that has been agreed for the execution of a workflow through the EMS:
+The diagram shown below describes the sequence that has been agreed for the execution of a workflow through the EMS:
 
 1. The EMS receives process parameters, and the OpenSearch query parameters required to retrieve the EO Images inputs of the workflow: unique collection identifier, area of interest (AOI) and time of interest (TOI).
-2. The OpenSearch gateway returns the metadata of EO Image results indicating on which MEP the images of this collection can be executed.
+2. The OpenSearch gateway returns to the EMS the metadata of EO Image results indicating on which MEP the images of this collection can be executed.
 3. The EMS executes the workflow and invoke the ADES execution on the MEP indicated in the previous step.
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_execution_sequence.png[Execution Sequence]
 
-=== SOW
+=== Statement of Work
 
 The statement of work defines the use case of "MultiSensorNDVIStackGenerator" composed of MultiNDVISensor application and Stack application:
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/sow_wf.png[sow]
 
-As the DAG must include 3 executions (on different MEP), the workflow diagram was synthetised by the following diagram:
+As the workflow DAG shall include three executions (on the different MEP platforms), the workflow diagram requires three executions of the MultiSensorNDVI process and an additional step for the Stack algorithm:
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_schema.png[MultiSensorNDVI_StackGenerator Diagram]
 
 === Rabix Design
 
-The concrete MultiSensorNDVIStackGenerator workflow can be designed using Rabix Composer which is a DAG workflow designing supporting CWL.
-
-The CWL documents of the MultiSensorNDVI application and the Stack application needs to be retrieved. Then the DAG can be drawn by connecting the workflow inputs to the MultiSensorNDVI processes inputs, then connecting the individual inputs to the single NDVIStacker input.
+The concrete MultiSensorNDVIStackGenerator workflow designed using Rabix Composer (a DAG design tool supporting CWL) is shown below. In order to draw the workflow, the CWL documents of the MultiSensorNDVI application and the Stack application needs to be retrieved. Then the DAG can be drawn by connecting the workflow inputs to the MultiSensorNDVI processes inputs, then connecting the individual inputs to the single NDVIStacker input.
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_rabix.png[Worfklow Rabix Composer]
 
-As reminded on the figure below, the MultiSensorNDVI interface is the files input array (EO images). The output is also an array of files.
+The MultiSensorNDVI interface input is a files array input consisting of EO images (name is 'files'). The output is also an array of files (name is 'output').
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/rabix_multisensor_interface.png[MultiSensor Interface]
 
-As reminded on the figure below, the StackNDVI interface is the files input array (EO images). The output is also an array of files. (Note: _currently, the StackNDVI application designed by CRIM includes an outputName and outputType, I recommend simplifying the interface by removing these parameters for the ease of understanding_.
+The StackNDVI interface is a files array input consisting of EO images (name is 'files'). The output is also an array of files. (Note: _currently, the StackNDVI application designed by CRIM includes an outputName and outputType, I recommend simplifying the interface by removing these parameters for the ease of understanding_.
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/rabix_stack.png[Stack interface]
 
 === Workflow CWL
 
-A simplified version of the MultiSensorNDVIStackGenerator is shown below. The 4 steps of the workflow are highlighted, and the input source can be easily identified.
+A simplified version of the MultiSensorNDVIStackGenerator CWL code is shown below. The four steps of the workflow are highlighted, and the input source can be easily identified.
 
 image::https://github.com/spacebel/testbed14/blob/master/pictures/wf_cwl.png[Workflow CWL]
 
