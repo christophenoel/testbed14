@@ -1740,7 +1740,7 @@
       },
       "deploy" : {
         "type" : "object",
-        "required" : ["processOffering", "deploymentProfile"],
+        "required" : ["executionUnit"],
         "properties" : {
           "immediateDeployment" : {
             "type" : "boolean",
