@@ -199,12 +199,13 @@
                             ]
                           }
                         },
-                        "deploymentProfile" : {
-                          "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/dockerizedApplication",
-                          "executionUnit" : {
-                            "reference" : "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2"
-                          }
-                        }
+                        "immediateDeployment" : "false",
+
+                        "executionUnit" : [ 
+                          { 
+                            "href" : "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2"
+                          }],
+                        "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/dockerizedApplication"
                       }
             }
           }
@@ -1860,703 +1861,708 @@
         }
       },
       "executionUnit" : {
+        "oneOf" : [
+          {
+            "$ref" : "#/components/schemas/reference"
+          },
+          {
+            "$ref" : "#/components/schemas/unitType"
+          }
+        ]
+      },
+      "unitType" : {
+        "type" : "object",
+        "required" : ["unit"],
+        "properties" : {
+          "unit" : {
+            "type" : "object"
+          }
+        }
+      },
+      "deploymentResult" : {
+        "type" : "object",
+        "required" : ["id"],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "processSummary" : {
+            "$ref" : "#/components/schemas/processSummary"
+          }
+        }
+      },
+      "undeploymentResult" : {
+        "type" : "object",
+        "required" : ["id"],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "processDescriptionChoiceType" : {
         "oneOf" : [{
             "$ref" : "#/components/schemas/reference"
-                    "$ref" : "#/components/schemas/unit"
-            }]
-        },
-        "unit" : {
-          "type" : "object",
-          "property" : {
-            "unit" : {
-              "type" : "object"
-            }
+          }, {
+            "$ref" : "#/components/schemas/processOffering"
+          }]
+      },
+      "reference" : {
+        "type" : "object",
+        "required" : ["href"],
+        "properties" : {
+          "href" : {
+            "type" : "string"
+          },
+          "mimeType" : {
+            "type" : "string"
+          },
+          "schema" : {
+            "type" : "string"
+          },
+          "encoding" : {
+            "type" : "string"
           }
-        },
-        "deploymentResult" : {
-          "type" : "object",
-          "required" : ["id"],
-          "properties" : {
-            "id" : {
-              "type" : "string"
-            },
-            "processSummary" : {
-              "$ref" : "#/components/schemas/processSummary"
-            }
+        }
+      },
+      "processOffering" : {
+        "type" : "object",
+        "required" : ["process"],
+        "properties" : {
+          "process" : {
+            "$ref" : "#/components/schemas/process"
           }
-        },
-        "undeploymentResult" : {
-          "type" : "object",
-          "required" : ["id"],
-          "properties" : {
-            "id" : {
-              "type" : "string"
-            }
-          }
-        },
-        "processDescriptionChoiceType" : {
-          "oneOf" : [{
-              "$ref" : "#/components/schemas/reference"
-            }, {
-              "$ref" : "#/components/schemas/processOffering"
-            }]
-        },
-        "reference" : {
-          "type" : "object",
-          "required" : ["href"],
-          "properties" : {
-            "href" : {
-              "type" : "string"
-            },
-            "mimeType" : {
-              "type" : "string"
-            },
-            "schema" : {
-              "type" : "string"
-            },
-            "encoding" : {
-              "type" : "string"
-            }
-          }
-        },
-        "processOffering" : {
-          "type" : "object",
-          "required" : ["process"],
-          "properties" : {
-            "process" : {
-              "$ref" : "#/components/schemas/process"
-            }
-          }
-        },
-        "process" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/descriptionType"
-            }, {
-              "type" : "object",
-              "required" : ["id"],
-              "properties" : {
-                "inputs" : {
-                  "type" : "array",
-                  "items" : {
-                    "oneOf" : [{
-                        "$ref" : "#/components/schemas/literalInputType"
-                      }, {
-                        "$ref" : "#/components/schemas/complexInputType"
-                      }, {
-                        "$ref" : "#/components/schemas/boundingBoxInputType"
-                      }]
-                  }
-                },
-                "outputs" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/outputDescription"
-                  }
-                },
-                "version" : {
-                  "type" : "string"
-                },
-                "jobControlOptions" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/jobControlOptions"
-                  }
-                },
-                "outputTransmission" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/transmissionMode"
-                  }
-                },
-                "executeEndpoint" : {
-                  "type" : "string",
-                  "format" : "url"
+        }
+      },
+      "process" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/descriptionType"
+          }, {
+            "type" : "object",
+            "required" : ["id"],
+            "properties" : {
+              "inputs" : {
+                "type" : "array",
+                "items" : {
+                  "oneOf" : [{
+                      "$ref" : "#/components/schemas/literalInputType"
+                    }, {
+                      "$ref" : "#/components/schemas/complexInputType"
+                    }, {
+                      "$ref" : "#/components/schemas/boundingBoxInputType"
+                    }]
                 }
-              }
-            }]
-        },
-        "jobControlOptions" : {
-          "type" : "string",
-          "enum" : ["sync-execute", "async-execute"]
-        },
-        "transmissionMode" : {
-          "type" : "string",
-          "enum" : ["value", "reference"]
-        },
-        "outputDescription" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/dataDescriptionType"
-            }]
-        },
-        "literalInputType" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/dataDescriptionType"
-            }, {
-              "type" : "object",
-              "properties" : {
-                "minOccurs" : {
-                  "type" : "integer"
-                },
-                "maxOccurs" : {
-                  "type" : "integer"
-                },
-                "LiteralDataDomain" : {
-                  "$ref" : "#/components/schemas/literalDataDomainType"
+              },
+              "outputs" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/outputDescription"
                 }
-              }
-            }]
-        },
-        "literalDataDomainType" : {
-          "type" : "object",
-          "properties" : {
-            "allowedValues" : {
-              "type" : "array",
-              "items" : {
+              },
+              "version" : {
                 "type" : "string"
+              },
+              "jobControlOptions" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/jobControlOptions"
+                }
+              },
+              "outputTransmission" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/transmissionMode"
+                }
+              },
+              "executeEndpoint" : {
+                "type" : "string",
+                "format" : "url"
               }
-            },
-            "defaultValue" : {
-              "type" : "string"
-            },
-            "dataType" : {
+            }
+          }]
+      },
+      "jobControlOptions" : {
+        "type" : "string",
+        "enum" : ["sync-execute", "async-execute"]
+      },
+      "transmissionMode" : {
+        "type" : "string",
+        "enum" : ["value", "reference"]
+      },
+      "outputDescription" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/dataDescriptionType"
+          }]
+      },
+      "literalInputType" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/dataDescriptionType"
+          }, {
+            "type" : "object",
+            "properties" : {
+              "minOccurs" : {
+                "type" : "integer"
+              },
+              "maxOccurs" : {
+                "type" : "integer"
+              },
+              "LiteralDataDomain" : {
+                "$ref" : "#/components/schemas/literalDataDomainType"
+              }
+            }
+          }]
+      },
+      "literalDataDomainType" : {
+        "type" : "object",
+        "properties" : {
+          "allowedValues" : {
+            "type" : "array",
+            "items" : {
               "type" : "string"
             }
+          },
+          "defaultValue" : {
+            "type" : "string"
+          },
+          "dataType" : {
+            "type" : "string"
           }
-        },
-        "complexInputType" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/dataDescriptionType"
-            }, {
-              "type" : "object",
-              "required" : ["formats"],
-              "properties" : {
-                "minOccurs" : {
-                  "type" : "integer"
-                },
-                "maxOccurs" : {
-                  "type" : "integer"
+        }
+      },
+      "complexInputType" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/dataDescriptionType"
+          }, {
+            "type" : "object",
+            "required" : ["formats"],
+            "properties" : {
+              "minOccurs" : {
+                "type" : "integer"
+              },
+              "maxOccurs" : {
+                "type" : "integer"
+              }
+            }
+          }]
+      },
+      "boundingBoxInputType" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/dataDescriptionType"
+          }, {
+            "type" : "object",
+            "required" : ["formats"],
+            "properties" : {
+              "minOccurs" : {
+                "type" : "integer"
+              },
+              "maxOccurs" : {
+                "type" : "integer"
+              }
+            }
+          }]
+      },
+      "formatDescription" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/format"
+          }, {
+            "type" : "object",
+            "properties" : {
+              "maximumMegabytes" : {
+                "type" : "integer"
+              },
+              "default" : {
+                "type" : "boolean",
+                "default" : false
+              }
+            }
+          }]
+      },
+      "format" : {
+        "type" : "object",
+        "required" : ["mimeType"],
+        "properties" : {
+          "mimeType" : {
+            "type" : "string"
+          },
+          "schema" : {
+            "type" : "string"
+          },
+          "encoding" : {
+            "type" : "string"
+          }
+        }
+      },
+      "dataDescriptionType" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/descriptionType"
+          }, {
+            "type" : "object",
+            "required" : ["id", "formats"],
+            "properties" : {
+              "formats" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/formatDescription"
                 }
               }
-            }]
-        },
-        "boundingBoxInputType" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/dataDescriptionType"
-            }, {
-              "type" : "object",
-              "required" : ["formats"],
-              "properties" : {
-                "minOccurs" : {
-                  "type" : "integer"
-                },
-                "maxOccurs" : {
-                  "type" : "integer"
-                }
-              }
-            }]
-        },
-        "formatDescription" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/format"
-            }, {
-              "type" : "object",
-              "properties" : {
-                "maximumMegabytes" : {
-                  "type" : "integer"
-                },
-                "default" : {
-                  "type" : "boolean",
-                  "default" : false
-                }
-              }
-            }]
-        },
-        "format" : {
-          "type" : "object",
-          "required" : ["mimeType"],
-          "properties" : {
-            "mimeType" : {
-              "type" : "string"
-            },
-            "schema" : {
-              "type" : "string"
-            },
-            "encoding" : {
+            }
+          }]
+      },
+      "descriptionType" : {
+        "type" : "object",
+        "required" : ["id"],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "abstract" : {
+            "type" : "string"
+          },
+          "keywords" : {
+            "type" : "array",
+            "items" : {
               "type" : "string"
             }
-          }
-        },
-        "dataDescriptionType" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/descriptionType"
-            }, {
-              "type" : "object",
-              "required" : ["id", "formats"],
-              "properties" : {
-                "formats" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/formatDescription"
-                  }
-                }
-              }
-            }]
-        },
-        "descriptionType" : {
-          "type" : "object",
-          "required" : ["id"],
-          "properties" : {
-            "id" : {
-              "type" : "string"
-            },
-            "title" : {
-              "type" : "string"
-            },
-            "abstract" : {
-              "type" : "string"
-            },
-            "keywords" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            },
-            "owsContext" : {
-              "type" : "object",
-              "properties" : {
-                "offering" : {
-                  "type" : "object",
-                  "properties" : {
-                    "code" : {
-                      "type" : "string"
-                    },
-                    "content" : {
-                      "type" : "object",
-                      "properties" : {
-                        "href" : {
-                          "type" : "string"
-                        }
+          },
+          "owsContext" : {
+            "type" : "object",
+            "properties" : {
+              "offering" : {
+                "type" : "object",
+                "properties" : {
+                  "code" : {
+                    "type" : "string"
+                  },
+                  "content" : {
+                    "type" : "object",
+                    "properties" : {
+                      "href" : {
+                        "type" : "string"
                       }
                     }
                   }
                 }
               }
-            },
-            "metadata" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/metadata"
-              }
-            },
-            "additionalParameters" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/additionalParameters"
-              }
-            }
-          }
-        },
-        "metadata" : {
-          "type" : "object",
-          "properties" : {
-            "role" : {
-              "type" : "string"
-            },
-            "href" : {
-              "type" : "string"
-            }
-          }
-        },
-        "additionalParameters" : {
-          "type" : "object",
-          "properties" : {
-            "role" : {
-              "type" : "string"
-            },
-            "parameters" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/additionalParameter"
-              }
-            }
-          }
-        },
-        "additionalParameter" : {
-          "type" : "object",
-          "properties" : {
-            "name" : {
-              "type" : "string"
-            },
-            "value" : {
-              "type" : "string"
-            },
-          }
-        },
-        "jobCollection" : {
-          "type" : "object",
-          "properties" : {
-            "jobs" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          }
-        },
-        "quotationList" : {
-          "type" : "object",
-          "properties" : {
-            "quotations" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          }
-        },
-        "billList" : {
-          "type" : "object",
-          "properties" : {
-            "bills" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          }
-        },
-        "quotation" : {
-          "type" : "object",
-          "required" : ["id", "processId", "price", "currency", "expire", "created", "userId", "processParameters"],
-          "properties" : {
-            "id" : {
-              "type" : "string",
-              "description" : "The id of the quotation"
-            },
-            "title" : {
-              "type" : "string",
-              "description" : "A name of the quotation"
-            },
-            "description" : {
-              "type" : "string",
-              "description" : "A description of what the quotation is related"
-            },
-            "processId" : {
-              "type" : "string",
-              "description" : "The id of the parent process"
-            },
-            "price" : {
-              "type" : "number",
-              "format" : "double"
-            },
-            "currency" : {
-              "type" : "string",
-              "description" : "Currency code in ISO 4217 format"
-            },
-            "expire" : {
-              "type" : "string",
-              "format" : "date-time",
-              "description" : "The date and time (ISO 8601 format) when the quotation will expire"
-            },
-            "created" : {
-              "type" : "string",
-              "format" : "date-time",
-              "description" : "The date and time (ISO 8601 format) when the quotation was created"
-            },
-            "userId" : {
-              "type" : "string",
-              "description" : "User id that requested this quotation"
-            },
-            "details" : {
-              "type" : "string"
-            },
-            "estimatedTime" : {
-              "type" : "string",
-              "description" : "The estimated duration for the process to be performed (in ISO 8601 duration format)"
-            },
-            "processParameters" : {
-              "$ref" : "#/components/schemas/execute"
-            },
-            "alternativeQuotations" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/alternateQuotation"
-              }
             }
           },
-          "example" : {
-            "id" : "Q-12345-A",
-            "title" : "Mosaicing",
-            "description" : "High resolutionmosaicing(10 meters)",
-            "processId" : "P-12345",
-            "price" : "15",
-            "currency" : "EUR",
-            "created" : "2018-05-23T17:24:37Z",
-            "expire" : "2018-06-15T10:00:00Z",
-            "userId" : "U-XXX-YYY-Z",
-            "details" : "Toulouse area  10000 km2  Sentinel-2",
-            "estimatedTime" : "P5M",
-            "processParameters" : {
-              "inputs" : [{
-                  "id" : "input1",
-                  "title" : "input title 1",
-                  "formats" : [{
-                      "mimeType" : "application/json",
-                      "maximumMegabytes" : 3,
-                      "default" : true
-                    }, {
-                      "mimeType" : "application/x-zipped-shp",
-                      "maximumMegabytes" : 3
-                    }]
-                }],
-              "outputs" : [{
-                  "id" : "output1",
-                  "title" : "output title 1",
-                  "formats" : [{
-                      "mimeType" : "application/json",
-                      "default" : true
-                    }, {
-                      "mimeType" : "application/x-zipped-shp"
-                    }]
-                }]
-            },
-            "alternativeQuotations" : {
-              "id" : "Q12345B",
-              "title" : "Mosaicing(lowpriority)",
-              "description" : "High resolutionmosaicing(10 meters)",
-              "price" : "5",
-              "currency" : "EUR",
-              "expire" : "2018-06-15T10:00:00Z",
-              "details" : "Toulouse area – 10000 km2 – Sentinel-2",
-              "estimatedTime" : "P20M"
-            }
-          }
-        },
-        "alternateQuotation" : {
-          "type" : "object",
-          "required" : ["id", "price", "currency", "expire", "created"],
-          "properties" : {
-            "id" : {
-              "type" : "string",
-              "description" : "The id of the quotation"
-            },
-            "title" : {
-              "type" : "string",
-              "description" : "The name of the quotation"
-            },
-            "description" : {
-              "type" : "string",
-              "description" : "The description of what the quotation is related to"
-            },
-            "price" : {
-              "type" : "number",
-              "format" : "double"
-            },
-            "currency" : {
-              "type" : "string",
-              "description" : "Currency code in ISO 4217 format"
-            },
-            "expire" : {
-              "type" : "string",
-              "format" : "date-time",
-              "description" : "The date and time (ISO 8601 format) when the quotation will expire"
-            },
-            "created" : {
-              "type" : "string",
-              "format" : "date-time",
-              "description" : "The date and time (ISO 8601 format) when the quotation was created"
-            },
-            "details" : {
-              "type" : "string"
-            },
-            "estimatedTime" : {
-              "type" : "string",
-              "description" : "The estimated duration for the process to be performed (in ISO 8601 duration format)"
-            }
-          }
-        },
-        "bill" : {
-          "type" : "object",
-          "required" : ["id", "title", "price", "currency", "created", "userId"],
-          "properties" : {
-            "id" : {
-              "type" : "string",
-              "description" : "The id of the bill"
-            },
-            "title" : {
-              "type" : "string",
-              "description" : "The name of the bill"
-            },
-            "description" : {
-              "type" : "string",
-              "description" : "A description of what is charged"
-            },
-            "price" : {
-              "type" : "number",
-              "format" : "double"
-            },
-            "currency" : {
-              "type" : "string",
-              "description" : "Currency code in ISO 4217 format"
-            },
-            "created" : {
-              "type" : "string",
-              "format" : "date-time",
-              "description" : "The date and time (ISO 8601 format) when the bill was created"
-            },
-            "userId" : {
-              "type" : "string",
-              "description" : "User id that is charged for this bill"
-            },
-            "quotationId" : {
-              "type" : "string",
-              "description" : "Reference to the quotation id corresponding to this bill"
+          "metadata" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/metadata"
             }
           },
-          "example" : {
-            "id" : "B-12345-A",
-            "title" : "Mosaicing",
-            "description" : "High resolutionmosaicing (10 meters)",
-            "price" : "15",
-            "currency" : "EUR",
-            "created" : "2018-05-23T17:24:37Z",
-            "userId" : "U-XXX-YYY-Z",
-            "quotationId" : "Q-12345-A"
-          }
-        },
-        "execute" : {
-          "type" : "object",
-          "required" : ["outputs"],
-          "properties" : {
-            "inputs" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/input"
-              }
-            },
-            "outputs" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/output"
-              }
-            }
-          }
-        },
-        "input" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/dataType"
-            }, {
-              "type" : "object",
-              "required" : ["value"],
-              "properties" : {
-                "value" : {
-                  "$ref" : "#/components/schemas/valueType"
-                }
-              }
-            }]
-        },
-        "valueType" : {
-          "oneOf" : [{
-              "$ref" : "#/components/schemas/inlineValue"
-            },
-            {
-              "$ref" : "#/components/schemas/valueReference"
-            }
-          ]
-        },
-        "valueReference" : {
-          "type" : "string"
-        },
-        "inlineValue" : {
-          "type" : "string"
-        },
-        "output" : {
-          "allOf" : [{
-              "$ref" : "#/components/schemas/dataType"
-            }, {
-              "type" : "object",
-              "properties" : {
-                "transmissionMode" : {
-                  "$ref" : "#/components/schemas/transmissionMode"
-                }
-              }
-            }]
-        },
-        "dataType" : {
-          "type" : "object",
-          "required" : ["id"],
-          "properties" : {
-            "id" : {
-              "type" : "string"
-            },
-            "format" : {
-              "$ref" : "#/components/schemas/format"
-            }
-          }
-        },
-        "statusInfo" : {
-          "type" : "object",
-          "required" : ["status"],
-          "properties" : {
-            "status" : {
-              "type" : "string",
-              "enum" : ["accepted", "running", "successful", "failed"]
-            },
-            "message" : {
-              "type" : "string"
-            },
-            "progress" : {
-              "type" : "integer",
-              "minimum" : 0,
-              "maximum" : 100
-            }
-          }
-        },
-        "result" : {
-          "type" : "object",
-          "required" : ["outputs"],
-          "properties" : {
-            "outputs" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/outputInfo"
-              }
-            }
-          }
-        },
-        "outputInfo" : {
-          "type" : "object",
-          "required" : ["id", "value", "x"],
-          "properties" : {
-            "id" : {
-              "type" : "string"
-            },
-            "value" : {
-              "type" : "string"
-            }
-          }
-        },
-        "visibility" : {
-          "type" : "object",
-          "required" : ["value"],
-          "properties" : {
-            "value" : {
-              "type" : "string",
-              "enum" : ["public", "private"]
+          "additionalParameters" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/additionalParameters"
             }
           }
         }
+      },
+      "metadata" : {
+        "type" : "object",
+        "properties" : {
+          "role" : {
+            "type" : "string"
+          },
+          "href" : {
+            "type" : "string"
+          }
+        }
+      },
+      "additionalParameters" : {
+        "type" : "object",
+        "properties" : {
+          "role" : {
+            "type" : "string"
+          },
+          "parameters" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/additionalParameter"
+            }
+          }
+        }
+      },
+      "additionalParameter" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          },
+        }
+      },
+      "jobCollection" : {
+        "type" : "object",
+        "properties" : {
+          "jobs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "quotationList" : {
+        "type" : "object",
+        "properties" : {
+          "quotations" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "billList" : {
+        "type" : "object",
+        "properties" : {
+          "bills" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "quotation" : {
+        "type" : "object",
+        "required" : ["id", "processId", "price", "currency", "expire", "created", "userId", "processParameters"],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The id of the quotation"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A name of the quotation"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A description of what the quotation is related"
+          },
+          "processId" : {
+            "type" : "string",
+            "description" : "The id of the parent process"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Currency code in ISO 4217 format"
+          },
+          "expire" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation will expire"
+          },
+          "created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation was created"
+          },
+          "userId" : {
+            "type" : "string",
+            "description" : "User id that requested this quotation"
+          },
+          "details" : {
+            "type" : "string"
+          },
+          "estimatedTime" : {
+            "type" : "string",
+            "description" : "The estimated duration for the process to be performed (in ISO 8601 duration format)"
+          },
+          "processParameters" : {
+            "$ref" : "#/components/schemas/execute"
+          },
+          "alternativeQuotations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/alternateQuotation"
+            }
+          }
+        },
+        "example" : {
+          "id" : "Q-12345-A",
+          "title" : "Mosaicing",
+          "description" : "High resolutionmosaicing(10 meters)",
+          "processId" : "P-12345",
+          "price" : "15",
+          "currency" : "EUR",
+          "created" : "2018-05-23T17:24:37Z",
+          "expire" : "2018-06-15T10:00:00Z",
+          "userId" : "U-XXX-YYY-Z",
+          "details" : "Toulouse area  10000 km2  Sentinel-2",
+          "estimatedTime" : "P5M",
+          "processParameters" : {
+            "inputs" : [{
+                "id" : "input1",
+                "title" : "input title 1",
+                "formats" : [{
+                    "mimeType" : "application/json",
+                    "maximumMegabytes" : 3,
+                    "default" : true
+                  }, {
+                    "mimeType" : "application/x-zipped-shp",
+                    "maximumMegabytes" : 3
+                  }]
+              }],
+            "outputs" : [{
+                "id" : "output1",
+                "title" : "output title 1",
+                "formats" : [{
+                    "mimeType" : "application/json",
+                    "default" : true
+                  }, {
+                    "mimeType" : "application/x-zipped-shp"
+                  }]
+              }]
+          },
+          "alternativeQuotations" : {
+            "id" : "Q12345B",
+            "title" : "Mosaicing(lowpriority)",
+            "description" : "High resolutionmosaicing(10 meters)",
+            "price" : "5",
+            "currency" : "EUR",
+            "expire" : "2018-06-15T10:00:00Z",
+            "details" : "Toulouse area – 10000 km2 – Sentinel-2",
+            "estimatedTime" : "P20M"
+          }
+        }
+      },
+      "alternateQuotation" : {
+        "type" : "object",
+        "required" : ["id", "price", "currency", "expire", "created"],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The id of the quotation"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The name of the quotation"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The description of what the quotation is related to"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Currency code in ISO 4217 format"
+          },
+          "expire" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation will expire"
+          },
+          "created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the quotation was created"
+          },
+          "details" : {
+            "type" : "string"
+          },
+          "estimatedTime" : {
+            "type" : "string",
+            "description" : "The estimated duration for the process to be performed (in ISO 8601 duration format)"
+          }
+        }
+      },
+      "bill" : {
+        "type" : "object",
+        "required" : ["id", "title", "price", "currency", "created", "userId"],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The id of the bill"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The name of the bill"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A description of what is charged"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Currency code in ISO 4217 format"
+          },
+          "created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date and time (ISO 8601 format) when the bill was created"
+          },
+          "userId" : {
+            "type" : "string",
+            "description" : "User id that is charged for this bill"
+          },
+          "quotationId" : {
+            "type" : "string",
+            "description" : "Reference to the quotation id corresponding to this bill"
+          }
+        },
+        "example" : {
+          "id" : "B-12345-A",
+          "title" : "Mosaicing",
+          "description" : "High resolutionmosaicing (10 meters)",
+          "price" : "15",
+          "currency" : "EUR",
+          "created" : "2018-05-23T17:24:37Z",
+          "userId" : "U-XXX-YYY-Z",
+          "quotationId" : "Q-12345-A"
+        }
+      },
+      "execute" : {
+        "type" : "object",
+        "required" : ["outputs"],
+        "properties" : {
+          "inputs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/input"
+            }
+          },
+          "outputs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/output"
+            }
+          }
+        }
+      },
+      "input" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/dataType"
+          }, {
+            "type" : "object",
+            "required" : ["value"],
+            "properties" : {
+              "value" : {
+                "$ref" : "#/components/schemas/valueType"
+              }
+            }
+          }]
+      },
+      "valueType" : {
+        "oneOf" : [{
+            "$ref" : "#/components/schemas/inlineValue"
+          },
+          {
+            "$ref" : "#/components/schemas/valueReference"
+          }
+        ]
+      },
+      "valueReference" : {
+        "type" : "string"
+      },
+      "inlineValue" : {
+        "type" : "string"
+      },
+      "output" : {
+        "allOf" : [{
+            "$ref" : "#/components/schemas/dataType"
+          }, {
+            "type" : "object",
+            "properties" : {
+              "transmissionMode" : {
+                "$ref" : "#/components/schemas/transmissionMode"
+              }
+            }
+          }]
+      },
+      "dataType" : {
+        "type" : "object",
+        "required" : ["id"],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "format" : {
+            "$ref" : "#/components/schemas/format"
+          }
+        }
+      },
+      "statusInfo" : {
+        "type" : "object",
+        "required" : ["status"],
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "enum" : ["accepted", "running", "successful", "failed"]
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "progress" : {
+            "type" : "integer",
+            "minimum" : 0,
+            "maximum" : 100
+          }
+        }
+      },
+      "result" : {
+        "type" : "object",
+        "required" : ["outputs"],
+        "properties" : {
+          "outputs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/outputInfo"
+            }
+          }
+        }
+      },
+      "outputInfo" : {
+        "type" : "object",
+        "required" : ["id", "value", "x"],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "visibility" : {
+        "type" : "object",
+        "required" : ["value"],
+        "properties" : {
+          "value" : {
+            "type" : "string",
+            "enum" : ["public", "private"]
+          }
+        }
       }
-    },
-    "tags" : [{
-        "name" : "Capabilities",
-        "description" : "Essential characteristics of this API including information about the data."
-      }, {
-        "name" : "Processes",
-        "description" : "Access to processes."
-      }],
-    "servers" : [{
-        "description" : "SwaggerHub API Auto Mocking",
-        "url" : "https://virtserver.swaggerhub.com/geoprocessing/WPS/0.1"
-      }]
-  }
+    }
+  },
+  "tags" : [{
+      "name" : "Capabilities",
+      "description" : "Essential characteristics of this API including information about the data."
+    }, {
+      "name" : "Processes",
+      "description" : "Access to processes."
+    }],
+  "servers" : [{
+      "description" : "SwaggerHub API Auto Mocking",
+      "url" : "https://virtserver.swaggerhub.com/geoprocessing/WPS/0.1"
+    }]
+}
