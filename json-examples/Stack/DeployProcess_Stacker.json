@@ -89,10 +89,8 @@
       ]
     }
   },
-  "deploymentProfile" : {
-    "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/dockerizedApplication",
-    "executionUnit" : {
-      "reference" : "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2"
-    }
+  "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/dockerizedApplication",
+  "executionUnit" : {
+    "reference" : "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2"
   }
 }
