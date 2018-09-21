@@ -17,7 +17,7 @@
   "paths" : {
     "/" : {
       "get" : {
-                "summary" : "landing page of this API",
+        "summary" : "landing page of this API",
         "description" : "The landing page provides links to the API definition, the Conformance statements and the metadata about the processes offered by this API",
         "operationId" : "getLandingPage",
         "tags" : [
@@ -1802,21 +1802,9 @@
       },
       "processDescriptionChoiceType" : {
         "oneOf" : [{
-            "type" : "object",
-            "required" : ["reference"],
-            "properties" : {
-              "reference" : {
-                "$ref" : "#/components/schemas/reference"
-              }
-            }
+            "$ref" : "#/components/schemas/reference"
           }, {
-            "type" : "object",
-            "required" : ["processOffering"],
-            "properties" : {
-              "processOffering" : {
-                "$ref" : "#/components/schemas/processOffering"
-              }
-            }
+            "$ref" : "#/components/schemas/processOffering"
           }]
       },
       "reference" : {
