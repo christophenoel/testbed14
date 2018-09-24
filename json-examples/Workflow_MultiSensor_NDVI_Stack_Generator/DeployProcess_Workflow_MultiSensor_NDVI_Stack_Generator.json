@@ -127,10 +127,9 @@
       ]
     }
   },
-  "deploymentProfile" : {
-    "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/workflow",
-    "executionUnit" : {
+  "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/workflow",
+  "executionUnit" : [{
       "reference" : "http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl"
     }
-  }
+  ]
 }
