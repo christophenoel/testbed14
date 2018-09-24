@@ -2062,11 +2062,28 @@
           }]
       },
       "inputType" : {
+        "allOf" : [
+          {
+            "$ref" : "#/components/schemas/inputTypeChoice"
+          },
+          {
+            "$ref" : "#/components/schemas/dataDescriptionType"
+          },
+          {
+            "$ref" : "#/components/schemas/descriptionType"
+          }
+
+
+        ]
+      },
+      "inputTypeChoice" : {
         "oneOf" : [{
             "$ref" : "#/components/schemas/literalInputType"
-          }, {
+          },
+          {
             "$ref" : "#/components/schemas/complexInputType"
-          }, {
+          },
+          {
             "$ref" : "#/components/schemas/boundingBoxInputType"
           }]
       },
@@ -2084,22 +2101,13 @@
           }]
       },
       "literalInputType" : {
-        "allOf" : [{
-            "$ref" : "#/components/schemas/dataDescriptionType"
-          }, {
-            "type" : "object",
-            "properties" : {
-              "minOccurs" : {
-                "type" : "integer"
-              },
-              "maxOccurs" : {
-                "type" : "integer"
-              },
-              "LiteralDataDomain" : {
-                "$ref" : "#/components/schemas/literalDataDomainType"
-              }
-            }
-          }]
+
+        "type" : "object",
+        "properties" : {
+          "LiteralDataDomain" : {
+            "$ref" : "#/components/schemas/literalDataDomainType"
+          }
+        }
       },
       "literalDataDomainType" : {
         "type" : "object",
@@ -2119,41 +2127,28 @@
         }
       },
       "complexInputType" : {
-        "allOf" : [{
-            "$ref" : "#/components/schemas/dataDescriptionType"
-          }, {
-            "type" : "object",
-            "required" : ["formats"],
-            "properties" : {
-              "minOccurs" : {
-                "type" : "integer"
-              },
-              "maxOccurs" : {
-                "type" : "integer"
-              }
-            }
-          }]
+
+        "type" : "object",
+
       },
       "boundingBoxInputType" : {
-        "allOf" : [{
-            "$ref" : "#/components/schemas/dataDescriptionType"
-          }, {
-            "type" : "object",
-            "required" : ["formats"],
-            "properties" : {
-              "minOccurs" : {
-                "type" : "integer"
-              },
-              "maxOccurs" : {
-                "type" : "integer"
-              }
+
+        "type" : "object",
+        "required" : ["supportedCRS"],
+        "properties" : {
+          "supportedCRS" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
             }
-          }]
+          }
+        }
       },
       "formatDescription" : {
         "allOf" : [{
             "$ref" : "#/components/schemas/format"
-          }, {
+          },
+          {
             "type" : "object",
             "properties" : {
               "maximumMegabytes" : {
@@ -2188,6 +2183,12 @@
             "type" : "object",
             "required" : ["id", "formats"],
             "properties" : {
+              "minOccurs" : {
+                "type" : "string"
+              },
+              "maxOccurs" : {
+                "type" : "string"
+              },
               "formats" : {
                 "type" : "array",
                 "items" : {
