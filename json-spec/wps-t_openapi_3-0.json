@@ -2068,12 +2068,7 @@
           },
           {
             "$ref" : "#/components/schemas/dataDescriptionType"
-          },
-          {
-            "$ref" : "#/components/schemas/descriptionType"
           }
-
-
         ]
       },
       "inputTypeChoice" : {
@@ -2122,6 +2117,9 @@
             "type" : "string"
           },
           "dataType" : {
+            "type" : "string"
+          },
+          "valuesReference" : {
             "type" : "string"
           }
         }
