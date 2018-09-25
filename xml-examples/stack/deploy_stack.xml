@@ -36,7 +36,7 @@
           <wps:Format mimeType="text/plain" default="true"/>
           <LiteralDataDomain default="true">
             <ows:AnyValue/>
-            <ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#dateTime">string</ows:DataType>
+            <ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#string">string</ows:DataType>
           </LiteralDataDomain>
         </wps:LiteralData>
       </wps:Input>
@@ -47,7 +47,7 @@
           <wps:Format mimeType="text/plain" default="true"/>
           <LiteralDataDomain default="true">
             <ows:AnyValue/>
-            <ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#dateTime">string</ows:DataType>
+            <ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#string">string</ows:DataType>
           </LiteralDataDomain>
         </wps:LiteralData>
       </wps:Input>
