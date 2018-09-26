@@ -293,7 +293,7 @@ paths:
           required: true
           schema:
             type: string
-          example: my.test.process
+          example: Stacker
       responses:
         '200':
           description: Process undeployed.
