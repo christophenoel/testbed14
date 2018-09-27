@@ -1676,20 +1676,21 @@ components:
     input:
       allOf:
         - $ref: '#/components/schemas/dataType'
-        - type: object
-          required:
-            - value
-          properties:
-            value:
-              $ref: '#/components/schemas/valueType'
+        - $ref: '#/components/schemas/valueType'
     valueType:
       oneOf:
         - $ref: '#/components/schemas/inlineValue'
         - $ref: '#/components/schemas/valueReference'
     valueReference:
-      type: string
+      type: object
+      properties:
+          reference:
+            type: string
     inlineValue:
-      type: string
+        type: object
+        properties:
+          data:
+            type: string
     output:
       allOf:
         - $ref: '#/components/schemas/dataType'
