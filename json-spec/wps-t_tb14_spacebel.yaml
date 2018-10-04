@@ -1169,12 +1169,16 @@ components:
           format: uri
         rel:
           type: string
+          example: next
         type:
           type: string
+          example: application/gml+xml;version=3.2
         hreflang:
           type: string
+          example: el
         title:
           type: string
+          example: 'Trierer Strasse 70, 53115 Bonn'
     exceptionReportType:
       type: object
       required:
@@ -1193,6 +1197,7 @@ components:
           type: array
           items:
             type: string
+            example: 'http://www.opengis.net/spec/wps-rest/1.0/req/core'
     processCollection:
       type: object
       required:
@@ -1329,6 +1334,8 @@ components:
     inputType:
       allOf:
         - $ref: '#/components/schemas/inputTypeChoice'
+        # TODO - CODE GEN BUG (next line)
+        - $ref: '#/components/schemas/descriptionType'
         - $ref: '#/components/schemas/dataDescriptionType'
     inputTypeChoice:
       oneOf:
