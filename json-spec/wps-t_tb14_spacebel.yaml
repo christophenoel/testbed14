@@ -1169,16 +1169,12 @@ components:
           format: uri
         rel:
           type: string
-          example: next
         type:
           type: string
-          example: application/gml+xml;version=3.2
         hreflang:
           type: string
-          example: el
         title:
           type: string
-          example: 'Trierer Strasse 70, 53115 Bonn'
     exceptionReportType:
       type: object
       required:
@@ -1197,7 +1193,6 @@ components:
           type: array
           items:
             type: string
-            example: 'http://www.opengis.net/spec/wps-rest/1.0/req/core'
     processCollection:
       type: object
       required:
@@ -1212,7 +1207,7 @@ components:
         - $ref: '#/components/schemas/descriptionType'
         - type: object
           required:
-            - version
+            - id
           properties:
             version:
               type: string
@@ -1286,6 +1281,15 @@ components:
           type: string
         encoding:
           type: string
+    dataEncodingAttributes:
+      type: object
+      properties:
+        mimeType:
+          type: string
+        schema:
+          type: string
+        encoding:
+          type: string
     processOffering:
       type: object
       required:
@@ -1293,12 +1297,23 @@ components:
       properties:
         process:
           $ref: '#/components/schemas/process'
+        processVersion:
+          type: string
+        jobControlOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/jobControlOptions'
+        outputTransmission:
+          type: array
+          items:
+            $ref: '#/components/schemas/transmissionMode'
     process:
       allOf:
         - $ref: '#/components/schemas/descriptionType'
         - type: object
           required:
             - id
+            - title
           properties:
             inputs:
               type: array
@@ -1308,24 +1323,12 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/outputDescription'
-            version:
-              type: string
-            jobControlOptions:
-              type: array
-              items:
-                $ref: '#/components/schemas/jobControlOptions'
-            outputTransmission:
-              type: array
-              items:
-                $ref: '#/components/schemas/transmissionMode'
             executeEndpoint:
               type: string
               format: url
     inputType:
       allOf:
         - $ref: '#/components/schemas/inputTypeChoice'
-        # TODO - CODE GEN BUG (next line)
-        - $ref: '#/components/schemas/descriptionType'
         - $ref: '#/components/schemas/dataDescriptionType'
     inputTypeChoice:
       oneOf:
@@ -1348,21 +1351,88 @@ components:
     literalInputType:
       type: object
       properties:
-        LiteralDataDomain:
-          $ref: '#/components/schemas/literalDataDomainType'
+        literalDataDomains:
+          type: array
+          items:
+            $ref: '#/components/schemas/literalDataDomainType'
     literalDataDomainType:
+      allOf:
+        - oneOf:
+            - $ref: '#/components/schemas/allowedValues'
+            - $ref: '#/components/schemas/allowedRanges'
+            - $ref: '#/components/schemas/anyValue'
+            - $ref: '#/components/schemas/valuesReference'
+        - type: object
+          properties:
+            defaultValue:
+              type: string
+            dataType:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                reference:
+                  type: string
+                  format: uri
+            uom:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                reference:
+                  type: string
+                  format: uri
+    allowedValues:
+      required:
+        - allowedValues
       type: object
       properties:
         allowedValues:
           type: array
           items:
             type: string
-        defaultValue:
+    allowedRanges:
+      type: object
+      required:
+        - allowedRanges
+      properties:
+        allowedRanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/range'
+    anyValue:
+      type: object
+      properties:
+        anyValue:
+          type: boolean
+    valuesReference:
+      type: object
+      required:
+        - valuesReferences
+      properties:
+        valueReference:
           type: string
-        dataType:
+          format: uri
+    range:
+      type: object
+      properties:
+        minimumValue:
           type: string
-        valuesReference:
+        maximumValue:
           type: string
+        spacing:
+          type: string
+        rangeClosure:
+          type: string
+          enum:
+            - closed
+            - open
+            - open-closed
+            - closed-open
     complexInputType:
       type: object
     boundingBoxInputType:
@@ -1373,7 +1443,7 @@ components:
         supportedCRS:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/supportedCrs'
     formatDescription:
       allOf:
         - $ref: '#/components/schemas/format'
@@ -1395,6 +1465,16 @@ components:
           type: string
         encoding:
           type: string
+    supportedCrs:
+      type: object
+      required:
+        - crs
+      properties:
+        crs:
+          type: string
+          format: uri
+        default:
+          type: boolean
     dataDescriptionType:
       allOf:
         - $ref: '#/components/schemas/descriptionType'
@@ -1447,13 +1527,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/additionalParameters'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/jsonLink'
     metadata:
-      type: object
-      properties:
-        role:
-          type: string
-        href:
-          type: string
+      anyOf:
+        - type: object
+          properties:
+            role:
+              type: string
+              format: uri
+        - $ref: '#/components/schemas/jsonLink'
+        - type: object
+          properties:
+            value:
+              type: string
     additionalParameters:
       type: object
       properties:
@@ -1468,8 +1557,10 @@ components:
       properties:
         name:
           type: string
-        value:
-          type: string
+        values:
+          type: array
+          items:
+            type: string
     jobCollection:
       type: object
       properties:
@@ -1543,44 +1634,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/alternateQuotation'
-      example:
-        id: Q-12345-A
-        title: Mosaicing
-        description: High resolutionmosaicing(10 meters)
-        processId: P-12345
-        price: '15'
-        currency: EUR
-        created: '2018-05-23T17:24:37Z'
-        expire: '2018-06-15T10:00:00Z'
-        userId: U-XXX-YYY-Z
-        details: Toulouse area  10000 km2  Sentinel-2
-        estimatedTime: P5M
-        processParameters:
-          inputs:
-            - id: input1
-              title: input title 1
-              formats:
-                - mimeType: application/json
-                  maximumMegabytes: 3
-                  default: true
-                - mimeType: application/x-zipped-shp
-                  maximumMegabytes: 3
-          outputs:
-            - id: output1
-              title: output title 1
-              formats:
-                - mimeType: application/json
-                  default: true
-                - mimeType: application/x-zipped-shp
-        alternativeQuotations:
-          id: Q12345B
-          title: Mosaicing(lowpriority)
-          description: High resolutionmosaicing(10 meters)
-          price: '5'
-          currency: EUR
-          expire: '2018-06-15T10:00:00Z'
-          details: Toulouse area – 10000 km2 – Sentinel-2
-          estimatedTime: P20M
     alternateQuotation:
       type: object
       required:
@@ -1653,19 +1706,12 @@ components:
         quotationId:
           type: string
           description: Reference to the quotation id corresponding to this bill
-      example:
-        id: B-12345-A
-        title: Mosaicing
-        description: High resolutionmosaicing (10 meters)
-        price: '15'
-        currency: EUR
-        created: '2018-05-23T17:24:37Z'
-        userId: U-XXX-YYY-Z
-        quotationId: Q-12345-A
     execute:
       type: object
       required:
         - outputs
+        - mode
+        - response
       properties:
         inputs:
           type: array
@@ -1675,6 +1721,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/output'
+        mode:
+          type: string
+          enum:
+            - sync
+            - async
+            - auto
+        response:
+          type: string
+          enum:
+            - raw
+            - document
     input:
       allOf:
         - $ref: '#/components/schemas/dataType'
@@ -1682,17 +1739,16 @@ components:
     valueType:
       oneOf:
         - $ref: '#/components/schemas/inlineValue'
-        - $ref: '#/components/schemas/valueReference'
-    valueReference:
-      type: object
-      properties:
-          reference:
-            type: string
+        - $ref: '#/components/schemas/reference'
     inlineValue:
-        type: object
-        properties:
-          data:
-            type: string
+      allOf:
+        - $ref: '#/components/schemas/dataEncodingAttributes'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: string
     output:
       allOf:
         - $ref: '#/components/schemas/dataType'
@@ -1736,17 +1792,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/outputInfo'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/jsonLink'
+    outputValue:
+      allOf:
+        - $ref: '#/components/schemas/dataEncodingAttributes'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: string
     outputInfo:
-      type: object
-      required:
-        - id
-        - value
-        - x
-      properties:
-        id:
-          type: string
-        value:
-          type: string
+      allOf:
+        - oneOf:
+          - $ref: '#/components/schemas/outputValue'
+          - $ref: '#/components/schemas/reference'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
     visibility:
       type: object
       required:
@@ -1764,4 +1833,4 @@ tags:
     description: Access to processes.
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: 'http://localhost:8080/wps-proxy'
+    url: 'https://virtserver.swaggerhub.com/geoprocessing/WPS/0.1'

@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: OGC Testbed 14 EOC - Transactional Web Processing Service 2.0 with Billing and Quotation - REST/JSON Extension API
-  version: "Testbed14"
-  description: 'This is the Transactional Web Processing Service 2.0 with Billing and Quotation REST/JSON Extension API developped in the frame of the OGC Testbed 14 EOC. This work is based on the WPS REST binding (https://github.com/opengeospatial/wps-rest-binding) by Benjamin Proß with updates from Patrick Jacques (Spacebel), Jerome Gasperi (Geomatys) and Christophe Noël (Spacebel).'
+  version: '0.2'
+  description: 'This is the Transactional Web Processing Service 2.0 with Billing and Quotation REST/JSON Extension API developped in the frame of the OGC Testbed 14 EOC. This work is based on the WPS REST binding (https://github.com/opengeospatial/wps-rest-binding) by Benjamin Proß with updates from Patrick Jacques (Spacebel), Jerome Gasperi (Geomatys), Christophe Noël (Spacebel) and Panagiotis (Peter) A. Vretanos (CubeWerx).'
   contact:
     name: Open Geospatial Consortium
     email: standards@opengeospatial.org
@@ -63,8 +63,6 @@ paths:
       operationId: deployProcess
       tags:
         - Deploy
-      security:
-        - bearerAuth: []
       requestBody:
         description: Mandatory deploy request JSON
         required: true
@@ -72,64 +70,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/deploy'
-            example:
-              processDescription:
-                process:
-                  id: Stacker
-                  title: Stacker
-                  abstract: ''
-                  keywords: []
-                  owsContext:
-                    offering:
-                      code: 'http://www.opengis.net/eoc/applicationContext/cwl'
-                      content:
-                        href: 'https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/StackCreation-graph-json-remote.cwl'
-                  inputs:
-                    - id: files
-                      title: Input Image
-                      formats:
-                        - mimeType: application/zip
-                          default: true
-                      minOccurs: 1
-                      maxOccurs: unbounded
-                      additionalParameters:
-                        - role: 'http://www.opengis.net/eoc/applicationContext/inputMetadata'
-                          parameters:
-                            - name: EOImage
-                              value: 'true'
-                    - id: output_file_type
-                      title: Type of Stacked Image
-                      formats:
-                        - mimeType: text/plain
-                          default: true
-                      minOccurs: 1
-                      maxOccurs: 1
-                      LiteralDataDomain:
-                        dataType: String
-                    - id: output_name
-                      title: Name of the Produced Image
-                      formats:
-                        - mimeType: text/plain
-                          default: true
-                      minOccurs: 1
-                      maxOccurs: 1
-                      LiteralDataDomain:
-                        dataType: String
-                  outputs:
-                    - id: output
-                      title: Stacked Image
-                      formats:
-                        - mimeType: application/octet-stream
-                          default: true
-                  version: 1.0.0
-                  jobControlOptions:
-                    - async-execute
-                  outputTransmission:
-                    - reference
-              immediateDeployment: 'false'
-              executionUnit:
-                - href: 'docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2'
-              deploymentProfileName: 'http://www.opengis.net/profiles/eoc/dockerizedApplication'
       responses:
         '200':
           description: Process deployed.
@@ -168,7 +108,6 @@ paths:
           required: true
           schema:
             type: string
-          example: multisensor_ndvi_stack_generator
       responses:
         '200':
           description: A process description.
@@ -176,97 +115,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/processOffering'
-              example:
-                processOffering:
-                  process:
-                    id: multisensor_ndvi_stack_generator
-                    title: Multi Sensor NDVI Stack Generator
-                    abstract: Workflow Multi Sensor NDVI Stack Generator
-                    keywords:
-                      - NDVI
-                    owsContext:
-                      offering:
-                        code: 'http://www.opengis.net/eoc/applicationContext/cwl'
-                        content:
-                          href: 'http://some.host/applications/cwl/multisensor_ndvi_stack_generator.cwl'
-                    inputs:
-                      - id: collectionId_image-s2
-                        title: Collection Identifer for input image-s2
-                        formats:
-                          - mimeType: text/plain
-                            default: true
-                        minOccurs: 1
-                        maxOccurs: 1
-                        LiteralDataDomain:
-                          allowedValues:
-                            - s2-collection-1
-                            - s2-collection-2
-                            - s2-sentinel2
-                            - s2-landsat8
-                          dataType: String
-                      - id: collectionId_image-probav
-                        title: Collection Identifer for input image-probav
-                        formats:
-                          - mimeType: text/plain
-                            default: true
-                        minOccurs: 1
-                        maxOccurs: 1
-                        LiteralDataDomain:
-                          allowedValues:
-                            - probav-collection-1
-                            - probav-collection-2
-                          dataType: String
-                      - id: collectionId_image-deimos
-                        title: Collection Identifer for input image-deimos
-                        formats:
-                          - mimeType: text/plain
-                            default: true
-                        minOccurs: 1
-                        maxOccurs: 1
-                        LiteralDataDomain:
-                          allowedValues:
-                            - deimos-collection-1
-                            - deimos-collection-2
-                          dataType: String
-                      - id: StartDate
-                        title: Time of Interest
-                        abstract: Time of Interest (defined as Start date - End date)
-                        formats:
-                          - mimeType: text/plain
-                            default: true
-                        minOccurs: 1
-                        maxOccurs: 1
-                        LiteralDataDomain:
-                          dataType: String
-                      - id: EndDate
-                        title: Time of Interest
-                        abstract: Time of Interest (defined as Start date - End date)
-                        formats:
-                          - mimeType: text/plain
-                            default: true
-                        minOccurs: 1
-                        maxOccurs: 1
-                        LiteralDataDomain:
-                          dataType: String
-                      - id: aoi
-                        title: Area of Interest
-                        abstract: Area of Interest (Bounding Box)
-                        formats:
-                          - mimeType: OGC-WKT
-                            default: true
-                        minOccurs: 1
-                        maxOccurs: 1
-                    outputs:
-                      - id: output
-                        title: GeoTIF Image
-                        formats:
-                          - mimeType: image/tiff
-                            default: true
-                    version: 1.0.0
-                    jobControlOptions:
-                      - async-execute
-                    outputTransmission:
-                      - reference
         '404':
           description: 'The process with id {id} does not exist.'
           content:
@@ -284,8 +132,6 @@ paths:
       operationId: undeployProcess
       tags:
         - Undeploy
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -293,7 +139,6 @@ paths:
           required: true
           schema:
             type: string
-          example: my.test.process
       responses:
         '200':
           description: Process undeployed.
@@ -325,8 +170,6 @@ paths:
       operationId: getJobList
       tags:
         - JobList
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -370,8 +213,6 @@ paths:
       operationId: execute
       tags:
         - Execute
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -424,8 +265,6 @@ paths:
       operationId: getStatus
       tags:
         - Status
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -475,8 +314,6 @@ paths:
       operationId: dismiss
       tags:
         - Dismiss
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -527,8 +364,6 @@ paths:
       operationId: getResult
       tags:
         - Result
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -585,8 +420,6 @@ paths:
       operationId: getQuotationList
       tags:
         - QuotationList
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -630,8 +463,6 @@ paths:
       operationId: quote
       tags:
         - Quote
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -683,8 +514,6 @@ paths:
       operationId: getQuotation
       tags:
         - Quotation
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -734,8 +563,6 @@ paths:
       operationId: executeQuotation
       tags:
         - Execute (as per Quotation)
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -793,8 +620,6 @@ paths:
       operationId: getVisibility
       tags:
         - Visibility
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -838,8 +663,6 @@ paths:
       operationId: changeVisibility
       tags:
         - ChangeVisibility
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -891,8 +714,6 @@ paths:
       operationId: getQuotationList
       tags:
         - QuotationList
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: A list of quotation ids for all server processes.
@@ -924,8 +745,6 @@ paths:
       operationId: getQuotation
       tags:
         - Quotation
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: quotationID
@@ -969,8 +788,6 @@ paths:
       operationId: executeQuotation
       tags:
         - Execute (as per Quotation)
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: quotationID
@@ -1022,8 +839,6 @@ paths:
       operationId: getBillList
       tags:
         - BillList
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: A list of bills ids.
@@ -1055,8 +870,6 @@ paths:
       operationId: getBill
       tags:
         - Bill
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: billID
@@ -1169,16 +982,12 @@ components:
           format: uri
         rel:
           type: string
-          example: next
         type:
           type: string
-          example: application/gml+xml;version=3.2
         hreflang:
           type: string
-          example: el
         title:
           type: string
-          example: 'Trierer Strasse 70, 53115 Bonn'
     exceptionReportType:
       type: object
       required:
@@ -1197,7 +1006,6 @@ components:
           type: array
           items:
             type: string
-            example: 'http://www.opengis.net/spec/wps-rest/1.0/req/core'
     processCollection:
       type: object
       required:
@@ -1212,7 +1020,7 @@ components:
         - $ref: '#/components/schemas/descriptionType'
         - type: object
           required:
-            - version
+            - id
           properties:
             version:
               type: string
@@ -1286,6 +1094,15 @@ components:
           type: string
         encoding:
           type: string
+    dataEncodingAttributes:
+      type: object
+      properties:
+        mimeType:
+          type: string
+        schema:
+          type: string
+        encoding:
+          type: string
     processOffering:
       type: object
       required:
@@ -1309,6 +1126,7 @@ components:
         - type: object
           required:
             - id
+            - title
           properties:
             inputs:
               type: array
@@ -1345,19 +1163,19 @@ components:
         - $ref: '#/components/schemas/dataDescriptionType'
     literalInputType:
       type: object
-      properties:
+          properties:
             literalDataDomains:
               type: array
               items:
-          $ref: '#/components/schemas/literalDataDomainType'
+                $ref: '#/components/schemas/literalDataDomainType'
     literalDataDomainType:
       type: object
       properties:
-          oneOf:
-            - $ref: '#/components/schemas/allowedValues'
-            - $ref: '#/components/schemas/allowedRanges'
-            - $ref: '#/components/schemas/anyValue'
-            - $ref: '#/components/schemas/valuesReference'
+        oneOf:
+          - $ref: '#/components/schemas/allowedValues'
+          - $ref: '#/components/schemas/allowedRanges'
+          - $ref: '#/components/schemas/anyValue'
+          - $ref: '#/components/schemas/valuesReference'
         defaultValue:
           type: string
         dataType:
@@ -1431,13 +1249,13 @@ components:
       type: object
     boundingBoxInputType:
       type: object
-      required:
+          required:
         - supportedCRS
-      properties:
+          properties:
         supportedCRS:
-          type: array
-          items:
-            type: string
+              type: array
+              items:
+                $ref: '#/components/schemas/supportedCrs'
     formatDescription:
       allOf:
         - $ref: '#/components/schemas/format'
@@ -1459,6 +1277,16 @@ components:
           type: string
         encoding:
           type: string
+    supportedCrs:
+      type: object
+      required:
+        - crs
+      properties:
+        crs:
+          type: string
+          format: uri
+        default:
+          type: boolean
     dataDescriptionType:
       allOf:
         - $ref: '#/components/schemas/descriptionType'
@@ -1511,12 +1339,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/additionalParameters'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/jsonLink'
     metadata:
       type: object
       properties:
         role:
           type: string
-        href:
+          format: uri
+        $ref: '#/components/schemas/jsonLink'
+        value:
           type: string
     additionalParameters:
       type: object
@@ -1532,8 +1366,10 @@ components:
       properties:
         name:
           type: string
-        value:
-          type: string
+        values:
+          type: array
+          items:
+            type: string
     jobCollection:
       type: object
       properties:
@@ -1607,44 +1443,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/alternateQuotation'
-      example:
-        id: Q-12345-A
-        title: Mosaicing
-        description: High resolutionmosaicing(10 meters)
-        processId: P-12345
-        price: '15'
-        currency: EUR
-        created: '2018-05-23T17:24:37Z'
-        expire: '2018-06-15T10:00:00Z'
-        userId: U-XXX-YYY-Z
-        details: Toulouse area  10000 km2  Sentinel-2
-        estimatedTime: P5M
-        processParameters:
-          inputs:
-            - id: input1
-              title: input title 1
-              formats:
-                - mimeType: application/json
-                  maximumMegabytes: 3
-                  default: true
-                - mimeType: application/x-zipped-shp
-                  maximumMegabytes: 3
-          outputs:
-            - id: output1
-              title: output title 1
-              formats:
-                - mimeType: application/json
-                  default: true
-                - mimeType: application/x-zipped-shp
-        alternativeQuotations:
-          id: Q12345B
-          title: Mosaicing(lowpriority)
-          description: High resolutionmosaicing(10 meters)
-          price: '5'
-          currency: EUR
-          expire: '2018-06-15T10:00:00Z'
-          details: Toulouse area – 10000 km2 – Sentinel-2
-          estimatedTime: P20M
     alternateQuotation:
       type: object
       required:
@@ -1717,19 +1515,12 @@ components:
         quotationId:
           type: string
           description: Reference to the quotation id corresponding to this bill
-      example:
-        id: B-12345-A
-        title: Mosaicing
-        description: High resolutionmosaicing (10 meters)
-        price: '15'
-        currency: EUR
-        created: '2018-05-23T17:24:37Z'
-        userId: U-XXX-YYY-Z
-        quotationId: Q-12345-A
     execute:
       type: object
       required:
         - outputs
+        - mode
+        - response
       properties:
         inputs:
           type: array
@@ -1739,6 +1530,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/output'
+        mode:
+          type: string
+          enum:
+            - sync
+            - async
+            - auto
+        response:
+          type: string
+          enum:
+            - raw
+            - document
     input:
       allOf:
         - $ref: '#/components/schemas/dataType'
@@ -1746,17 +1548,20 @@ components:
     valueType:
       oneOf:
         - $ref: '#/components/schemas/inlineValue'
-        - $ref: '#/components/schemas/valueReference'
+        - $ref: '#/components/schemas/reference'
     valueReference:
       type: object
       properties:
           reference:
-            type: string
+      type: string
     inlineValue:
         type: object
+        required:
+          - data
         properties:
           data:
             type: string
+          $ref: '#/components/schemas/dataEncodingAttributes'
     output:
       allOf:
         - $ref: '#/components/schemas/dataType'
@@ -1800,17 +1605,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/outputInfo'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/jsonLink'
     outputInfo:
       type: object
       required:
         - id
-        - value
-        - x
       properties:
         id:
           type: string
-        value:
+        oneOf:
+           $ref: '#/components/schemas/outputValue'
+           $ref: '#/components/schemas/reference'
+    outputValue:
+      type: object
+      required: value
+      properties:
+        data:
           type: string
+        $ref: '#/components/schemas/dataEncodingAttributes'
     visibility:
       type: object
       required:
@@ -1828,4 +1643,4 @@ tags:
     description: Access to processes.
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: 'http://localhost:8080/wps-proxy'
+    url: 'https://virtserver.swaggerhub.com/geoprocessing/WPS/0.1'
