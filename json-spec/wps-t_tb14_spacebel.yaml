@@ -1539,15 +1539,13 @@ components:
           items:
             $ref: '#/components/schemas/jsonLink'
     metadata:
-      anyOf:
+      allOf:
+        - $ref: '#/components/schemas/jsonLink'
         - type: object
           properties:
             role:
               type: string
               format: uri
-        - $ref: '#/components/schemas/jsonLink'
-        - type: object
-          properties:
             value:
               type: string
     additionalParameters:
