@@ -74,6 +74,11 @@ paths:
               $ref: '#/components/schemas/deploy'
             example:
               processDescription:
+                processVersion: 1.0.0
+                jobControlOptions:
+                  - async-execute
+                outputTransmission:
+                  - reference
                 process:
                   id: Stacker
                   title: Stacker
@@ -106,7 +111,8 @@ paths:
                       minOccurs: 1
                       maxOccurs: 1
                       literalDataDomains:
-                        - dataType: String
+                        - dataType: 
+                            name: String
                     - id: output_name
                       title: Name of the Produced Image
                       formats:
@@ -115,18 +121,14 @@ paths:
                       minOccurs: 1
                       maxOccurs: 1
                       literalDataDomains:
-                        - dataType: String
+                        - dataType: 
+                            name: String
                   outputs:
                     - id: output
                       title: Stacked Image
                       formats:
                         - mimeType: application/octet-stream
                           default: true
-                  version: 1.0.0
-                  jobControlOptions:
-                    - async-execute
-                  outputTransmission:
-                    - reference
               immediateDeployment: 'false'
               executionUnit:
                 - href: 'docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2'
@@ -1400,8 +1402,8 @@ components:
                   type: string
                   format: uri
     allowedValues:
-      required:
-        - allowedValues
+      #codegen bug:required:
+        #codegen bug:- allowedValues
       type: object
       properties:
         allowedValues:
@@ -1410,8 +1412,8 @@ components:
             type: string
     allowedRanges:
       type: object
-      required:
-        - allowedRanges
+      #codegen bug:required:
+        #codegen bug:- allowedRanges
       properties:
         allowedRanges:
           type: array
@@ -1424,8 +1426,8 @@ components:
           type: boolean
     valuesReference:
       type: object
-      required:
-        - valuesReferences
+      #codegen bug:required:
+        #codegen bug:- valuesReferences
       properties:
         valueReference:
           type: string
