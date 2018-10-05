@@ -381,7 +381,7 @@ paths:
           description: The id of a process.
           required: true
           schema:
-            type: integer
+            type: string
           example: Stacker
       requestBody:
         description: Mandatory execute request JSON
