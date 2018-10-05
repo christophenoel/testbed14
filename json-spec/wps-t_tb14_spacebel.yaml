@@ -1851,4 +1851,4 @@ tags:
     description: Access to processes.
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: 'https://virtserver.swaggerhub.com/geoprocessing/WPS/0.1'
+    url: 'http://35.241.162.55/WPS/WebProcessingService'
