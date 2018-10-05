@@ -96,7 +96,8 @@ paths:
                         - role: 'http://www.opengis.net/eoc/applicationContext/inputMetadata'
                           parameters:
                             - name: EOImage
-                              value: 'true'
+                              values: 
+                                - 'true'
                     - id: output_file_type
                       title: Type of Stacked Image
                       formats:
