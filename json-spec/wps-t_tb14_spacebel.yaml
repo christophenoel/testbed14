@@ -1364,11 +1364,16 @@ components:
             $ref: '#/components/schemas/literalDataDomainType'
     literalDataDomainType:
       allOf:
-        - oneOf:
-            - $ref: '#/components/schemas/allowedValues'
-            - $ref: '#/components/schemas/allowedRanges'
-            - $ref: '#/components/schemas/anyValue'
-            - $ref: '#/components/schemas/valuesReference'
+        #TODO remove adaptation to CODEGEN bug
+        - $ref: '#/components/schemas/allowedValues'
+        - $ref: '#/components/schemas/allowedRanges'
+        - $ref: '#/components/schemas/anyValue'
+        - $ref: '#/components/schemas/valuesReference'
+        #- oneOf:
+            #- $ref: '#/components/schemas/allowedValues'
+            #- $ref: '#/components/schemas/allowedRanges'
+            #- $ref: '#/components/schemas/anyValue'
+            #- $ref: '#/components/schemas/valuesReference'
         - type: object
           properties:
             defaultValue:
@@ -1741,6 +1746,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/dataType'
         - $ref: '#/components/schemas/valueType'
+        #TRICK for codegen bug TODO fix
+        - $ref: '#/components/schemas/inlineValue'
+        - $ref: '#/components/schemas/reference'
+        - $ref: '#/components/schemas/dataEncodingAttributes'
     valueType:
       oneOf:
         - $ref: '#/components/schemas/inlineValue'
@@ -1812,6 +1821,10 @@ components:
               type: string
     outputInfo:
       allOf:
+        # Codegen bug TODO (remove repetition
+        - $ref: '#/components/schemas/outputValue'
+        - $ref: '#/components/schemas/reference'
+        - $ref: '#/components/schemas/dataEncodingAttributes'
         - oneOf:
           - $ref: '#/components/schemas/outputValue'
           - $ref: '#/components/schemas/reference'
