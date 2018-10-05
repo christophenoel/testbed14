@@ -105,8 +105,8 @@ paths:
                           default: true
                       minOccurs: 1
                       maxOccurs: 1
-                      LiteralDataDomain:
-                        dataType: String
+                      literalDataDomains:
+                        - dataType: String
                     - id: output_name
                       title: Name of the Produced Image
                       formats:
@@ -114,8 +114,8 @@ paths:
                           default: true
                       minOccurs: 1
                       maxOccurs: 1
-                      LiteralDataDomain:
-                        dataType: String
+                      literalDataDomains:
+                        - dataType: String
                   outputs:
                     - id: output
                       title: Stacked Image
