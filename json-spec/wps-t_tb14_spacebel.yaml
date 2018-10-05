@@ -382,6 +382,7 @@ paths:
           required: true
           schema:
             type: integer
+          example: Stacker
       requestBody:
         description: Mandatory execute request JSON
         required: true
@@ -390,6 +391,8 @@ paths:
             schema:
               $ref: '#/components/schemas/execute'
             example:
+              mode: async
+              response: document
               inputs:
               - id: files
                 reference: "/dummy-store/S2A_MSIL1C_20180610T154901_N0206_R054_T18TXR_20180610T193029.SAFE.zip"
