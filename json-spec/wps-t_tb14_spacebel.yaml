@@ -1870,6 +1870,6 @@ tags:
     description: Access to processes.
 servers:
   - description: Spacebel ADES WPS
-    url: 'http://localhost:8080/wps-proxy'
+    url: 'http://35.241.162.55/wps-proxy'
   - description: Localhost WPS
     url: 'http://localhost:8080/wps-proxy'
