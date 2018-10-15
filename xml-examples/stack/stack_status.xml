@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wps:StatusInfo xsi:schemaLocation="http://www.opengis.net/wps/2.0 http://schemas.opengis.net/wps/2.0/wps.xsd" xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <wps:JobID>d2d5bb9a-ca16-4679-b295-9a46fc2e875d</wps:JobID>
+  <wps:Status>Succeeded</wps:Status>
+</wps:StatusInfo>

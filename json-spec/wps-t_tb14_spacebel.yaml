@@ -1808,7 +1808,7 @@ components:
           enum:
             - accepted
             - running
-            - successful
+            - succeeded
             - failed
         message:
           type: string

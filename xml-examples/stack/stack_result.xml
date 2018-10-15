@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wps:Result xsi:schemaLocation="http://www.opengis.net/wps/2.0 http://schemas.opengis.net/wps/2.0/wps.xsd" xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlin="http://www.w3.org/1999/xlink">
+  <wps:JobID>d2d5bb9a-ca16-4679-b295-9a46fc2e875d</wps:JobID>
+  <wps:Output id="output">
+    <wps:Reference mimeType="application/octet-stream" xlin:href="http://35.241.162.55:80/WPS/RetrieveResultServlet?id=d2d5bb9a-ca16-4679-b295-9a46fc2e875doutput.e65747fb-210f-465b-aca9-9fd006bf7631"/>
+  </wps:Output>
+</wps:Result>
+
