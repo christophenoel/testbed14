@@ -404,7 +404,7 @@ paths:
                 data: stack_result.tif
               outputs:
               - id: output
-                transmissionMode: REFERENCE
+                transmissionMode: reference
       responses:
         '201':
           description: Started execution. Created job.

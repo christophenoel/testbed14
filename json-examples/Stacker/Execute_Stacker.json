@@ -1,26 +1,28 @@
 {
+  "mode": "async",
+  "response": "document",
   "inputs": [
     {
       "id": "files",
-      "reference": "/dummy-store/S2A_MSIL1C_20180610T154901_N0206_R054_T18TXR_20180610T193029.SAFE.zip"
+      "href": "/dummy-store/S2A_MSIL1C_20180610T154901_N0206_R054_T18TXR_20180610T193029.SAFE.zip"
     },
     {
       "id": "files",
-      "reference": "/dummy-store/S1A_IW_GRDH_1SDV_20170413T224356_20170413T224421_016132_01AA52_90ED.SAFE.zip"
+      "href": "/dummy-store/S1A_IW_GRDH_1SDV_20170413T224356_20170413T224421_016132_01AA52_90ED.SAFE.zip"
     },
     {
       "id": "output_file_type",
-      "value": "GeoTIFF"
+      "data": "GeoTIFF"
     },
     {
       "id": "output_name",
-      "value": "stack_result.tif"
+      "data": "stack_result.tif"
     }
   ],
   "outputs": [
     {
       "id": "output",
-      "transmissionMode": "REFERENCE"
+      "transmissionMode": "reference"
     }
   ]
 }
