@@ -1274,11 +1274,7 @@ components:
           type: object
     deploymentResult:
       type: object
-      required:
-        - id
       properties:
-        id:
-          type: string
         processSummary:
           $ref: '#/components/schemas/processSummary'
     undeploymentResult:
@@ -1871,5 +1867,11 @@ tags:
 servers:
   - description: Spacebel ADES WPS
     url: 'http://35.241.162.55/wps-proxy'
-  - description: Localhost WPS
-    url: 'http://localhost:8080/wps-proxy'
+  - description: Localhost ADES WPS
+    url: 'http://localhost:8080/ades-proxy'
+  - description: Localhost EMS WPS
+    url: 'http://localhost:8080/wms-proxy'
+  - description: Localhost ADES WPS 80
+    url: 'http://localhost:80/ades-proxy'
+  - description: Localhost EMS WPS 80
+    url: 'http://localhost:80/wms-proxy'

@@ -349,7 +349,7 @@
             "description": "The id of a process.",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           }
         ],
@@ -2178,26 +2178,22 @@
         }
       },
       "metadata": {
-        "anyOf": [
+        "allOf": [
           {
             "type": "object",
             "properties": {
               "role": {
                 "type": "string",
                 "format": "uri"
+              },
+
+              "value": {
+                "type": "string"
               }
             }
           },
           {
             "$ref": "#/components/schemas/jsonLink"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "value": {
-                "type": "string"
-              }
-            }
           }
         ]
       },
@@ -2541,7 +2537,7 @@
             "enum": [
               "accepted",
               "running",
-              "successful",
+              "succeeded",
               "failed"
             ]
           },
