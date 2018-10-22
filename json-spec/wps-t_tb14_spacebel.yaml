@@ -1872,6 +1872,6 @@ servers:
   - description: Localhost EMS WPS
     url: 'http://localhost:8080/wms-proxy'
   - description: Localhost ADES WPS 80
-    url: 'http://localhost:80/ades-proxy'
+    url: 'http://35.241.162.55/ades-proxy'
   - description: Localhost EMS WPS 80
-    url: 'http://localhost:80/wms-proxy'
+    url: 'http://35.241.162.55/wms-proxy'
