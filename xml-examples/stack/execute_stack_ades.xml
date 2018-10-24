@@ -1,0 +1,40 @@
+<wps:Execute mode="async" response="document" service="WPS" version="2.0.0" xsi:schemaLocation="http://www.opengis.net/wps/2.0 wpsExecute.xsd" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ows:Identifier>Stack1</ows:Identifier>
+  <wps:Input id="output_file_type">
+    <wps:Data>GeoTIFF</wps:Data>
+  </wps:Input>
+  <wps:Input id="output_name">
+    <wps:Data>stack_result.tif</wps:Data>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=202333385&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_RIGHT_P_20170104_111711:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=203493404&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_RIGHT_P_20170105_105448:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=204490209&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_CENTER_P_20170108_112838:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=201220475&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_LEFT_P_20170102_120303:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=203487224&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_LEFT_P_20170105_123706:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=204397351&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_CENTER_P_20170107_115150:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=199984235&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_LEFT_P_20170101_122528:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=202504839&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_LEFT_P_20170104_125929:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=199987022&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_RIGHT_P_20170101_104316:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Input id="files">
+    <wps:Reference xlink:href="https://www.vito-eodata.be/PDF/dataaccess?service=DSEO&amp;request=GetProduct&amp;version=1.0.0&amp;collectionID=1000111&amp;productID=204012468&amp;ProductURI=urn:ogc:def:EOP:VITO:PROBAV_P_V001:PROBAV_LEFT_P_20170106_121440:V101&amp;" mimeType="application/x-binary"/>
+  </wps:Input>
+  <wps:Output id="output" transmission="reference"></wps:Output>
+</wps:Execute>

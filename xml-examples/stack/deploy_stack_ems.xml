@@ -1,0 +1,74 @@
+<!--wrong example missing version service -->
+<DeployProcess xmlns="http://www.opengis.net/wps/2.0" xmlns:xlin="http://www.w3.org/1999/xlink">
+  <ProcessDescription>
+    <ProcessOffering jobControlOptions="async-execute" outputTransmission="value reference" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:n1="http://www.altova.com/samplexml/other-namespace" xmlns:eoc="http://www.opengis.net/wps/2.0/profile/tb13/eoc" xmlns:owc="http://www.opengis.net/owc/1.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <wps:Process>
+        <ows:Title>Stack1</ows:Title>
+        <ows:Identifier>Stack1</ows:Identifier>
+        <!--The CWL file reference is provided here-->
+        <ows:Metadata xlink:href="https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/Stacker/Stacker.cwl" xlink:role="http://www.opengis.net/eoc/applicationContext/cwl"/>
+        <ows:Metadata xlink:role="http://www.opengis.net/eoc/applicationContext/docker" xlink:href="docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.1"/>
+        <wps:Input maxOccurs="unbounded" minOccurs="0">
+          <ows:Title>Input Image</ows:Title>
+          <ows:Identifier>files</ows:Identifier>
+          <!--The following block includes all CWL properties-->
+          <!--Note that they can be directly generated from the provided CWL file-->
+          <!--The following block holds a flag indicating that this input is an Earth Observation image (it will heps the EMS to know that this input is found using a Gateway search)-->
+          <ows:AdditionalParameters xlink:role="http://www.opengis.net/eoc/applicationContext/inputMetadata">
+            <ows:AdditionalParameter>
+              <ows:Name>EOImage</ows:Name>
+              <ows:Value>true</ows:Value>
+            </ows:AdditionalParameter>
+          </ows:AdditionalParameters>
+          <!--EO Image is always of type ComplexData (= file). In this example, maxOccurs set as unbounded, indicates it may be a list of files-->
+          <wps:ComplexData>
+            <wps:Format default="true" mimeType="application/zip"/>
+            <wps:Format mimeType="application/x-binary"/>
+          </wps:ComplexData>
+        </wps:Input>
+        <wps:Input maxOccurs="1" minOccurs="1">
+          <ows:Title>Type of Stacked Image</ows:Title>
+          <ows:Identifier>output_file_type</ows:Identifier>
+          <wps:LiteralData>
+            <wps:Format default="true" mimeType="text/plain"/>
+            <LiteralDataDomain default="true" xmlns="">
+              <ows:AnyValue/>
+              <ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#string">string</ows:DataType>
+            </LiteralDataDomain>
+          </wps:LiteralData>
+        </wps:Input>
+        <wps:Input maxOccurs="1" minOccurs="1">
+          <ows:Title>Name of the Produced Image</ows:Title>
+          <ows:Identifier>output_name</ows:Identifier>
+          <wps:LiteralData>
+            <wps:Format default="true" mimeType="text/plain"/>
+            <LiteralDataDomain default="true" xmlns="">
+              <ows:AnyValue/>
+              <ows:DataType ows:reference="http://www.w3.org/2001/XMLSchema#string">string</ows:DataType>
+            </LiteralDataDomain>
+          </wps:LiteralData>
+        </wps:Input>
+        <!--NDVI OUTPUT FILE(S)-->
+        <wps:Output>
+          <ows:Title>Stacked Image</ows:Title>
+          <ows:Abstract>Stacked Image</ows:Abstract>
+          <ows:Identifier>output</ows:Identifier>
+          <wps:ComplexData>
+            <wps:Format default="true" mimeType="application/octet-stream"/>
+          </wps:ComplexData>
+          <ows:AdditionalParameters xlink:role="http://www.opengis.net/profiles/eoc/output">
+            <!--Path provides the path of the output-->
+            <ows:AdditionalParameter>
+              <ows:Name>path</ows:Name>
+              <ows:Value>output/image.tiff</ows:Value>
+            </ows:AdditionalParameter>
+          </ows:AdditionalParameters>
+        </wps:Output>
+      </wps:Process>
+    </ProcessOffering>
+  </ProcessDescription>
+  <ExecutionUnit>
+    <Reference xlin:href="docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.1"/>
+  </ExecutionUnit>
+  <DeploymentProfileName>http://www.opengis.net/profiles/eoc/dockerizedApplication</DeploymentProfileName>
+</DeployProcess>

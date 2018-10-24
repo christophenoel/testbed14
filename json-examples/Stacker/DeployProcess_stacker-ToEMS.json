@@ -1,0 +1,95 @@
+{
+  "immediateDeployment": true,
+  "processDescription": {
+    "process": {
+      "id": "Stack1",
+      "title": "Stack1",
+      "metadata": [{
+          "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/Stacker/Stacker.cwl",
+          "role": "http://www.opengis.net/eoc/applicationContext/cwl"
+        }, {
+          "href": "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.1",
+          "role": "http://www.opengis.net/eoc/applicationContext/docker"
+        }],
+      "inputs": [{
+          "supportedCRS": [],
+          "id": "files",
+          "title": "Input Image",
+          "additionalParameters": [{
+              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters": [{
+                  "name": "EOImage",
+                  "values": ["true"]
+                }]
+            }],
+          "minOccurs": "0",
+          "maxOccurs": "unbounded",
+          "formats": [{
+              "default": true,
+              "mimeType": "application/zip"
+            }, {
+              "default": false,
+              "mimeType": "application/x-binary"
+            }]
+        }, {
+          "literalDataDomains": [{
+              "allowedValues": [],
+              "allowedRanges": [],
+              "dataType": {
+                "name": "string",
+                "reference": "http://www.w3.org/2001/XMLSchema#string"
+              }
+            }],
+          "supportedCRS": [],
+          "id": "output_file_type",
+          "title": "Type of Stacked Image",
+          "minOccurs": "1",
+          "maxOccurs": "1",
+          "formats": [{
+              "default": true,
+              "mimeType": "text/plain"
+            }]
+        }, {
+          "literalDataDomains": [{
+              "allowedValues": [],
+              "allowedRanges": [],
+              "dataType": {
+                "name": "string",
+                "reference": "http://www.w3.org/2001/XMLSchema#string"
+              }
+            }],
+          "supportedCRS": [],
+          "id": "output_name",
+          "title": "Name of the Produced Image",
+          "minOccurs": "1",
+          "maxOccurs": "1",
+          "formats": [{
+              "default": true,
+              "mimeType": "text/plain"
+            }]
+        }],
+      "outputs": [{
+          "id": "output",
+          "title": "Stacked Image",
+          "abstract": "Stacked Image",
+          "additionalParameters": [{
+              "role": "http://www.opengis.net/profiles/eoc/output",
+              "parameters": [{
+                  "name": "path",
+                  "values": ["output/image.tiff"]
+                }]
+            }],
+          "formats": [{
+              "default": true,
+              "mimeType": "application/octet-stream"
+            }]
+        }]
+    },
+    "jobControlOptions": ["async-execute"],
+    "outputTransmission": ["value", "reference"]
+  },
+  "executionUnit": [{
+      "href": "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.1"
+    }],
+  "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication"
+}

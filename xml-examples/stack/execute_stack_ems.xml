@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wps:Execute xmlns:ows="http://www.opengis.net/ows/2.0"  xmlns:xlink="http://www.w3.org/1999/xlink"  xmlns:wps="http://www.opengis.net/wps/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WPS" version="2.0.0" mode="async" response="document" xsi:schemaLocation="http://www.opengis.net/wps/2.0 wpsExecute.xsd">
   <ows:Identifier>Stack1</ows:Identifier>
-  <wps:Input id="files">
-    <wps:Reference xlink:href="/dummy-store/S2A_MSIL1C_20180610T154901_N0206_R054_T18TXR_20180610T193029.SAFE.zip"/>
+  <wps:Input id="os_collectionId_files">
+    <wps:Data>EOP:IPT:Sentinel2</wps:Data>
   </wps:Input>
-  <wps:Input id="files">
-    <wps:Reference xlink:href="/dummy-store/S1A_IW_GRDH_1SDV_20170413T224356_20170413T224421_016132_01AA52_90ED.SAFE.zip"/>
+    <wps:Input id="os_aoi">
+    <wps:Data>100.4,18.3,104.6,19.3</wps:Data>
+  </wps:Input>
+  <wps:Input id="os_startDate">
+    <wps:Data>2018-01-30T00:00:00.000Z</wps:Data>
+  </wps:Input>
+    <wps:Input id="os_endDate">
+    <wps:Data>2018-01-31T23:00:59.000Z</wps:Data>
   </wps:Input>
   <wps:Input id="output_file_type">
     <wps:Data>GeoTIFF</wps:Data>
