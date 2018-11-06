@@ -12,7 +12,7 @@
     },
     "steps": {
         "stacker_s2": {
-            "run": "SPBGeomatysStacker.cwl",
+            "run": "SPBCRIMStacker.cwl",
             "in": {
                 "files": "image-s2"
             },

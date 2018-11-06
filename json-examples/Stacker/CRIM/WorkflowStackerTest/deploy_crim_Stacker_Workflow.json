@@ -1,21 +1,13 @@
 {
     "processDescription": {
         "process": {
-            "id": "SPBCRIMStacker",
+            "id": "SPBCRIMStackerWorkflow",
             "title": "Stacker",
             "abstract": "",
             "keywords": [],
-            "owsContext": {
-                "offering": {
-                    "code": "http://www.opengis.net/eoc/applicationContext/cwl",
-                    "content": {
-                        "href": "https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/Stacker/Stacker.cwl"
-                    }
-                }
-            },
             "inputs": [
                 {
-                    "id": "files",
+                    "id": "image-s2",
                     "title": "Input Image",
                     "formats": [
                         {
@@ -63,8 +55,8 @@
     },
     "executionUnit": [
         {
-            "href": "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.5"
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/WorkflowStacker/crimWorkflow.cwl"
         }
     ],
-    "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication"
+    "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
 }

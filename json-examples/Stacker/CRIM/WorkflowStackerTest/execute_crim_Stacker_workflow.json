@@ -3,6 +3,10 @@
   "response": "document",
   "inputs": [
     {
+       "id": "os_collectionId_image-s2",
+      "data" :"EOP:IPT:Sentinel2"
+    },
+    {
       "id": "os_aoi",
       "data": "100.4,18.3,104.6,19.3"
     },

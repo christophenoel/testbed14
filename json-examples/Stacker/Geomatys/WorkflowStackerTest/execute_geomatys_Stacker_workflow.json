@@ -3,7 +3,7 @@
   "response": "document",
   "inputs": [
     {
-       "id": "os_collectionId_files",
+       "id": "os_collectionId_image-s2",
       "data" :"EOP:IPT:Sentinel2"
     },
     {
