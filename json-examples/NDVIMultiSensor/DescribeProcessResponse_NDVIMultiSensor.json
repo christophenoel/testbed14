@@ -1,7 +1,7 @@
 {
   "processOffering" : {
     "process" : {
-      "id" : "multisensor_ndvi",
+      "id" : "GeomatysNDVIMultiSensor",
       "title" : "Multi Sensor NDVI",
       "abstract" : "Workflow Multi Sensor NDVI",
       "keywords" : [

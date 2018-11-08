@@ -23,7 +23,20 @@
                         }
                     ],
                     "minOccurs": "1",
-                    "maxOccurs": "unbounded"
+                    "maxOccurs": "unbounded",
+                    "additionalParameters": [
+                        {
+                            "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+                            "parameters": [
+                                {
+                                    "name": "EOImage",
+                                    "values": [
+                                        "true"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
             ],
             "outputs": [

@@ -1804,8 +1804,11 @@ components:
     statusInfo:
       type: object
       required:
+        - jobId
         - status
       properties:
+        jobId:
+          type: string
         status:
           type: string
           enum:
