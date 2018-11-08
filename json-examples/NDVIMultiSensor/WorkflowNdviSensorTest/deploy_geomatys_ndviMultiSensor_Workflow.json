@@ -38,7 +38,7 @@
                     "title": "Stacked Image",
                     "formats": [
                         {
-                            "mimeType": "application/zip",
+                            "mimeType": "image/tiff",
                             "default": true
                         }
                     ]
