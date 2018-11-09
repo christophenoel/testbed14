@@ -1,22 +1,22 @@
 {
     "processDescription": {
         "process": {
-            "id": "SPBCRIMStacker",
-            "title": "SPBCRIMStacker",
+            "id": "SPB_SFS",
+            "title": "SFS",
             "abstract": "",
             "keywords": [],
             "owsContext": {
                 "offering": {
                     "code": "http://www.opengis.net/eoc/applicationContext/cwl",
                     "content": {
-                        "href": "https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/Stacker/Stacker.cwl"
+                        "href": "https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/SFS/SFS.cwl"
                     }
                 }
             },
             "inputs": [
                 {
-                    "id": "files",
-                    "title": "Input Image",
+                    "id": "source_product",
+                    "title": "Source Product",
                     "formats": [
                         {
                             "mimeType": "application/zip",
@@ -24,26 +24,13 @@
                         }
                     ],
                     "minOccurs": 1,
-                    "maxOccurs": "unbounded",
-                    "additionalParameters": [
-                        {
-                            "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
-                            "parameters": [
-                                {
-                                    "name": "EOImage",
-                                    "values": [
-                                        "true"
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
+                    "maxOccurs": 1
                 }
             ],
             "outputs": [
                 {
                     "id": "output",
-                    "title": "Stacked Image",
+                    "title": "SFS Image",
                     "formats": [
                         {
                             "mimeType": "application/zip",
@@ -63,8 +50,9 @@
     },
     "executionUnit": [
         {
-            "href": "docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.7"
+            "href": "docker-registry.crim.ca/ogc-public/snap6-sfs:v2.7"
         }
     ],
     "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication"
 }
+

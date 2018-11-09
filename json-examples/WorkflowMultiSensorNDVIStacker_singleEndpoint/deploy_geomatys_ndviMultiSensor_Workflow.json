@@ -1,31 +1,21 @@
 {
     "processDescription": {
         "process": {
-            "id": "GeomatysNDVIMultiSensor",
-            "title": "NDVIMultiSensor",
-            "owsContext": {
-                "offering": {
-                    "code": "http://www.opengis.net/eoc/applicationContext/cwl",
-                    "content": {
-                        "href": "https://raw.githubusercontent.com/Geomatys/Testbed14/master/application-packages/NDVIMultiSensor/NDVIMultiSensor.cwl"
-                    }
-                }
-            },
-            "abstract": "Normalized Difference Vegetation Index (NDVI) from an input list of satellite images.",
-            "keywords": ["NDVI"],
+            "id": "SPB_Geomatys_NDVIMultiSensorStackerWorkflow_SingleEndpoint",
+            "title": "Stacker",
+            "abstract": "",
+            "keywords": [],
             "inputs": [
                 {
-                    "id": "files",
+                    "id": "image-s2",
                     "title": "Input Image",
                     "formats": [
                         {
                             "mimeType": "application/zip",
                             "default": true
-                        },{
-                            "mimeType": "application/x-hdf"
                         }
                     ],
-                    "minOccurs": "1",
+                    "minOccurs": 1,
                     "maxOccurs": "unbounded",
                     "additionalParameters": [
                         {
@@ -33,7 +23,9 @@
                             "parameters": [
                                 {
                                     "name": "EOImage",
-                                    "values": ["true"]
+                                    "values": [
+                                        "true"
+                                    ]
                                 }
                             ]
                         }
@@ -43,7 +35,7 @@
             "outputs": [
                 {
                     "id": "output",
-                    "title": "NDVI Images",
+                    "title": "Stacked Image",
                     "formats": [
                         {
                             "mimeType": "image/tiff",
@@ -61,9 +53,10 @@
             "reference"
         ]
     },
-    "immediateDeployment": true,
-    "executionUnit": [{
-            "href": "images.geomatys.com/ndvims:latest"
-        }],
-    "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication"
+    "executionUnit": [
+        {
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/WorkflowMultiSensorNDVIStacker_singleEndpoint/geomatysWorkflowSingleEndpoint.cwl"
+        }
+    ],
+    "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
 }
