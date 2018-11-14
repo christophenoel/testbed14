@@ -388,79 +388,39 @@ Bob execute the workflow by submitting an execute request.
 }
 ----
 
+The execution is confirmed by an HTTP 201 response, and includes the status document URL in the "Location" HTTP header. The status document REST Path is build using /processes/_{processId}_/jobs/_{jobId}_. The status of the execution can be retrieve on this URL and shall be polled until the state is succeeded.
 
-=== 5. 
-
-
-=== 6.
-
-image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
-
-[source,json]
-----
-----
-
-[source,json]
-----
-----
-
-[source,json]
-----
-----
-BOB invokes the WPS 2.0 Execute operation (encoding XML or JSON). The inputs includes the OpenSearch Gateway inputs (i.e. CollectionId, AOI, TOI).
-
-* Bob sends an execute request on EMS for "MultiSensorNDVI"
-....
-  curl -X POST \
-       -i "http://some.host/WPS/processes/MultiSensorNDVI/jobs" \
-       -H "Authorization: Bearer Th34cc3ssTok3nFromBob"
-       -d "@5-execute.json"
-....
-
-With posted data
-
-.Listing execute (JSON)
 [source,json]
 ----
 {
-  "inputs": [
-    {
-      "id": "startDate",
-      "value": "2016-05-05T00:00"
-    },
-    {
-      "id": "endDate",
-      "value": "2016-05-05T23:59"
-    },
-    {
-      "id": "aoi",
-      "value": "POLYGON((44 3.5,43.2 3.5,43.2 4.5,44 4.5,44 3.5))"
-    },
-    {
-      "id": "collectionId",
-      "value": "Sentinel-2"
-    },
-    {
-      "id": "inputParameter",
-      "value": "myParameterValue"
-    }
-  ],
-  "outputs": [
-    {
-      "id": "ndviOut",
-      "transmissionMode": "REFERENCE"
-    }
-  ]
+"status":"succeeded",
+"message":"Status of job 35efcdb8-7447-46bb-8338-2e706d1cfece",
+"jobId":"35efcdb8-7447-46bb-8338-2e706d1cfece"
 }
 ----
 
-* EMS checks from the Access Token that the requester has rights to execute the process
-* EMS assigns a jobId "ems_exec001" for the execution and returns an acknowledgment to Bob
+Once the process has finished, the result document can be retrieved using the REST path /processes/_{processId}_/jobs/_{jobId}_/result. Typically the result outputs are provided by reference to avoid retrieving files to the EMS between all the steps.
+
+[source,json]
+----
+{  
+   "outputs":[  
+      {  
+         "mimeType":"image/tiff",
+         "href":"http://some-host/WPS/xxxYYY",
+         "id":"output"
+      }
+   ]
+}
+----
 
 
 
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
 
-=== 4. EMS Catalog Search
+
+
+=== 5. EMS Catalog Search
 
 EMS internally performs the OpenSearch gateway search of products to retrieve the list of products URLs. The internal steps are provided below:
 
