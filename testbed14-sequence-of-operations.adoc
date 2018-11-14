@@ -15,157 +15,101 @@ The execution of workflow or an application on the EMS internally includes the f
 
 Note that the security and billing aspects are not covered as they belong to the scope of the D010 Engineering report. 
 
-
 === Sequence
 
-The sequence is shown on the diagram below 
-
--TODO delete update- (remove application packages format, title etc, add discovery.)
-
+The sequence is shown on the diagram below:
 image::testbed14-sequence.png[]
 
-:tip-caption: :bulb:
-:note-caption: :information_source:
+The execution of the application (step 1') is not covered as the steps are strictly similar to the execution of the workflow.
 
 === 1. Application deployment
 
-Alice previously developed, on her facility, a process "MultiSensorNDVI" to compute NDVI from various sensors. She wants to provide this process to other users through the EMS.
+Alice developed an application identified as 'MultiSensorNDVI'. She wants to make this application available to the users of the Thematic Exploitation Platform.
 
-* Alice first authenticates and get a valid Access Token.
-* Alice performs a WPS deploy request on the EMS, it includes:
-** Process Offering (public WPS process interface description for client-side purpose). It includes statement (in ows:AdditionalParameters) for the input(s) which is an EO Image product.
-** Execution Unit (for the App: a CWL file)
-* Note that EMS will perform transformations on the Process Offering in case of a DescribeProcess. This topic is covered further.
-
-Note also: in this example, the CWL information was not duplicated in the ProcessOffering (as stated by an Testbed14 agreement): EMS generates the ProcessOffering elements automatically when deploying on ADES.
-
-The operation may be performed either in XML or JSON :
-....
-  curl -X POST \
-       -i "http://some.domain/WPS/processes" \
-       -H "Authorization: Bearer Th34cc3ssTok3nFrom4lice" \
-       -d "@deploy-request.json"
-....
-
-The posted JSON request (https://raw.githubusercontent.com/spacebel/testbed14/master/DeployProcess_NDVI.json[Example File]) (https://app.swaggerhub.com/apis/pjacques-spacebel/transactional-wps-with-quotation/0.0.2[JSON Schema]):
+Using the EMS Client, Alice performs a Deployment request (step 1). The operation relies on the WPS Transactional REST/JSON interface specification, and the request message includes the following items:
+* The process offering: a standard (WPS) description of the application interface used by the client. In particular, it includes a project-specific flag (EOImage) for Earth Observation Image inputs, and it also references a CWL file providing information on the Docker image of the application. 
+* The execution unit: the application binaries, packages and resources which is, in this case, a reference to the Docker image.
+* The identifier of the profile (Dockerized application).
 
 [source,json]
 ----
 {
-    "processOffering": {
+    "processDescription": {
         "process": {
-            "id": "MultiSensorNDVI",
-            "title": "Multi Sensor NDVI",
-            "abstract": "NDVI is calculated after the two bands values Near Infrared and red. It is calculated by this formula : NDVI = (NIR-Red)/(NIR+Red)",
-            "keywords": [
-                "NDVI"
-            ],
+            "id": "NDVIMultiSensor",
+            "title": "NDVIMultiSensor",
             "owsContext": {
                 "offering": {
                     "code": "http://www.opengis.net/eoc/applicationContext/cwl",
                     "content": {
-                        "href": "http://some.host/applications/cwl/multisensorNDVI.cwl"
+                        "href": "https://some-host/NDVIMultiSensor/NDVIMultiSensor.cwl"
                     }
                 }
             },
+            "abstract": "Normalized Difference Vegetation Index (NDVI) from an input list of satellite images.",
+            "keywords": ["NDVI"],
             "inputs": [
                 {
-                    "id": "inputImage",
+                    "id": "files",
                     "title": "Input Image",
                     "formats": [
                         {
                             "mimeType": "application/zip",
                             "default": true
+                        },{
+                            "mimeType": "application/x-hdf"
                         }
                     ],
-                    "minOccurs": 1,
-                    "maxOccurs": 1,
+                    "minOccurs": "1",
+                    "maxOccurs": "unbounded",
                     "additionalParameters": [
                         {
                             "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
                             "parameters": [
                                 {
                                     "name": "EOImage",
-                                    "value": "true"
+                                    "values": ["true"]
                                 }
                             ]
-                        }
-                    ],
-                    "owsContext": {
-                        "offering": {
-                            "code": "anyCode for your owsContext metadata",
-                            "content": {
-                                "href": "anyRef"
-                            }
-                        }
-                    }
-                },
-                {
-                    "id": "inputParameter",
-                    "title": "Sample Parameter",
-                    "abstract": "Sample Parameter (for demo purpose)",
-                    "formats": [
-                        {
-                            "mimeType": "text/plain",
-                            "default": true
-                        }
-                    ],
-                    "minOccurs": 1,
-                    "maxOccurs": 1,
-                    "LiteralDataDomain": {
-                        "dataType": "String"
-                    },
-                    "owsContext": {
-                        "offering": {
-                            "code": "anyCode",
-                            "content": {
-                                "href": "anyRef"
-                            }
-                        }
-                    }
-                }        
-            ],
-            "outputs": [
-                {
-                    "id": "ndviOut",
-                    "title": "NDVI output file",
-                    "formats": [
-                        {
-                            "mimeType": "application/octet-stream",
-                            "default": true
                         }
                     ]
                 }
             ],
-            "version": "1.0.0",
-            "jobControlOptions": [
-                "async-execute"
-            ],
-            "outputTransmission": [
-                "reference"
+            "outputs": [
+                {
+                    "id": "output",
+                    "title": "NDVI Images",
+                    "formats": [
+                        {
+                            "mimeType": "image/tiff",
+                            "default": true
+                        }
+                    ]
+                }
             ]
-        }
+        },
+        "processVersion": "1.0.0",
+        "jobControlOptions": [
+            "async-execute"
+        ],
+        "outputTransmission": [
+            "reference"
+        ]
     },
-    "deploymentProfile": {
-        "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication",
-        "executionUnit": {
-            "reference": "docker.registry.host/multisensorNDVI"
-        }
-    }
+    "immediateDeployment": true,
+    "executionUnit": [{
+            "href": "docker.registry/ndvims:latest"
+        }],
+    "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication"
 }
 ----
 
-When receiving the deployment request:
-
-* EMS checks from the Access Token that the requester has rights to deploy the process
-* EMS registers the process as a new process
-* Alice receives an acknowledgment of the successful deployment of her process
+The client receives an acknowledgment of the successful deployment of the process
 
 .Listing deployResponse (JSON)
 [source,json]
 ----
 {
-  "deploymentDone": "OK",
   "processSummary": {
     "id": "MultiSensorNDVI",
     "title": "Multi Sensor NDVI",
@@ -181,6 +125,8 @@ When receiving the deployment request:
   }
 }
 ----
+
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
 
 === 2. Application discovery
 
