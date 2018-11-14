@@ -210,12 +210,13 @@ Before deploying the generated workflow, it has been agreed for the run property
 
 
 
-=== 3. Workflow 
+=== 3. Workflow Deployment
 
-Alice's sister composed the Multi Sensor NDVI Stacker processing chains. The chain performs 3 collections  and wants to deploy the workflow. These steps are illustrated on the diagram below.
+Alice's sister composed the Multi Sensor NDVI Stacker processing chains. The chain performs a Multi Sensor NDVI processing on each of the 3 received EO Image inputs then Stack the generated outputs, as illustrated on the diagram below.
 
+image::multisensorNDVIworkflow.png[]
 
-
+Alice's sister prepares the Process Description for deploying the processing chain workflow, and use the client to perform the deployment request.
 
 [source,json]
 ----
@@ -291,6 +292,11 @@ Alice's sister composed the Multi Sensor NDVI Stacker processing chains. The cha
 }
 ----
 
+The client receives a deployment confirmation message as already describe earlier.
+
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
+=== 4. 
+
 [source,json]
 ----
 ----
@@ -356,7 +362,7 @@ With posted data
 * EMS checks from the Access Token that the requester has rights to execute the process
 * EMS assigns a jobId "ems_exec001" for the execution and returns an acknowledgment to Bob
 
-image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
+
 
 
 === 4. EMS Catalog Search
