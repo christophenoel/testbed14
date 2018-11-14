@@ -55,7 +55,7 @@
     },
     "executionUnit": [
         {
-            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/WorkflowMultiSensorNDVIStacker_singleEndpoint/geomatysWorkflowSingleEndpoint.cwl"
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/WorkflowMultiSensorNDVIStacker_singleEndpoint/geomatysWorkflowSingleEndpoint-v3.cwl"
         }
     ],
     "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
