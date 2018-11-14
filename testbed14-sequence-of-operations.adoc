@@ -2,7 +2,7 @@
 
 === Summary
 
-This section provides the description of the full sequence of deployment and execution of applications and workflows:
+This section provides the steps of the sequence of operations required for deploying and executing both applications and workflows:
 
 1. Alice deploys a newly developed application
 2. Alice's sister discovers the new application and build a workflow including that application.
@@ -223,8 +223,8 @@ Alice's sister prepares the Process Description for deploying the processing cha
 {
     "processDescription": {
         "process": {
-            "id": "multiSensorNDVIStacker_2collections",
-            "title": "multiSensorNDVIStacker_2collections",
+            "id": "MultiSensorNDVIStacker",
+            "title": "MultiSensorNDVIStacker",
             "abstract": "",
             "keywords": [],
             "inputs": [
@@ -292,14 +292,62 @@ Alice's sister prepares the Process Description for deploying the processing cha
 }
 ----
 
-The client receives a deployment confirmation message as already describe earlier.
+The client receives a deployment confirmation message as already described earlier.
 
-image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
-=== 4. 
+=== 4. Workflow Execution
+
+When a workflow (but also an application) process description is requested by the EMS client, the returned document differs from the one that was submitted by Alice. Indeed, the description of EO Image input is replaced by fields required to perform a OpenSearch Catalog query. The EMS is responsible to retrieve the EO Image references by performing a Catalog search and pass the returned products URLs. 
+
+Therefore, the process description returned by the EMS looks as illustrated below.
 
 [source,json]
 ----
+{
+  "process": {
+    "id": "MultiSensorNDVIStacker",
+    "title": "MultiSensorNDVIStacker",
+    "abstract": "",
+    "owsContext": {
+      "offering": {
+        "code": "http://www.opengis.net/eoc/applicationContext/cwl",
+        "content": {
+          "href": "https://some-host/multiSensorNDVIStacker.cwl"
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "os_collectionId_image-collection1",
+        [...]
+      },
+      {
+        "id": "os_collectionId_image-collection2",
+        [...]
+      },
+      {
+        "id": "os_collectionId_image-collection3",
+        [...]
+      },
+      {
+        "id": "os_startDate",
+        [...]
+      },
+      {
+        "id": "os_endDate",
+        [...]
+      },
+      {
+        "id": "os_aoi"
+        [...]
+      }
+    ],
+ [...]
+  }
+}
 ----
+
+
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
 
 [source,json]
 ----
