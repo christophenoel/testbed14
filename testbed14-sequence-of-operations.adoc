@@ -5,8 +5,8 @@
 This section provides the description of the full sequence of deployment and execution of applications and workflows:
 
 1. Alice deploys a newly developed application
-2. Alice sister's discover the new application and build a workflow including that application.
-3. Alice's sister's deploys the workflow.
+2. Alice's sister discovers the new application and build a workflow including that application.
+3. Alice's sister deploys the workflow.
 4. Bob discovers the new workflow and execute it.
 
 The execution of workflow or an application on the EMS internally includes the following steps:
@@ -210,11 +210,102 @@ Before deploying the generated workflow, it has been agreed for the run property
 
 
 
-image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
+=== 3. Workflow 
+
+Alice's sister composed the Multi Sensor NDVI Stacker processing chains. The chain performs 3 collections  and wants to deploy the workflow. These steps are illustrated on the diagram below.
 
 
-=== 3. Application Execution
 
+
+[source,json]
+----
+{
+    "processDescription": {
+        "process": {
+            "id": "multiSensorNDVIStacker_2collections",
+            "title": "multiSensorNDVIStacker_2collections",
+            "abstract": "",
+            "keywords": [],
+            "inputs": [
+                {
+                    "id": "image-collection1",
+                    "title": "Input Image",
+                    "formats": [
+                        {
+                            "mimeType": "application/zip",
+                            "default": true
+                        }
+                    ],
+                    "minOccurs": 1,
+                    "maxOccurs": "unbounded",
+                    "additionalParameters": [
+                        {
+                            "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+                            "parameters": [
+                                {
+                                    "name": "EOImage",
+                                    "values": [
+                                        "true"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "image-collection2",
+                    [...]
+                },
+                {
+                    "id": "image-collection3",
+                    [...]
+                } 
+            ],
+            "outputs": [
+                {
+                    "id": "output",
+                    "title": "Stacked Image",
+                    "formats": [
+                        {
+                            "mimeType": "image/tiff",
+                            "default": true
+                        }
+                    ]
+                }
+            ]
+        },
+        "processVersion": "1.0.0",
+        "jobControlOptions": [
+            "async-execute"
+        ],
+        "outputTransmission": [
+            "reference"
+        ]
+    },
+    "executionUnit": [
+        {
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_2collections/multiSensorNDVIStacker_2collections-v4.cwl"
+        }
+    ],
+    "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
+}
+----
+
+[source,json]
+----
+----
+
+[source,json]
+----
+----
+
+[source,json]
+----
+----
+
+[source,json]
+----
+----
 BOB invokes the WPS 2.0 Execute operation (encoding XML or JSON). The inputs includes the OpenSearch Gateway inputs (i.e. CollectionId, AOI, TOI).
 
 * Bob sends an execute request on EMS for "MultiSensorNDVI"
@@ -264,6 +355,9 @@ With posted data
 
 * EMS checks from the Access Token that the requester has rights to execute the process
 * EMS assigns a jobId "ems_exec001" for the execution and returns an acknowledgment to Bob
+
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
+
 
 === 4. EMS Catalog Search
 
