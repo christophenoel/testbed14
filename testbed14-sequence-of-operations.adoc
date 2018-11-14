@@ -109,9 +109,8 @@ Using the EMS Client, Alice performs a Deployment request (step 1). The operatio
 }
 ----
 
-The client receives an acknowledgment of the successful deployment of the process
+The client then receives an acknowledgment of the successful deployment of the process.
 
-.Listing deployResponse (JSON)
 [source,json]
 ----
 {
@@ -131,226 +130,88 @@ The client receives an acknowledgment of the successful deployment of the proces
 }
 ----
 
-image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
 
-=== 2. Application discovery
+=== 2. Application discovery and workflow design
 
-Bob and Alice’s sister (who designs Workflows) may discover the Application using the GetCapabilites and DescribeProcess operations (encoding JSON). 
+Alice's sister is preparing a processing chain workflow. She first needs to discover the applications available on the Thematic Exploitation Platform (step 2). 
+The EMS Client can list the available processes using the _/processes_ REST path. The list includes a summary of the deployed processes.
 
-* Bob first authenticates and get a valid Access Token.
-* Bob perform a Getcapabilities on the EMS
-* Bob receives the list of available processes
-* Bob chooses "MultiSensorNDVI" and perform a DescribeProcess
-
-When returning a Process Offering, the EMS replaces  the EO Image input with OpenSearch Gateway inputs. The Process Description also includes the original CWL reference, required by the workflow design tool. Therefore, the Process Offering returned by the EMS is not exactly similar to the document provided during deployment.
-
-....
-  curl -X GET \
-       -i "http://some.domain/WPS/processes/MultiSensorNDVI" \
-       -H "Authorization: Bearer Th34cc3ssTok3nFromBob"
-....
-
-* Bob gets the process description
-
-.Listing describeProcessResponse (JSON)
 [source,json]
 ----
 {
-    "process": {
-        "id": "MultiSensorNDVI",
-        "title": "Multi Sensor NDVI",
-        "abstract": "NDVI is calculated after the two bands values Near Infrared and red. It is calculated by this formula : NDVI = (NIR-Red)/(NIR+Red)",
-        "keywords": [
-            "NDVI"
-        ],
-        "owsContext": {
-            "offering": {
-                "code": "http://www.opengis.net/eoc/applicationContext/cwl",
-                "content": {
-                    "href": "http://some.host/applications/cwl/multisensorNDVI.cwl"
-                }
-            }
-        },
-        "inputs": [
-            {
-                "id": "StartDate",
-                "title": "Time of Interest",
-                "abstract": "Time of Interest (defined as Start date - End date)",
-                "formats": [
-                    {
-                        "mimeType": "text/plain",
-                        "default": true
-                    }
-                ],
-                "minOccurs": 1,
-                "maxOccurs": 1,
-                "LiteralDataDomain": {
-                    "dataType": "String"
-                },
-                "additionalParameters": [
-                    {
-                        "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
-                        "parameters": [
-                            {
-                                "name": "CatalogSearchField",
-                                "value": "startDate"
-                            }
-                        ]
-                    } 
-                ],
-                "owsContext": {
-                    "offering": {
-                        "code": "anyCode",
-                        "content": {
-                            "href": "anyRef"
-                        }
-                    }
-                }
-            },
-            {
-                "id": "EndDate",
-                "title": "Time of Interest",
-                "abstract": "Time of Interest (defined as Start date - End date)",
-                "formats": [
-                    {
-                        "mimeType": "text/plain",
-                        "default": true
-                    }
-                ],
-                "minOccurs": 1,
-                "maxOccurs": 1,
-                "LiteralDataDomain": {
-                    "dataType": "String"
-                },
-                "additionalParameters": [
-                    {
-                        "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
-                        "parameters": [
-                            {
-                                "name": "CatalogSearchField",
-                                "value": "endDate"
-                            }
-                        ]
-                    } 
-                ],
-                "owsContext": {
-                    "offering": {
-                        "code": "anyCode",
-                        "content": {
-                            "href": "anyRef"
-                        }
-                    }
-                }
-            },
-            {
-                "id": "aoi",
-                "title": "Area of Interest",
-                "abstract": "Area of Interest (Bounding Box)",
-                "formats": [
-                    {
-                        "mimeType": "OGC-WKT",
-                        "default": true
-                    }
-                ],
-                "minOccurs": 1,
-                "maxOccurs": 1
-            },
-            {
-                "id": "collection",
-                "title": "Collection of the data.",
-                "abstract": "Collection",
-                "formats": [
-                    {
-                        "mimeType": "text/plain",
-                        "default": true
-                    }
-                ],
-                "minOccurs": 1,
-                "maxOccurs": 1,
-                "LiteralDataDomain": {
-                    "dataType": "String"
-                },
-                "additionalParameters": [
-                    {
-                        "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
-                        "parameters": [
-                            {
-                                "name": "CatalogSearchField",
-                                "value": "parentIdentifier"
-                            }
-                        ]
-                    }
-                ],
-                "owsContext": {
-                    "offering": {
-                        "code": "anyCode",
-                        "content": {
-                            "href": "anyRef"
-                        }
-                    }
-                },
-                {
-                "id": "aoi",
-                "title": "Area of Interest",
-                "abstract": "Area of Interest (Bounding Box)",
-                "formats": [
-                    {
-                        "mimeType": "OGC-WKT",
-                        "default": true
-                    }
-                ],
-                "minOccurs": 1,
-                "maxOccurs": 1
-            },
-            {
-                "id": "inputParameter",
-                "title": "Sample Input Parameter.",
-                "abstract": "Sample Paramater for demo purpose",
-                "formats": [
-                    {
-                        "mimeType": "text/plain",
-                        "default": true
-                    }
-                ],
-                "minOccurs": 1,
-                "maxOccurs": 1,
-                "LiteralDataDomain": {
-                    "dataType": "String"
-                },
-                "owsContext": {
-                    "offering": {
-                        "code": "anyCode",
-                        "content": {
-                            "href": "anyRef"
-                        }
-                    }
-                },
-
-            }
-        ],
-        "outputs": [
-            {
-                "id": "ndviOut",
-                "title": "NDVI output file",
-                "formats": [
-                    {
-                        "mimeType": "application/octet-stream",
-                        "default": true
-                    }
-                ]
-            }
-        ],
-        "version": "1.0.0",
-        "jobControlOptions": [
-            "async-execute"
-        ],
-        "outputTransmission": [
-            "reference"
-        ],
-        "executeEndpoint": "http://tbd14.geomatys.com/examind/WS/wps/ems/processes/MultiSensorNDVI/jobs"
+  "processes": [
+    {
+      "id": "NDVIMultiSensor",
+      "title": "NDVIMultiSensor",
+      "jobControlOptions": [
+        "async-execute"
+      ],
+      "outputTransmission": [
+        "reference"
+      ],
+      "processDescriptionURL": "http://185.52.193.7/wps-proxy/processes/GeomatysNDVIMultiSensor"
     }
+  ]
 }
 ----
+
+The agreed language for the workflow is CWL. Therefore, for each application that Alice plans to include in the workflow, the CWL file of the application needs to be retrieved by the client using a description process operation. The document is retrieved by invoking the _/processes/${processId}_ REST path. The response includes the CWL reference which was provided in the OWS Context metadata during deployment.
+
+[source,json]
+----
+{
+  "process": {
+    "id": "GeomatysNDVIMultiSensor",
+    "title": "NDVIMultiSensor",
+    "abstract": "Normalized Difference Vegetation Index (NDVI) from an input list of satellite images.",
+    "owsContext": {
+      "offering": {
+        "code": "http://www.opengis.net/eoc/applicationContext/cwl",
+        "content": {
+          "href": "https://raw.githubusercontent.com/Geomatys/Testbed14/master/application-packages/NDVIMultiSensor/NDVIMultiSensor.cwl"
+        }
+      }
+    },
+ [...]
+  },
+  "processVersion": "1.0.0",
+  "jobControlOptions": [
+    "async-execute"
+  ],
+  "outputTransmission": [
+    "reference"
+  ]
+}
+----
+
+Note that the input and output description parts have been removed from the example and will be covered in the workflow execution step (step 4).
+
+Alice's sister can compose her CWL workflow using her prefered CWL workflow designer tool and import the various applications CWL files for building the workflow steps.
+
+Before deploying the generated workflow, it has been agreed for the run property of each workflow step that:
+
+* The CWL file name is equal to the WPS process identifier
+* The local file path is removed
+*
+
+[source,json]
+----
+   "steps":{  
+      "myOwnStep":{  
+         "run":"GeomatysNDVIMultiSensor.cwl",
+         "in":{  
+            "files":"myWorkflowInput"
+         },
+         "out":[  
+            "myOutput"
+         ]
+      },
+----
+
+
+
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
+
 
 === 3. Application Execution
 
