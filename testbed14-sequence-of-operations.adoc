@@ -3,12 +3,14 @@
 === Summary
 
 This section provides the description of the full sequence of deployment and execution of applications and workflows:
+
 1. Alice deploys a newly developed application
 2. Alice sister's discover the new application and build a workflow including that application.
 3. Alice's sister's deploys the workflow.
 4. Bob discovers the new workflow and execute it.
 
 The execution of workflow or an application on the EMS internally includes the following steps:
+
 5. Discovery of the EO Image products using the catalogs gateway.
 6. Deployment on ADES
 7. Execution on ADES
@@ -27,6 +29,7 @@ The execution of the application (step 1') is not covered as the steps are stric
 Alice developed an application identified as 'MultiSensorNDVI'. She wants to make this application available to the users of the Thematic Exploitation Platform.
 
 Using the EMS Client, Alice performs a Deployment request (step 1). The operation relies on the WPS Transactional REST/JSON interface specification, and the request message includes the following items:
+
 * The process offering: a standard (WPS) description of the application interface used by the client. In particular, it includes a project-specific flag (EOImage) for Earth Observation Image inputs, and it also references a CWL file providing information on the Docker image of the application. 
 * The execution unit: the application binaries, packages and resources which is, in this case, a reference to the Docker image.
 * The identifier of the profile (Dockerized application).
