@@ -21,8 +21,10 @@ Note that the security and billing aspects are not covered as they belong to the
 The sequence is shown on the diagram below 
 
 -TODO delete update- (remove application packages format, title etc, add discovery.)
-[[testbed14-sequence.png|alt=test]]
+image::testbed14-sequence.png[]
 
+:tip-caption: :bulb:
+:note-caption: :information_source:
 
 === 1. Application deployment
 
