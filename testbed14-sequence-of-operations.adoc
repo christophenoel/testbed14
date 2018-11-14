@@ -296,9 +296,9 @@ The client receives a deployment confirmation message as already described earli
 
 === 4. Workflow Execution
 
-When a workflow (but also an application) process description is requested by the EMS client, the returned document differs from the one that was submitted by Alice. Indeed, the description of EO Image input is replaced by fields required to perform a OpenSearch Catalog query. The EMS is responsible to retrieve the EO Image references by performing a Catalog search and pass the returned products URLs. 
+Bob tries to discover the applications and workflows available on the Thematic Exploitation Platform in order to perform an execution (step 4). The EMS Client can list the available processes using the _/processes_ REST path as already mentioned earlier. The workflow description is retrieved by the EMS Client by invoking the _/processes/${processId}_ REST path.
 
-Therefore, the process description returned by the EMS looks as illustrated below.
+When a process (workflow or application) process description is requested by the EMS client, the returned document differs from the one that was submitted by Alice. Indeed, the description of EO Image input is replaced by fields required to perform a OpenSearch Catalog query. The EMS is responsible to retrieve the EO Image references by performing a Catalog search and pass the returned products URLs. Therefore, the process description returned by the EMS looks as illustrated below.
 
 [source,json]
 ----
@@ -346,6 +346,53 @@ Therefore, the process description returned by the EMS looks as illustrated belo
 }
 ----
 
+Bob execute the workflow by submitting an execute request.
+
+[source,json]
+----
+{
+  "mode": "async",
+  "response": "document",
+  "inputs": [
+    {
+      "id": "os_collectionId_image-collection1",
+      "data": "EOP:IPT:Sentinel2"
+    },
+    {
+      "id": "os_collectionId_image-collection2",
+      "data": "urn:ogc:def:EOP:VITO:PROBAV_P_V001"
+    },
+    {
+      "id": "os_collectionId_image-collection2",
+      "data": "DE2_PS3_L1C"
+    },
+    {
+      "id": "os_aoi",
+      "data": "100.4,18.3,104.6,19.3"
+    },
+    {
+      "id": "os_startDate",
+      "data": "2018-01-30T00:00:00.000Z"
+    },
+    {
+      "id": "os_endDate",
+      "data": "2018-01-31T23:00:59.000Z"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "output",
+      "transmissionMode": "reference"
+    }
+  ]
+}
+----
+
+
+=== 5. 
+
+
+=== 6.
 
 image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
 
