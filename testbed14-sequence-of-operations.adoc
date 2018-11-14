@@ -4,22 +4,23 @@
 
 This section provides the description of the full sequence of deployment and execution of applications and workflows:
 
-1. Alice deploys a newly developed application
-2. Alice sister's discover the new application and build a workflow including that application.
-3. Alice's sister's deploys the workflow.
-4. Bob discovers the new workflow and execute it.
+. Alice deploys a newly developed application
+. Alice sister's discover the new application and build a workflow including that application.
+. Alice's sister's deploys the workflow.
+. Bob discovers the new workflow and execute it.
 
 The execution of workflow or an application on the EMS internally includes the following steps:
 
-5. Discovery of the EO Image products using the catalogs gateway.
-6. Deployment on ADES
-7. Execution on ADES
+. Discovery of the EO Image products using the catalogs gateway.
+. Deployment on ADES
+. Execution on ADES
 
 Note that the security and billing aspects are not covered as they belong to the scope of the D010 Engineering report. 
 
 === Sequence
 
 The sequence is shown on the diagram below:
+
 image::testbed14-sequence.png[]
 
 The execution of the application (step 1') is not covered as the steps are strictly similar to the execution of the workflow.
