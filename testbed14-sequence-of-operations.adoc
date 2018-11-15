@@ -356,7 +356,7 @@ The WPS-T REST HTTP GET operation path is _/processes/{processId}_ and the respo
 
 ----
 
-Bob execute the workflow by submitting an execute request. The WPS-T REST HTTP POST operation path is _/processes/{processId}/jobs_
+Bob execute the workflow by submitting an execute request. The WPS-T REST HTTP POST operation path is _/processes/{processId}/jobs_.
 
 [source,json]
 ----
@@ -484,7 +484,7 @@ The execution of the WPS Process pointed by the workflow step that consumes the 
 
 === EMS Deployment on ADES (Step 6)
 
-EMS deploys the Application(s). The deployment request is based  on the document provided on step 1 by Alice. It also embbeds in the Process Description (inside the ows:AdditionalParameters element) the information provided by the CWL file. Note that this duplicates the information in the request, but this agreement was adopted as a compromise between the different implementation approaches.
+The EMS needs to deploy the Application(s) before starting the execution. The deployment request is based  on the document provided on step 1 by Alice. It also embbeds in the Process Description (inside the ows:AdditionalParameters element) the information provided by the CWL file. Note that this duplicates the information in the request, but this agreement was adopted as a compromise between the different implementation approaches.
 
 The MultiSensorNDVI deployment request sent to the ADES is shown below. 
 
@@ -563,62 +563,41 @@ The MultiSensorNDVI deployment request sent to the ADES is shown below.
 
 The client receives a similar deployment confirmation message as described earlier.
 
-image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
 === EMS Execution on ADES (Step 7)
 
-* EMS sends an execute request to ADES "MultiSensorNDVI" process on behalf of Bob with Bob input parameters and the Catalog search results products.
-....
-  curl -X POST \
-       -i "http://some.host/WPS/processes/MultiSensorNDVI/jobs" \
-       -H "Authorization: Bearer Th34cc3ssTok3nFromBob"
-       -d "@5-execute.json"
-....
+For each of the workflow steps (or for the single Process in the case of an application), an execute request needs to be sent to the appropriate MEP ADES. The WPS-T REST HTTP POST operation path is _/processes/{processId}/jobs_.
+
+The request for the ADES "MultiSensorNDVI" process is shown below.
 
 The request in JSON:
 [source,json]
 ----
 {
-  "inputs": [
-    {
-      "id": "image",
-      "reference": "http://landsat.host/productXXX.zip"
-    },
-    {
-      "id": "inputParameter",
-      "value": "myParameterValue"
-    }
-  ],
-  "outputs": [
-    {
-      "id": "ndviOut",
-      "transmissionMode": "REFERENCE"
-    }
-  ]
+    "inputs": [
+        {
+            "id": "files",
+            "href": "http://some-host/PROBAV_L1C_20160505_232748_3_V101.HDF5"
+        },
+        {
+            "id": "files",
+            "href": "https://some-host/PROBAV_L1C_20160505_232949_3_V101.HDF5"
+        }
+    ],
+    "outputs": [
+        {
+            "id": "output",
+            "transmissionMode": "reference"
+        }
+    ],
+    "mode": "async",
+    "response": "document"
 }
 ----
 
-* ADES checks from the Access Token that the requester has rights to execute the process
-* ADES assigns a jobId "ades_exec001" for the execution and returns an acknowledgment to EMS
-* EMS links "ades_exec001" job to "ems_exec001" job
-* ADES runs the CWL file with input json file
-....
-cwl-runner MultiSensorNDVI.cwl 6-NDVI-params.json
-....
+== ADES Implementation
 
-==== Others 
+=== Spacebel
 
-TODO: the workflow part looks very similar to the other steps, but the examples are not created yet.
+== EMS Implementation
 
-* Alice deploys the Workflow. For the WPS-T encoding, the <ExecutionUnit> part is not the Docker Image anymore but the workflow CWL (example not yet ready). The Process Description includes EO Image input. In the DescribeProcess response, the EMS also generates a Descripiton with the corresponding OpenSearch Gateway inputs (this step is missing on the diagram).
-
-* Bob invokes the WPS 2.0 Execute operation (encoding XML or JSON). The inputs includes the OpenSearch Gateway inputs (i.e. CollectionId, AOI, TOI).
-
-* EMS internally performs the OpenSearch gateway search of products to retrieve the list of products URLs. Based on the CollectionId from the request inputs, EMS also selects the relevant MEP.
-
-* EMS deploys the Application(s) (using the original Process Description, not the generated one). Same format and encoding as step 1. The target MEP is selected based on CollectionId.
-
-* EMS invokes the WPS 2.0 Execute operation (encoding XML or JSON) on the workflow. The inputs includes the OpenSearch results URLs.
-
-* The workflow executes the Application on the relevant MEP.
-
-
+=== Spacebel
