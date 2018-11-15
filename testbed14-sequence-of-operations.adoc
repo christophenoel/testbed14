@@ -5,36 +5,36 @@
 This section provides the steps of the sequence of operations required for deploying and executing both applications and workflows:
 
 1. Alice deploys a newly developed application
-2. Alice's sister discovers the new application and build a workflow including that application.
+2. Alice's sister discovers the new application and builds a workflow including that application.
 3. Alice's sister deploys the workflow.
-4. Bob discovers the new workflow and execute it.
+4. Bob discovers the new workflow and executes it.
 
 The execution of workflow or an application on the EMS internally includes the following steps:
 
 [start=5]
-5. Discovery of the EO Image products using the catalogs gateway.
-6. Deployment on ADES
-7. Execution on ADES
+5. EO Image Discovery.
+6. Deployment on ADES.
+7. Execution on ADES.
 
-Note that the security and billing aspects are not covered as they belong to the scope of the D010 Engineering report. 
+Note that the security, quoting, and billing aspects are not covered here as they belong to the scope of the D010 Engineering Report. 
 
 === Sequence
 
-The sequence is shown on the diagram below:
+The sequence of operations is shown on the diagram below.
 
 image::testbed14-sequence.png[]
 
-The execution of the application (step 1') is not covered as the steps are strictly similar to the execution of the workflow.
+The execution of the application (step 1') is not covered explicitely as the steps (steps 5, 6 and 7) are similar to the execution of the workflow excepted that the EMS is only a broker in front of the ADES.
 
 === 1. Application deployment
 
 Alice developed an application identified as 'MultiSensorNDVI'. She wants to make this application available to the users of the Thematic Exploitation Platform.
 
-Using the EMS Client, Alice performs a Deployment request (step 1). The operation relies on the WPS Transactional REST/JSON interface specification, and the request message includes the following items:
+Using the EMS Client, Alice performs a Deployment request (step 1). The WPS-T REST HTTP POST operation path is _/processes_ , and the request message includes the following items:
 
-* The process offering: a standard (WPS) description of the application interface used by the client. In particular, it includes a project-specific flag (EOImage) for Earth Observation Image inputs, and it also references a CWL file providing information on the Docker image of the application. 
-* The execution unit: the application binaries, packages and resources which is, in this case, a reference to the Docker image.
-* The identifier of the profile (Dockerized application).
+* The Process Description: a standard (WPS) description of the application interface used by the client. In particular, it includes a project-specific flag (EOImage) for Earth Observation Image inputs, and it also references a CWL file providing information on the Docker image of the application. 
+* The Execution Unit: the application binaries, packages and resources which is, in this case, a reference to the Docker image.
+* The identifier of the Profile (in this case, a Dockerized application).
 
 [source,json]
 ----
@@ -47,7 +47,7 @@ Using the EMS Client, Alice performs a Deployment request (step 1). The operatio
                 "offering": {
                     "code": "http://www.opengis.net/eoc/applicationContext/cwl",
                     "content": {
-                        "href": "https://some-host/NDVIMultiSensor/NDVIMultiSensor.cwl"
+                        "href": "https://some-host/CWL/NDVIMultiSensor.cwl"
                     }
                 }
             },
@@ -109,7 +109,7 @@ Using the EMS Client, Alice performs a Deployment request (step 1). The operatio
 }
 ----
 
-The client then receives an acknowledgment of the successful deployment of the process.
+The client then receives an acknowledgment of the successful deployment of the process as illustrated below.
 
 [source,json]
 ----
@@ -134,7 +134,9 @@ The client then receives an acknowledgment of the successful deployment of the p
 === 2. Application discovery and workflow design
 
 Alice's sister is preparing a processing chain workflow. She first needs to discover the applications available on the Thematic Exploitation Platform (step 2). 
-The EMS Client can list the available processes using the _/processes_ REST path. The list includes a summary of the deployed processes.
+The EMS Client can list a summary of the available processes. 
+
+The WPS-T REST HTTP GET operation path is _/processes_ and the response is illustrated below.
 
 [source,json]
 ----
@@ -150,25 +152,30 @@ The EMS Client can list the available processes using the _/processes_ REST path
         "reference"
       ],
       "processDescriptionURL": "http://185.52.193.7/wps-proxy/processes/GeomatysNDVIMultiSensor"
-    }
+    },
+    {
+      "id": "NDVIStacker",
+[...]
   ]
 }
 ----
 
-The agreed language for the workflow is CWL. Therefore, for each application that Alice plans to include in the workflow, the CWL file of the application needs to be retrieved by the client using a description process operation. The document is retrieved by invoking the _/processes/${processId}_ REST path. The response includes the CWL reference which was provided in the OWS Context metadata during deployment.
+The chosen language for the workflow is CWL. Therefore, for each application that Alice plans to include, the CWL file of the application needs to be retrieved by the client using a description process operation.
+
+The WPS-T REST HTTP GET operation path is _/processes/{processId}_ and the response illustrated below includes the CWL reference which was provided in the OWS Context element during deployment.
 
 [source,json]
 ----
 {
   "process": {
-    "id": "GeomatysNDVIMultiSensor",
+    "id": "NDVIMultiSensor",
     "title": "NDVIMultiSensor",
     "abstract": "Normalized Difference Vegetation Index (NDVI) from an input list of satellite images.",
     "owsContext": {
       "offering": {
         "code": "http://www.opengis.net/eoc/applicationContext/cwl",
         "content": {
-          "href": "https://raw.githubusercontent.com/Geomatys/Testbed14/master/application-packages/NDVIMultiSensor/NDVIMultiSensor.cwl"
+          "href": "https://some-host/CWL/NDVIMultiSensor.cwl"
         }
       }
     },
@@ -184,21 +191,21 @@ The agreed language for the workflow is CWL. Therefore, for each application tha
 }
 ----
 
-Note that the input and output description parts have been removed from the example and will be covered in the workflow execution step (step 4).
+Note that the input and output description parts have been hidden from the example and will be covered in the workflow execution step (step 4).
 
-Alice's sister can compose her CWL workflow using her prefered CWL workflow designer tool and import the various applications CWL files for building the workflow steps.
+Alice's sister can compose her CWL workflow using her prefered CWL workflow designer tool (e.g. Rabix Composer) and import the various applications CWL files for building the workflow steps.
 
-Before deploying the generated workflow, it has been agreed for the run property of each workflow step that:
+Before deploying the workflow generated by the design tool, the run property must be verified to ensure that:
 
-* The CWL file name is equal to the WPS process identifier
-* The local file path is removed
-*
+* The CWL file path should be resticted to the file name.
+* The CWL file name must be to process identifier (defined in the WPS Process Description).
+
 
 [source,json]
 ----
    "steps":{  
       "myOwnStep":{  
-         "run":"GeomatysNDVIMultiSensor.cwl",
+         "run":"NDVIMultiSensor.cwl",
          "in":{  
             "files":"myWorkflowInput"
          },
@@ -212,19 +219,19 @@ Before deploying the generated workflow, it has been agreed for the run property
 
 === 3. Workflow Deployment
 
-Alice's sister composed the Multi Sensor NDVI Stacker processing chains. The chain performs a Multi Sensor NDVI processing on each of the 3 received EO Image inputs then Stack the generated outputs, as illustrated on the diagram below.
+Alice's sister composed the Multi Sensor NDVI Stack Generator processing chain. The chain performs a Multi Sensor NDVI processing on each of the 3 received EO Image inputs then Stack the generated outputs, as illustrated on the diagram below.
 
 image::multisensorNDVIworkflow.png[]
 
-Alice's sister prepares the Process Description for deploying the processing chain workflow, and use the client to perform the deployment request.
+Alice's sister prepares the WPS Process Description for deploying the processing chain workflow, and uses the client to perform the deployment request. The WPS-T REST HTTP POST operation path is _/processes_ and the request is shown below.
 
 [source,json]
 ----
 {
     "processDescription": {
         "process": {
-            "id": "MultiSensorNDVIStacker",
-            "title": "MultiSensorNDVIStacker",
+            "id": "MultiSensorNDVIStackGenerator",
+            "title": "MultiSensorNDVIStackGenerator",
             "abstract": "",
             "keywords": [],
             "inputs": [
@@ -285,27 +292,29 @@ Alice's sister prepares the Process Description for deploying the processing cha
     },
     "executionUnit": [
         {
-            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_2collections/multiSensorNDVIStacker_2collections-v4.cwl"
+            "href": "https://some-host/CWL/MultiSensorStackGenerator.cwl"
         }
     ],
     "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
 }
 ----
 
-The client receives a deployment confirmation message as already described earlier.
+The client receives a similar deployment confirmation message as described earlier.
 
 === 4. Workflow Execution
 
-Bob tries to discover the applications and workflows available on the Thematic Exploitation Platform in order to perform an execution (step 4). The EMS Client can list the available processes using the _/processes_ REST path as already mentioned earlier. The workflow description is retrieved by the EMS Client by invoking the _/processes/${processId}_ REST path.
+Bob tries to discover the applications and workflows available on the Thematic Exploitation Platform in order to perform an execution (step 4). The EMS Client can list the available processes using the _/processes_ REST path as already mentioned earlier.
 
-When a process (workflow or application) process description is requested by the EMS client, the returned document differs from the one that was submitted by Alice. Indeed, the description of EO Image input is replaced by fields required to perform a OpenSearch Catalog query. The EMS is responsible to retrieve the EO Image references by performing a Catalog search and pass the returned products URLs. Therefore, the process description returned by the EMS looks as illustrated below.
+When a WPS Process Description is requested by the EMS client, the returned document differs from the one that was submitted by Alice. Indeed, the description of EO Image input is replaced by fields required to perform a OpenSearch Catalog query. The EMS is responsible to retrieve the EO Image references by performing a Catalog search and pass the returned products URLs. Therefore, the process description returned by the EMS looks as illustrated below.
+
+The WPS-T REST HTTP GET operation path is _/processes/{processId}_ and the response is displayed below. In that example, the inputs _image-collection1_, _image-collection2_, and _image-collection3_ were replace by the fields os_aoi, os_startDate, os_endDate, and 3 other inputs for the collection identifier.
 
 [source,json]
 ----
 {
   "process": {
-    "id": "MultiSensorNDVIStacker",
-    "title": "MultiSensorNDVIStacker",
+    "id": "MultiSensorNDVIStackGenerator",
+    "title": "MultiSensorNDVIStackGenerator",
     "abstract": "",
     "owsContext": {
       "offering": {
@@ -344,9 +353,10 @@ When a process (workflow or application) process description is requested by the
  [...]
   }
 }
+
 ----
 
-Bob execute the workflow by submitting an execute request.
+Bob execute the workflow by submitting an execute request. The WPS-T REST HTTP POST operation path is _/processes/{processId}/jobs_
 
 [source,json]
 ----
@@ -364,7 +374,7 @@ Bob execute the workflow by submitting an execute request.
     },
     {
       "id": "os_collectionId_image-collection2",
-      "data": "DE2_PS3_L1C"
+      "data": "DE2_MS4_L1B"
     },
     {
       "id": "os_aoi",
@@ -388,7 +398,9 @@ Bob execute the workflow by submitting an execute request.
 }
 ----
 
-The execution is confirmed by an HTTP 201 response, and includes the status document URL in the "Location" HTTP header. The status document REST Path is build using /processes/_{processId}_/jobs/_{jobId}_. The status of the execution can be retrieve on this URL and shall be polled until the state is succeeded.
+The execution is confirmed by an HTTP 201 response code, and includes the status document URL in the "Location" HTTP header.
+
+ The WPS-T REST HTTP GET operation path is _/processes/_{processId}_/jobs/{jobId}_.  The status shall be polled until the state is succeeded (or failed) as shown below.
 
 [source,json]
 ----
@@ -399,7 +411,7 @@ The execution is confirmed by an HTTP 201 response, and includes the status docu
 }
 ----
 
-Once the process has finished, the result document can be retrieved using the REST path /processes/_{processId}_/jobs/_{jobId}_/result. Typically the result outputs are provided by reference to avoid retrieving files to the EMS between all the steps.
+For retrieving the Result document, the WPS-T REST HTTP GET operation path is _/processes/_{processId}_/jobs/{jobId}/result_. Typically the result outputs are provided by reference to avoid retrieving files to the EMS between all the steps.
 
 [source,json]
 ----
@@ -415,42 +427,46 @@ Once the process has finished, the result document can be retrieved using the RE
 ----
 
 
+=== 5. OpenSearch Catalog
 
-image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
+As mentioned above, EO Image inputs are replaced by OpenSearch query fields (collection identifier, area of interest and time of interest) which are used by the EMS for searching the products URLs upon a Catalog. 
+
+In the context of Testbed 14, the OpenSearch Gateway developed by Spacebel is based on the specification OGC OpenSearch Extension for Earth Observation 13-026r8. The Gateway is in front of the three MEP catalogs and is configured with the following collections:
+
+* EOP:IPT:Sentinel2
+* urn:ogc:def:EOP:VITO:PROBAV_P_V001
+* DE2_PS3_L1C
+* PROBAV_S1-TOA_1KM_V001
 
 
+The first steps for retrieving EO Image references is to search for the provided collection. The collection identifier is supplied in the WPS-T REST HTTP GET operation path _http://geo.spacebel.be/opensearch/request?uid={collectionId}_.
 
-=== 5. EMS Catalog Search
+The operation returns the list of collection entries matching with this collection identifier. For each entry, it includes a reference to the OpenSearch document that describes the collection search engine in atom:feed/atom:link[@rel=’search’][@type=‘application/opensearchdescription+xml‘].
 
-EMS internally performs the OpenSearch gateway search of products to retrieve the list of products URLs. The internal steps are provided below:
+The EMS then retrieves the OpenSearch Description Document (OSDD) for the requested collection. In the context of Testbed 14, the first step can be skipped, because the OSDD reference may be retrieved using the WPS-T REST HTTP GET operation path _http://geo.spacebel.be/opensearch/description.xml?parentIdentifier={collectionId}_.
 
-* The EMS retrievese OpenSearch Description Document (OSDD) for the requested collection:
-
-....
-  curl -X GET \
-       -i "http://geo.spacebel.be/opensearch/description.xml?parentIdentifier=COLLECTION_ID" \
-....
-
-The returned document (https://raw.githubusercontent.com/spacebel/testbed14/master/OpenSearch_SSARA_OSDD.xml[Catalog SSARA Collection OSDD]) includes the Dataset Search request template for the desired response format (i.e. atom/xml):
+The Collection OSDD document defines in particular the search template for the product query request in atom:entry/atom:link[@rel=’search’] with @type=’application/atom+xml’, as illustrated below.
 
 [source,xml]
 ----
 <Url indexOffset="1" pageOffset="1" rel="results" template="http://geo.spacebel.be/opensearch/request?httpAccept=application%2Fatom%2Bxml&amp;parentIdentifier=EOP:SSARA&amp;query={searchTerms?}&amp;startDate={time:start?}&amp;endDate={time:end?}&amp;geometry={geo:geometry?}&amp;platform={eo:platform?}&amp;orbitNumber={eo:orbitNumber?}&amp;frame={eo:frame?}&amp;sensorMode={eo:sensorMode?}&amp;swathIdentifier={eo:swathIdentifier?}&amp;orbitDirection={eo:orbitDirection?}&amp;antennaLookDirection={eo:antennaLookDirection?}&amp;polarisationChannels={eo:polarisationChannels?}&amp;processingLevel={eo:processingLevel?}&amp;maximumRecords={count?}&amp;uid={geo:uid?}&amp;name={geo:name?}&amp;lat={geo:lat?}&amp;lon={geo:lon?}&amp;radius={geo:radius?}&amp;recordSchema={sru:recordSchema?}&amp;bbox={geo:box?}&amp;startRecord={startIndex?}&amp;strict=true" type="application/atom+xml">		
 ----
 
-* The EMS builds the URL request from the template by replacing the following parameter codes:
-** geo:box : AOI
-** time:start : TOI start date
-** time:end : TOI end date
+The EMS builds the product search request path from the template by setting null values for unused fields and by setting the following parameter values:
+
+* geo:box : AOI
+* time:start : TOI start date
+* time:end : TOI end date
+
+The WPS-T REST HTTP GET operation path may look similar to
 
 ....
-  curl -X GET \
-       -i "http://geo.spacebel.be/opensearch/request?parentIdentifier=COLLECTION_OD&startDate=TOI_START&endDate=TOI_END&bbox=AOI]&httpAccept=application/atom%2Bxml \
+http://geo.spacebel.be/opensearch/request?parentIdentifier={collectionId}&startDate={toi_start}&endDate={toi_end}&bbox={aoi}&httpAccept=application/atom%2Bxml
 ....
 
-* The returned document (https://raw.githubusercontent.com/spacebel/testbed14/master/OpenSearch_Dataset_Search.xml[OpenSearch Dataset Search]) is a list of entries that include:
-** The link to the products (with @rel = 'enclosure')
-** The associated WPS endpoint
+Finally, the returned document is a list of entries that include as shown below:
+* The link to the products: in atom:entry/atom:link[@rel=`enclosure`]
+* The associated WPS endpoint: in atom:entry/owc:offering/owc:operation[@code=`Execute`]/@href
 
 [source,xml]
 ----
@@ -460,14 +476,14 @@ The returned document (https://raw.githubusercontent.com/spacebel/testbed14/mast
 </owc:offering> 
 ---- 
 
-* EMS decision: based on the response, the EMS is able to define the relevant ADES (based on the OWS Context attribute) and to build the image input (list).
+The execution of the WPS Process pointed by the workflow step that consumes the EO Image needs to be performed on the MEP ADES associated with the EO Image. This ensures that the Process will be executed close to the EO Image data location. 
 
 
 === 5. EMS Deployment on ADES
 
-EMS deploys the Application(s). The deployment request is based strictly on the document (JSON or XML) provided on step 1. However, as agreed, it also embbeds in the Process Offering the information from the CWL (in ows:AdditionalParameters element).
+EMS deploys the Application(s). The deployment request is based  on the document provided on step 1 by Alice. It also embbeds in the Process Description (inside the ows:AdditionalParameters element) the information provided by the CWL file. Note that this duplicates the information in the request, but this agreement was adopted as a compromise between the different implementation approaches.
 
-The Deploy Request becomes: 
+The MultiSensorNDVI deployment request sent to the ADES is shown below. 
 
 [source,json]
 ----
@@ -484,7 +500,7 @@ The Deploy Request becomes:
                 "offering": {
                     "code": "http://www.opengis.net/eoc/applicationContext/cwl",
                     "content": {
-                        "href": "http://some.host/applications/cwl/multisensorNDVI.cwl"
+                        "href": "http://some.host/CWL/MultiSensorNDVI.cwl"
                     }
                 }
             },
@@ -532,75 +548,7 @@ The Deploy Request becomes:
                         }
                     }
                 },
-                {
-                    "id": "inputParameter",
-                    "title": "Sample Parameter",
-                    "abstract": "Sample Parameter (for demo purpose)",
-                    "formats": [
-                        {
-                            "mimeType": "text/plain",
-                            "default": true
-                        }
-                    ],
-                    "minOccurs": 1,
-                    "maxOccurs": 1,
-                    "LiteralDataDomain": {
-                        "dataType": "String"
-                    },
-                    "additionalParameters": [
-                        {
-                            "role": "http://www.opengis.net/eoc/applicationContext/cwl",
-                            "parameters": [
-                                {
-                                    "name": "position",
-                                    "value": "1"
-                                },
-                                {
-                                    "name": "prefix",
-                                    "value": "parameter"
-                                },
-                                {
-                                    "name": "separate",
-                                    "value": "false"
-                                },
-                                {
-                                    "name": "itemSeparator",
-                                    "value": "="
-                                }
-                            ]
-                        }
-                    ],
-                    "owsContext": {
-                        "offering": {
-                            "code": "anyCode",
-                            "content": {
-                                "href": "anyRef"
-                            }
-                        }
-                    }
-                }        
-            ],
-            "outputs": [
-                {
-                    "id": "ndviOut",
-                    "title": "NDVI output file",
-                    "formats": [
-                        {
-                            "mimeType": "application/octet-stream",
-                            "default": true
-                        }
-                    ]
-                }
-            ],
-            "version": "1.0.0",
-            "jobControlOptions": [
-                "async-execute"
-            ],
-            "outputTransmission": [
-                "reference"
-            ]
-        }
-    },
+[...]    },
     "deploymentProfile": {
         "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication",
         "executionUnit": {
@@ -610,10 +558,9 @@ The Deploy Request becomes:
 }
 ----
 
-* EMS sends a deploy request to ADES for "MultiSensorNDVI" on behalf of Bob
-* ADES checks from the Access Token that the requester has rights to deploy the process
-* ADES deploys process and returns a successful acknowledgment to EMS
+The client receives a similar deployment confirmation message as described earlier.
 
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/France_road_sign_AB4.svg/375px-France_road_sign_AB4.svg.png[Stop]
 === 6. EMS Execution on ADES
 
 * EMS sends an execute request to ADES "MultiSensorNDVI" process on behalf of Bob with Bob input parameters and the Catalog search results products.
