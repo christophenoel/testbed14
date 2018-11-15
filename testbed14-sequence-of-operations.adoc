@@ -602,4 +602,13 @@ The execution of the docker container is performed using CWL-runner which interp
 
 == EMS Implementation
 
+The ADES implementation is based on the 52° North WPS 2.0 Java implementation and on the Spacebel WPS transactional extension which provide a XML interface. The XML interface is brokered by a WPS REST JSON proxy based on Java JAX-RS server stub generated from the OA3S specification with Swagger CodeGen
+
+The execution of the workflow is performed using CWL-runner. 
+
+The CWL workflow steps perform runs of Docker containers while the EMS shall invoke the appropriate ADES to execute the processes. Instead of tailoring cwl-runner, Spacebel approach consist in rewriting the workflow steps to match the desired behaviour.
+
+For each workflow step, the appropriate target ADES is computed depending on its inputs, and a command line step is created for starting a WPS commmand-line client and perform the execute request.
+
+
 === Spacebel
