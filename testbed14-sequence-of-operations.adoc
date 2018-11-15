@@ -400,7 +400,7 @@ Bob execute the workflow by submitting an execute request. The WPS-T REST HTTP P
 
 The execution is confirmed by an HTTP 201 response code, and includes the status document URL in the "Location" HTTP header.
 
- The WPS-T REST HTTP GET operation path is _/processes/_{processId}_/jobs/{jobId}_.  The status shall be polled until the state is succeeded (or failed) as shown below.
+The WPS-T REST HTTP GET operation path is _/processes/_{processId}_/jobs/{jobId}_.  The status shall be polled until the state is succeeded (or failed) as shown below.
 
 [source,json]
 ----
@@ -432,14 +432,15 @@ The approaches for performing a workflow or an application execution are specifi
 
 ==== OpenSearch Catalog (Step 5)
 
-As mentioned above, the EMS replaces the EO Image inputs with OpenSearch query fields (collection identifier, area of interest and time of interest). They are used by the EMS for searching the products URLs on the Gateway. The Gateway is based on the  OGC OpenSearch Extension for Earth Observation specification (13-026r8).
+As mentioned above, the EMS replaces the EO Image inputs with OpenSearch query fields (collection identifier, area of interest and time of interest). They are used by the EMS for searching the products URLs on the Gateway. The Gateway is based on the  OGC OpenSearch Extension for Earth Observation specification (OGC 13-026r8) and OpenSearch Geo and Time Extensions (OGC 13-032r8).
 
 In the context of Testbed 14, the OpenSearch Gateway developed by Spacebel is in front of the three MEP catalogs and is configured with the following collections:
 
 * EOP:IPT:Sentinel2
 * urn:ogc:def:EOP:VITO:PROBAV_P_V001
-* DE2_PS3_L1C
 * PROBAV_S1-TOA_1KM_V001
+* DE2_PS3_L1C
+
 
 
 The first steps for retrieving EO Image references is to search for the provided collection. The collection identifier is supplied in the WPS-T REST HTTP GET operation path _http://geo.spacebel.be/opensearch/request?uid={collectionId}_.
@@ -461,21 +462,18 @@ The EMS builds the product search request path from the template by setting null
 * time:start : TOI start date
 * time:end : TOI end date
 
-The WPS-T REST HTTP GET operation path may look similar to
-
-....
-http://geo.spacebel.be/opensearch/request?parentIdentifier={collectionId}&startDate={toi_start}&endDate={toi_end}&bbox={aoi}&httpAccept=application/atom%2Bxml
-....
+The WPS-T REST HTTP GET operation path may look similar to http://geo.spacebel.be/opensearch/request?parentIdentifier={collectionId}&startDate={toi_start}&endDate={toi_end}&bbox={aoi}&httpAccept=application/atom%2Bxml
 
 Finally, the returned document is a list of entries that include as shown below:
+
 * The link to the products: in atom:entry/atom:link[@rel=`enclosure`]
 * The associated WPS endpoint: in atom:entry/owc:offering/owc:operation[@code=`Execute`]/@href
 
 [source,xml]
 ----
-<link href="http://landsat-ds.eo.esa.int/products/LANDSAT_ETM/2000/01/23/LS07_RMPS_ETM_GTC_1P_20000123T111514_20000123T111543_004119_0205_0038_EBB6.ZIP" rel="enclosure" title="Download" type="application/x-binary"/>
+<link href=""http://185.48.233.249/Sentinel-2/MSI/L1C/2018/01/30/S2B_MSIL1C_20180130T034959_N0206_R104_T47PPT_20180130T064159.SAFE" rel="enclosure" title="Download" type="application/x-binary"/>
 <owc:offering code="http://www.opengis.net/spec/owc-atom/1.0/req/wps">
-			<owc:operation method="GET" code="Execute" type="application/xml" href="http://wps-domain/WPS/endpoint"/>
+    <owc:operation method="GET" code="Execute" type="application/xml" href="http://wps-domain/WPS/endpoint"/>
 </owc:offering> 
 ---- 
 
@@ -484,7 +482,7 @@ The execution of the WPS Process pointed by the workflow step that consumes the 
 
 === EMS Deployment on ADES (Step 6)
 
-The EMS needs to deploy the Application(s) before starting the execution. The deployment request is based  on the document provided on step 1 by Alice. It also embbeds in the Process Description (inside the ows:AdditionalParameters element) the information provided by the CWL file. Note that this duplicates the information in the request, but this agreement was adopted as a compromise between the different implementation approaches.
+The EMS needs to deploy the Application(s) before starting the execution. The deployment request is based  on the document provided on step 1 by Alice. It also embbeds in the Process Description the information provided by the CWL file inside the additionalParameters element. Note that this duplicates the information in the request, but this agreement was adopted as a compromise between the different implementation approaches.
 
 The MultiSensorNDVI deployment request sent to the ADES is shown below. 
 
@@ -597,6 +595,10 @@ The request in JSON:
 == ADES Implementation
 
 === Spacebel
+
+The ADES implementation is based on the 52° North WPS 2.0 Java implementation and on the Spacebel WPS transactional extension which provide a XML interface. The XML interface is brokered by a WPS REST JSON proxy based on Java JAX-RS server stub generated from the OA3S specification with Swagger CodeGen
+
+The execution of the docker container is performed using CWL-runner which interprets the CWL file provided during the application deployment. The input files are downloaded (and renamed to avoid filename collisions) on the ADES file system.
 
 == EMS Implementation
 
