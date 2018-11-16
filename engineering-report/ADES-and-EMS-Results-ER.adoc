@@ -628,10 +628,12 @@ Spacebel ADES has been deployed on IPT Poland cloud and on PFC boreal cloud.
 The OpenSearch specification provide a pagination mechanism for listing search results. For the purpose of Testbed, some EMS implementations do not support the pagination and retrieve results from the first result page which is limited to 50 entries on the Spacebel Gateway. In operational contexts, the pagination would have to be addressed.
 
 === 10.2. Handling Complexity of OpenSearch
-
+(ok)
 === 10.5 WPS Transactional specification
 
+Spacebel has submitted a set of corrections to the WPS Transactional draft implemented in the context of the Testbed 14 NextGen thread. It has bee agreed to base the WPS Transactional JSON API on this specification.
 
+There are still some minor elements that have been noticed as ambiguous, they will be reported to the WPS SWG.
 
 === 10.6. WPS and WPS-T REST/JSON API
 
@@ -682,10 +684,7 @@ During the Testbed 14 project, the need for providing additional restriction was
 In the future work, it is recommended to provide for such input a reference to the format definition in the metadata fields.
 
 
-
-
-
-=== 10.x Multiple Outputs
+==== 10.x Multiple Outputs
 
 The output of an application or script may be a set of files. The WPS specification states the following:  “Processes, as well as their inputs and outputs, are elements with identity. A process input may have arbitrarily defined value cardinality, i.e. for a given input, multiple datasets may be submitted for execution. A process output always has a value cardinality of one”. Therefore, the question is how to return array of files in a WPS response.
 
