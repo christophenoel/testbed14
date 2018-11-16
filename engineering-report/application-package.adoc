@@ -15,11 +15,11 @@ Atom feed standardize lists of Web content in a machine-readable format in order
 
 These two formats may certainly contribute to some Web Processing Service operations aspects, but appear to be absolutely inappropriate for addressing the real concerns of deploying an application: providing the program interface description in a standard way, and providing the program binaries and libraries. By the way, WPS Transaction also allows to embed OWC Context
 
-The WPS Transactional defines the Application Package as follows:
+The WPS Transactional specification defines the structure of the Application Package as follows:
 
 * A list of Execution Unit: the application and the specific characteristics of this application.
-* An optional Process Description: information for client-side purpose describing the process interface (inputs) and any relevant contextual information (e.g. Catalog research context for a specific input). Note that specification provides flexibility and the Process Description may also contains sometimes execution related content which is useful to share with the client.
+* An optional Process Description: information for client-side purpose which describes the process interface (inputs) and any relevant contextual information (e.g. Catalog research context for a specific input). 
 
-Each item may be provided by reference or raw in the package.
+Each item may be provided by reference or raw in the package. Note that Transactional specification provides flexibility and the Process Description may also contains sometimes execution related content which is useful to share with the client. 
 
 In the context of Testbed 14, the execution Unit for the Workflow Package is a CWL (document describing computational data-analysis workflows using a standard language). For the Application Package, the unit is Docker image (reference).
