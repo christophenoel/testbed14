@@ -1,16 +1,3 @@
-
-
-== Application Package
-
-1a. Execution Unit: The whole Application binaries, packages and resources (e.g. JAR, BPEL, config files, etc.) or a reference to it (e.g. the Docker image reference in Testbed13)
-
-1b. Invocation Description: when the nature of the Applications allows multiple conventions for executing it (e.g. Docker allows passing inputs using parameters, environment variables, provision files, etc.) then the precise execution method should be specified.
-
-Process Description: Information for client-side purpose describing the process interface (inputs) and any relevant contextual information (e.g. Catalog research context for a specific input). Typically, this information is hold in a WPS Process Description and discovered through a DescribeProcess operation.
-
-
-Discuss the content of the Application and Workflow package.
-
 == Application Package - Abstract definition
 
 The Application Package has been introduced in OGC Testbed 13 Technical Architecture (PDGS-EVOL-CGI-TN-16/1570) as a package that includes "an already developed application", and "settings for its execution", and which is "deployed on the Thematic Exploitation Platform" for "future execution".
