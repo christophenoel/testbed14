@@ -636,9 +636,9 @@ The OpenSearch specification provide a pagination mechanism for listing search r
 === 10.6. WPS and WPS-T REST/JSON API
 
 
-*Comment (to not include)*: 
+*Comment (not to include)*: 
 _I disagree with the suggestion of using 202 Accepted for the Execute operation. 201 means the resource has been created. The fact that the implementation uses a queue is an implementation detail, and whatever happens the WPS really perform the execution of the requests (which possibly fails), and creates the resource (assigned a job identifier to it). This confirmed by the returned resource (status info) in in the Location Header of the response._
-= Comment Stop
+*Comment end*
 
 Generally speaking, the WPS REST/JSON API draft submitted by the SWG sometimes explores contradictory guidance: from a side, it distances from the XML schemas, loosing a strict analogy with the specification. On the other side, the liberties taken for applying the REST principles fail to meet the target.
 
@@ -648,4 +648,30 @@ The following comments should be considered to improve the future versions of th
 * The REST API should not loose any specification element if there are no reasons to remove it. A lot of XML elements have not been carried in the JSON API.
 * OpenAPI 3.0 specification is a flexible approach for defining APIs, but the flexibility may lead to the complexity in being supported by some languages. In the WPS JSON API, some XML wrapping elements (e.g. wps:LiteralData and wps:ComplexData, wps:LiteralDataDomain) have been removed for wrong reasons and code generators (e.g. Swagger CodeGen) fail to generate the models (e.g. in Java) because the model misses a needed discriminator and the parsing is ambiguous. Concretely, it is recommended to use the same wrappers as XML in particular when the API defines oneOf, anyOf, and allOf, and also to avoid tiered constructs of these elements.
 * The SWG WPS JSON API has been extended to transactional and a set of issues have been fixed and will be reported to the SWG.
+
+== WPS JSON bindings
+
+Issues:
+- missing discriminators
+- nesting of groups(anyOf, oneOf) definitions issues
+- our corrections
+
+== OpenSearch Gateway
+process
+
+== Filename, extensions and mime Types
+
+== Raw file or reference for inputs / outputs
+
+== Multiple Outputs
+
+The output of an application or script may be a set of files. The WPS specification states the following:  “Processes, as well as their inputs and outputs, are elements with identity. A process input may have arbitrarily defined value cardinality, i.e. for a given input, multiple datasets may be submitted for execution. A process output always has a value cardinality of one”. Therefore, the question is how to return array of files in a WPS response.
+
+The case typically happens when an application receives multiple files as input and applies the same treatment on each of the file. Various approaches have been considered to handle this case:
+
+* Generating multiple files in a single WPS process execution may be considered as a bad practice. Indeed, the WPS client (or the EMS workflow engine) should be seen as the orchestrator and should only manage the scheduling of atomic operations, which means individual executions for each input file.
+* Process returning multiple files may also define a return format (e.g. zip) that allows to return a single file as output. For large file, this may lead time resource and time consuming task when it comes to archive or unarchivee the files.
+* Repeating the outputs with an identical identifier in the execution response would be not compliant to the WPS specification and causing response parsing issue on some implementations.
+* The use of a Metalink file is recommended as this allows flexibility. However, this requires the parsing of such file by the client.
+* Multipart/mixed content in an HTTP server response is only supported by few browsers but may be implemented by the WPS client. The task of providing downloadable URLs would be then relegated to the client.
 
