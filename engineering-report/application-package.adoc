@@ -1,6 +1,6 @@
 == Application Package - Abstract definition
 
-The Application Package has been introduced in OGC Testbed 13 Technical Architecture (PDGS-EVOL-CGI-TN-16/1570) as a package that includes "an already developed application", and "settings for its execution", and which is "deployed on the Thematic Exploitation Platform" for "future execution".
+The Application Package definition has been introduced in OGC Testbed 13 Technical Architecture (PDGS-EVOL-CGI-TN-16/1570) as a package that includes "an already developed application", and "settings for its execution", and which is "deployed on the Thematic Exploitation Platform" for "future execution".
 
 With the experience of Testbed 14, an application package should be defined for each kind of process (BPEL workflow, Docker container, Java library,etc.) and shall include:
 
