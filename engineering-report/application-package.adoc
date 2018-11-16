@@ -1,0 +1,38 @@
+
+
+== Application Package
+
+1a. Execution Unit: The whole Application binaries, packages and resources (e.g. JAR, BPEL, config files, etc.) or a reference to it (e.g. the Docker image reference in Testbed13)
+
+1b. Invocation Description: when the nature of the Applications allows multiple conventions for executing it (e.g. Docker allows passing inputs using parameters, environment variables, provision files, etc.) then the precise execution method should be specified.
+
+Process Description: Information for client-side purpose describing the process interface (inputs) and any relevant contextual information (e.g. Catalog research context for a specific input). Typically, this information is hold in a WPS Process Description and discovered through a DescribeProcess operation.
+
+
+Discuss the content of the Application and Workflow package.
+
+== Application Package - Abstract definition
+
+The Application Package has been introduced in OGC Testbed 13 Technical Architecture (PDGS-EVOL-CGI-TN-16/1570) as a package that includes "an already developed application", and "settings for its execution", and which is "deployed on the Thematic Exploitation Platform" for "future execution".
+
+With the experience of Testbed 14, an application package should be defined for each kind of process (BPEL workflow, Docker container, Java library,etc.) and shall include:
+
+1. Some application units which consist of the whole application scripts, binaries, libraries, settings and resources.
+2. A description of the specific characteristics of this application, i.e. the interface inputs and outputs or any feature which is not systematic for this application package type. Note that, the inputs and outputs interface are not necessarily needed if the description can be automatically inferred from the application units.
+
+== Application Package - WPS Transactional definition.
+
+In Testbed 14, the deployment package format defined in the WPS Transactional specification has been prefered to the Atom + OWC format of Testbed 13. Indeed, WPS Transactional specification intends explicitely to handle deployment of applications, while Atom and OWS context are not targeted at all to this end.
+
+Atom feed standardize lists of Web content in a machine-readable format in order to share frequent updates. A large set of tools provide great features for this format (as demonstrated during the Hackaton). On the other hand, OWC context (originally forked on Web Map Context) aims at sharing configured information resources (service set). 
+
+These two formats may certainly contribute to some Web Processing Service operations aspects, but appear to be absolutely inappropriate for addressing the real concerns of deploying an application: providing the program interface description in a standard way, and providing the program binaries and libraries. By the way, WPS Transaction also allows to embed OWC Context
+
+The WPS Transactional defines the Application Package as follows:
+
+* A list of Execution Unit: the application and the specific characteristics of this application.
+* An optional Process Description: information for client-side purpose describing the process interface (inputs) and any relevant contextual information (e.g. Catalog research context for a specific input). Note that specification provides flexibility and the Process Description may also contains sometimes execution related content which is useful to share with the client.
+
+Each item may be provided by reference or raw in the package.
+
+In the context of Testbed 14, the execution Unit for the Workflow Package is a CWL (document describing computational data-analysis workflows using a standard language). For the Application Package, the unit is Docker image (reference).
