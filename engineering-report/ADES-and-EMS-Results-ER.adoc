@@ -593,6 +593,8 @@ The request in JSON:
 
 == Chapter 8. Execution Management Service
 
+=== 8.1 Spacebel
+
 The EMS implementation is based on the 52° North WPS 2.0 Java implementation and on the Spacebel WPS transactional extension which provide a XML interface. The XML interface is brokered by a proxy based on Java JAX-RS server stub generated from the WPS-T REST/JSON OA3S specification with Swagger CodeGen.
 
 The proxy does not support the Get Jobs operation. That operation was proposed in the SWG WPS REST/JSON draft, but is not compliant with the WPS 2.0 official specification, so it cannot be supported when using a JSON proxy on frontend.
@@ -607,8 +609,6 @@ Spacebel EMS has been deployed on Google Cloud Platform.
 
 Due to the lack of time, the quotation and billing operations have not been implemented.
 
-=== 8.1 Spacebel
-
 == Chapter 9. ADES Implementation
 
 === 9.1 Spacebel
@@ -621,4 +621,13 @@ The execution of the Docker container is performed using CWL-runner which interp
 
 Spacebel ADES has been deployed on IPT Poland cloud and on PFC boreal cloud.
 
-=== Chapter 10. Issues of Interest
+== Chapter 10. Issues of Interest
+
+=== 10.1. OpenSearch results pagination
+
+The OpenSearch specification provide a pagination mechanism for listing search results. For the purpose of Testbed, some EMS implementations do not support the pagination and retrieve results from the first result page which is limited to 50 entries on the Spacebel Gateway. In operational contexts, the pagination would have to be addressed.
+
+=== 10.2. Handling Complexity of OpenSearch
+
+=== 10.3. 
+
