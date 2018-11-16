@@ -652,14 +652,14 @@ The following comments should be considered to improve the future versions of th
 * The SWG WPS JSON API has been extended to transactional and a set of issues have been fixed and will be reported to the SWG.
 
 
-=== 10.x File format, name and extension
+=== 10.7 File format, name and extension
 
 During the Testbed 14 project, it has appeared that some applications require that the input files meet some specific criteria:
 
 * A particular file name or file extension should be used.
 * A specific format which is more specific that a usual mime type.
 
-==== Filename and extension
+==== 10.7.1 Filename and extension
 
 Sometimes applications expect a particular file name (and extension) and the WPS should not break the original name. Multiple means are available to determine the file name, and Spacebel has applied the following procedure if the input is provided by reference (URL):
 
@@ -675,7 +675,7 @@ Additionally, the output of process executions are potentially consumed as input
 1. The steps of the workflow request outputs of WPS process executions by reference.
 2. In the output resource HTTP response, the WPS returns a Content-Disposition HTTP header with the original output file name.
 
-==== Specific format
+==== 10.7.2 Specific format
 
 The process input and output descriptions intends to indicate to the client the formats accepted by the process. The information about the format is limited to the mime type, and additional restrictions can be provided in metadata fields.
 
@@ -684,7 +684,7 @@ During the Testbed 14 project, the need for providing additional restriction was
 In the future work, it is recommended to provide for such input a reference to the format definition in the metadata fields.
 
 
-==== 10.x Multiple Outputs
+==== 10.8 Multiple Outputs
 
 The output of an application or script may be a set of files. The WPS specification states the following:  “Processes, as well as their inputs and outputs, are elements with identity. A process input may have arbitrarily defined value cardinality, i.e. for a given input, multiple datasets may be submitted for execution. A process output always has a value cardinality of one”. Therefore, the question is how to return array of files in a WPS response.
 
