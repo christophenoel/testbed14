@@ -649,21 +649,43 @@ The following comments should be considered to improve the future versions of th
 * OpenAPI 3.0 specification is a flexible approach for defining APIs, but the flexibility may lead to the complexity in being supported by some languages. In the WPS JSON API, some XML wrapping elements (e.g. wps:LiteralData and wps:ComplexData, wps:LiteralDataDomain) have been removed for wrong reasons and code generators (e.g. Swagger CodeGen) fail to generate the models (e.g. in Java) because the model misses a needed discriminator and the parsing is ambiguous. Concretely, it is recommended to use the same wrappers as XML in particular when the API defines oneOf, anyOf, and allOf, and also to avoid tiered constructs of these elements.
 * The SWG WPS JSON API has been extended to transactional and a set of issues have been fixed and will be reported to the SWG.
 
-== WPS JSON bindings
 
-Issues:
-- missing discriminators
-- nesting of groups(anyOf, oneOf) definitions issues
-- our corrections
+=== 10.x File format, name and extension
 
-== OpenSearch Gateway
-process
+During the Testbed 14 project, it has appeared that some applications require that the input files meet some specific criteria:
 
-== Filename, extensions and mime Types
+* A particular file name or file extension should be used.
+* A specific format which is more specific that a usual mime type.
 
-== Raw file or reference for inputs / outputs
+==== Filename and extension
 
-== Multiple Outputs
+Sometimes applications expect a particular file name (and extension) and the WPS should not break the original name. Multiple means are available to determine the file name, and Spacebel has applied the following procedure if the input is provided by reference (URL):
+
+1. Use the HTTP (non-standard) header "Content-disposition" (mean for the origin server to suggest a default filename) if available.
+2. Use the URL filename, and URL extension if present.
+3. Use the URL filename, and the execution request mime type attribute if provided.
+4. Use the URL filename, and the default mime type of the process description in other case.
+
+The WPS needs to stage in the file with the discovered file name for sharing it with the containerized backend application. Due attention must be paid to avoid filename collision for multiple inputs (e.g. by storing files in distinct directories).
+
+Additionally, the output of process executions are potentially consumed as input by succeeding workflow steps. Therefore, preserving the application output file name is supported by the corollary assumptions:
+
+1. The steps of the workflow request outputs of WPS process executions by reference.
+2. In the output resource HTTP response, the WPS returns a Content-Disposition HTTP header with the original output file name.
+
+==== Specific format
+
+The process input and output descriptions intends to indicate to the client the formats accepted by the process. The information about the format is limited to the mime type, and additional restrictions can be provided in metadata fields.
+
+During the Testbed 14 project, the need for providing additional restriction was highlighted, in particular concerning EO Image input which may be only accepted if the format is the original Sentinel-2 package rather than a variation of this format, or even a format of another satellite (e.g. Landsat-8).
+
+In the future work, it is recommended to provide for such input a reference to the format definition in the metadata fields.
+
+
+
+
+
+=== 10.x Multiple Outputs
 
 The output of an application or script may be a set of files. The WPS specification states the following:  “Processes, as well as their inputs and outputs, are elements with identity. A process input may have arbitrarily defined value cardinality, i.e. for a given input, multiple datasets may be submitted for execution. A process output always has a value cardinality of one”. Therefore, the question is how to return array of files in a WPS response.
 
