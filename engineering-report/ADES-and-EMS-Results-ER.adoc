@@ -684,7 +684,7 @@ During the Testbed 14 project, the need for providing additional restriction was
 In the future work, it is recommended to provide for such input a reference to the format definition in the metadata fields.
 
 
-==== 10.8 Multiple Outputs
+=== 10.8 Multiple Outputs
 
 The output of an application or script may be a set of files. The WPS specification states the following:  “Processes, as well as their inputs and outputs, are elements with identity. A process input may have arbitrarily defined value cardinality, i.e. for a given input, multiple datasets may be submitted for execution. A process output always has a value cardinality of one”. Therefore, the question is how to return array of files in a WPS response.
 
