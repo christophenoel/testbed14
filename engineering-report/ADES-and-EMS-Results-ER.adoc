@@ -635,9 +635,10 @@ The OpenSearch specification provide a pagination mechanism for listing search r
 
 === 10.6. WPS and WPS-T REST/JSON API
 
-*Comment (to not include)*: 
-_I disagree with the suggestion of using 202 Accepted for the Execute operation. 201 means the resource has been created. The fact that the implementation uses a queue is an implementation detail, and whatever happens the WPS really perform an execution, created the resource (assigned a job identifier to it). This confirmed by the returned resource (status info) in in the Location Header of the response._
 
+*Comment (to not include)*: 
+_I disagree with the suggestion of using 202 Accepted for the Execute operation. 201 means the resource has been created. The fact that the implementation uses a queue is an implementation detail, and whatever happens the WPS really perform the execution of the requests (which possibly fails), and creates the resource (assigned a job identifier to it). This confirmed by the returned resource (status info) in in the Location Header of the response._
+= Comment Stop
 
 Generally speaking, the WPS REST/JSON API draft submitted by the SWG sometimes explores contradictory guidance: from a side, it distances from the XML schemas, loosing a strict analogy with the specification. On the other side, the liberties taken for applying the REST principles fail to meet the target.
 
