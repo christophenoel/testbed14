@@ -1875,8 +1875,8 @@ tags:
   - name: Processes
     description: Access to processes.
 servers:
-  - description: Google Relative WPS 80
-    url: '/wps-proxy'
+  - description: boreal
+    url: 'https://borealweb.nfis.org/wps-proxy'
   - description: Google ADES WPS 80
     url: 'http://35.187.26.24/wps-proxy'
   - description: Google EMS WPS 80
