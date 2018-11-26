@@ -1,0 +1,61 @@
+<DeployProcess xmlns="http://www.opengis.net/wps/2.0" xmlns:xlin="http://www.w3.org/1999/xlink">
+  <ProcessDescription>
+    <ProcessOffering jobControlOptions="async-execute" outputTransmission="reference" processVersion="1.0.0" xmlns:ns="http://www.opengis.net/ows/2.0" xmlns:ns1="http://www.opengis.net/owc/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://www.opengis.net/wps/2.0">
+      <ns2:Process>
+        <ns:Title>SPBCRIMStacker</ns:Title>
+        <ns:Abstract/>
+        <ns:Keywords/>
+        <ns:Identifier>SPBCRIMStacker</ns:Identifier>
+        <ns:Metadata xlin:href="https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/Stacker/Stacker.cwl" xlin:role="http://www.opengis.net/eoc/applicationContext/cwl"/>
+        <ns:Metadata xlin:role="http://www.opengis.net/eoc/applicationContext/cwl">
+          <ns1:offering code="http://www.opengis.net/eoc/applicationContext/cwl">
+            <ns1:content href="https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/Stacker/Stacker.cwl"/>
+          </ns1:offering>
+        </ns:Metadata>
+        <ns:Metadata xlin:role="http://www.opengis.net/eoc/applicationContext/docker" xlin:href="docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.7"/>
+        <ns2:Input maxOccurs="unbounded" minOccurs="1">
+          <ns:Title>Input Image</ns:Title>
+          <ns:Identifier>files</ns:Identifier>
+          <ns2:ComplexData>
+            <ns2:Format default="true" mimeType="application/zip"/>
+          </ns2:ComplexData>
+          <ns:AdditionalParameters xlin:role="http://www.opengis.net/eoc/applicationContext/inputMetadata">
+            <ns:AdditionalParameter>
+              <ns:Name>EOImage</ns:Name>
+              <ns:Value xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">true</ns:Value>
+            </ns:AdditionalParameter>
+          </ns:AdditionalParameters>
+          <ns:AdditionalParameters xlin:role="http://www.opengis.net/eoc/inputBinding">
+            <ns:AdditionalParameter>
+              <ns:Name>position</ns:Name>
+              <ns:Value xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">1</ns:Value>
+            </ns:AdditionalParameter>
+            <ns:AdditionalParameter>
+              <ns:Name>prefix</ns:Name>
+              <ns:Value xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">-Pfiles=</ns:Value>
+            </ns:AdditionalParameter>
+            <ns:AdditionalParameter>
+              <ns:Name>separate</ns:Name>
+              <ns:Value xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">,</ns:Value>
+            </ns:AdditionalParameter>
+            <ns:AdditionalParameter>
+              <ns:Name>itemSeparator</ns:Name>
+              <ns:Value xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">false</ns:Value>
+            </ns:AdditionalParameter>
+          </ns:AdditionalParameters>
+        </ns2:Input>
+        <ns2:Output>
+          <ns:Title>Stacked Image</ns:Title>
+          <ns:Identifier>output</ns:Identifier>
+          <ns2:ComplexData>
+            <ns2:Format default="true" mimeType="application/zip"/>
+          </ns2:ComplexData>
+        </ns2:Output>
+      </ns2:Process>
+    </ProcessOffering>
+  </ProcessDescription>
+  <ExecutionUnit>
+    <Reference xlin:href="docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2.7"/>
+  </ExecutionUnit>
+  <DeploymentProfileName>http://www.opengis.net/profiles/eoc/dockerizedApplication</DeploymentProfileName>
+</DeployProcess>

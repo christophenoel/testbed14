@@ -1,0 +1,113 @@
+{
+    "processDescription": {
+        "process": {
+            "id": "SPB_MultiSensorNDVIStacker",
+            "title": "multiSensorNDVIStacker 3 collections",
+            "abstract": "",
+            "keywords": [],
+            "inputs": [
+                {
+                    "id": "image-collection1",
+                    "title": "Input Image",
+                    "formats": [
+                        {
+                            "mimeType": "application/zip",
+                            "default": true
+                        }
+                    ],
+                    "minOccurs": 1,
+                    "maxOccurs": "unbounded",
+                    "additionalParameters": [
+                        {
+                            "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+                            "parameters": [
+                                {
+                                    "name": "EOImage",
+                                    "values": [
+                                        "true"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "image-collection2",
+                    "title": "Input Image",
+                    "formats": [
+                        {
+                            "mimeType": "application/zip",
+                            "default": true
+                        }
+                    ],
+                    "minOccurs": 1,
+                    "maxOccurs": "unbounded",
+                    "additionalParameters": [
+                        {
+                            "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+                            "parameters": [
+                                {
+                                    "name": "EOImage",
+                                    "values": [
+                                        "true"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "image-collection3",
+                    "title": "Input Image",
+                    "formats": [
+                        {
+                            "mimeType": "application/zip",
+                            "default": true
+                        }
+                    ],
+                    "minOccurs": 1,
+                    "maxOccurs": "unbounded",
+                    "additionalParameters": [
+                        {
+                            "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+                            "parameters": [
+                                {
+                                    "name": "EOImage",
+                                    "values": [
+                                        "true"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }                
+            ],
+            "outputs": [
+                {
+                    "id": "output",
+                    "title": "Stacked Image",
+                    "formats": [
+                        {
+                            "mimeType": "image/tiff",
+                            "default": true
+                        }
+                    ]
+                }
+            ]
+        },
+        "processVersion": "1.0.0",
+        "jobControlOptions": [
+            "async-execute"
+        ],
+        "outputTransmission": [
+            "reference"
+        ]
+    },
+    "executionUnit": [
+        {
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_3collections/multiSensorNDVIStacker_3collections-v1.cwl"
+        }
+    ],
+    "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
+}
+
