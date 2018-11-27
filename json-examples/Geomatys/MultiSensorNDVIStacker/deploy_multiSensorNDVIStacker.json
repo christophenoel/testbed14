@@ -11,7 +11,7 @@
                     "title": "Input Image",
                     "formats": [
                         {
-                            "mimeType": "application/zip",
+                            "mimeType": "application/x-binary",
                             "default": true
                         }
                     ],
@@ -36,7 +36,7 @@
                     "title": "Input Image",
                     "formats": [
                         {
-                            "mimeType": "application/zip",
+                            "mimeType": "application/x-binary",
                             "default": true
                         }
                     ],
@@ -61,7 +61,7 @@
                     "title": "Input Image",
                     "formats": [
                         {
-                            "mimeType": "application/zip",
+                            "mimeType": "application/x-binary",
                             "default": true
                         }
                     ],
