@@ -1,0 +1,36 @@
+{
+  "mode": "async",
+  "response": "document",
+  "inputs": [
+    {
+      "id": "os_collectionId_image-collection1",
+      "data": "EOP:IPT:Sentinel2"
+    },
+    {
+      "id": "os_collectionId_image-collection2",
+      "data": "urn:ogc:def:EOP:VITO:PROBAV_P_V001"
+    },
+  {
+      "id": "os_collectionId_image-collection3",
+      "data": "DE2_MS4_L1B"
+    },
+    {
+      "id": "os_aoi",
+      "data": "-95,29.8,-95.5,30"
+    },
+    {
+      "id": "os_startDate",
+      "data": "2016-09-03T23:00:00Z"
+    },
+    {
+      "id": "os_endDate",
+      "data": "2016-09-06T20:00:00Z"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "output",
+      "transmissionMode": "reference"
+    }
+  ]
+}
