@@ -23,6 +23,8 @@
                             "default": true
                         },{
                             "mimeType": "application/x-hdf"
+                        },{
+                            "mimeType": "image/tiff"
                         }
                     ],
                     "minOccurs": "1",

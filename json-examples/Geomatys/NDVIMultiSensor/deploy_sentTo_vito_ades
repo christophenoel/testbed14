@@ -1,0 +1,75 @@
+{
+  "immediateDeployment" : true,
+  "processDescription" : {
+    "process" : {
+      "id" : "GeomatysNDVIMultiSensor",
+      "title" : "NDVIMultiSensor",
+      "abstract" : "Normalized Difference Vegetation Index (NDVI) from an input list of satellite images.",
+      "owsContext" : {
+        "offering" : {
+          "code" : "http://www.opengis.net/eoc/applicationContext/cwl",
+          "content" : {
+            "href" : "https://raw.githubusercontent.com/Geomatys/Testbed14/master/application-packages/NDVIMultiSensor/NDVIMultiSensor.cwl"
+          }
+        }
+      },
+      "metadata" : [ {
+        "href" : "https://raw.githubusercontent.com/Geomatys/Testbed14/master/application-packages/NDVIMultiSensor/NDVIMultiSensor.cwl",
+        "role" : "http://www.opengis.net/eoc/applicationContext/cwl"
+      }, {
+        "href" : "images.geomatys.com/ndvims:latest",
+        "role" : "http://www.opengis.net/eoc/applicationContext/docker"
+      } ],
+      "inputs" : [ {
+        "id" : "files",
+        "title" : "Input Image",
+        "additionalParameters" : [ {
+          "role" : "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+          "parameters" : [ {
+            "name" : "EOImage",
+            "values" : [ "true" ]
+          } ]
+        }, {
+          "role" : "http://www.opengis.net/eoc/inputBinding",
+          "parameters" : [ {
+            "name" : "position",
+            "values" : [ "1" ]
+          } ]
+        }, {
+          "role" : "http://www.opengis.net/eoc/inputBinding",
+          "parameters" : [ {
+            "name" : "position",
+            "values" : [ "1" ]
+          } ]
+        } ],
+        "minOccurs" : "1",
+        "maxOccurs" : "unbounded",
+        "formats" : [ {
+          "default" : true,
+          "mimeType" : "application/zip"
+        }, {
+          "default" : false,
+          "mimeType" : "application/x-hdf"
+        }, {
+          "default" : false,
+          "mimeType" : "image/tiff"
+        } ]
+      } ],
+      "outputs" : [ {
+        "id" : "output",
+        "title" : "NDVI Images",
+        "formats" : [ {
+          "default" : true,
+          "mimeType" : "image/tiff"
+        } ]
+      } ]
+    },
+    "processVersion" : "1.0.0",
+    "jobControlOptions" : [ "async-execute" ],
+    "outputTransmission" : [ "reference" ]
+  },
+  "executionUnit" : [ {
+    "href" : "images.geomatys.com/ndvims:latest"
+  } ],
+  "deploymentProfileName" : "http://www.opengis.net/profiles/eoc/dockerizedApplication"
+}

@@ -11,8 +11,12 @@
                     "title": "Input Image",
                     "formats": [
                         {
-                            "mimeType": "application/x-binary",
+                            "mimeType": "application/zip",
                             "default": true
+                        },{
+                            "mimeType": "application/x-hdf"
+                        },{
+                            "mimeType": "image/tiff"
                         }
                     ],
                     "minOccurs": 1,
@@ -36,8 +40,12 @@
                     "title": "Input Image",
                     "formats": [
                         {
-                            "mimeType": "application/x-binary",
+                            "mimeType": "application/zip",
                             "default": true
+                        },{
+                            "mimeType": "application/x-hdf"
+                        },{
+                            "mimeType": "image/tiff"
                         }
                     ],
                     "minOccurs": 1,
@@ -61,7 +69,11 @@
                     "title": "Input Image",
                     "formats": [
                         {
-                            "mimeType": "application/x-binary",
+                            "mimeType": "application/zip"
+                        },{
+                            "mimeType": "application/x-hdf"
+                        },{
+                            "mimeType": "image/tiff",
                             "default": true
                         }
                     ],
@@ -105,7 +117,7 @@
     },
     "executionUnit": [
         {
-            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_3collections/multiSensorNDVIStacker_3collections-v1.cwl"
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_3collections/multiSensorNDVIStacker_3collections-v2.cwl"
         }
     ],
     "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
