@@ -5,9 +5,8 @@
       {"class": "MultipleInputFeatureRequirement"}
       ],
    "inputs":{  
-      "image-collection1":"File[]",
-      "image-collection2":"File[]",
-      "image-collection3":"File[]"
+      "image-collection1":"File",
+      "image-collection2":"File"
    },
    "outputs":{  
       "classout":{  
@@ -28,15 +27,6 @@
       "NDVIMultiSensorCollection2":{  
          "run":"GeomatysNDVIMultiSensor.cwl",
          "in":{  
-            "files":"image-collection1"
-         },
-         "out":[  
-            "output"
-         ]
-      },
-      "NDVIMultiSensorCollection3":{  
-         "run":"GeomatysNDVIMultiSensor.cwl",
-         "in":{  
             "files":"image-collection2"
          },
          "out":[  
@@ -50,8 +40,7 @@
               "linkMerge": "merge_flattened",
               "source": [
                 "NDVIMultiSensorCollection1/output",
-                "NDVIMultiSensorCollection2/output",
-                "NDVIMultiSensorCollection3/output"
+                "NDVIMultiSensorCollection2/output"
               ]
             }
         },
