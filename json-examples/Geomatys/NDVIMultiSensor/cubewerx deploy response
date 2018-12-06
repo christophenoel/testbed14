@@ -1,0 +1,23 @@
+{
+  "processSummary": {
+    "id": "GeomatysNDVIMultiSensor",
+    "title": "NDVIMultiSensor",
+    "abstract": "Normalized Difference Vegetation Index (NDVI) from an input list of satellite images.",
+    "metadata": [
+      {
+        "about": null
+      },
+      {
+        "about": null
+      }
+    ],
+    "processVersion": "1.0.0",
+    "jobControlOptions": [
+      "async-execute"
+    ],
+    "outputTransmission": [
+      "reference"
+    ],
+    "processDescriptionURL": "http://www.pvretano.com/cubewerx/cubeserv/default/wps/3.0.0/processes/GeomatysNDVIMultiSensor"
+  }
+}

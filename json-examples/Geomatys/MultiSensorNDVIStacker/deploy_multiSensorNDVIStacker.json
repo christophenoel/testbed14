@@ -46,6 +46,8 @@
                             "mimeType": "application/x-hdf"
                         },{
                             "mimeType": "image/tiff"
+                        },{
+                            "mimeType": "application/x-binary"
                         }
                     ],
                     "minOccurs": 1,
@@ -117,7 +119,7 @@
     },
     "executionUnit": [
         {
-            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_3collections/multiSensorNDVIStacker_3collections-v2.cwl"
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_3collections/multiSensorNDVIStacker_3collections-v3.cwl"
         }
     ],
     "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"

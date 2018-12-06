@@ -2,7 +2,7 @@
     "inputs": [
         {
             "id": "files",
-            "href": "https://nexus.geomatys.com/repository/raw-public/testbed14/PROBAV_L1C_20160505_232748_3_V101.HDF5"
+            "href": "https://imagery.deimos-imaging.com/arcgis/rest/directories/arcgisoutput/Deimos2/Deimos_2_PS_Public_ImageServer/_ags_380632428/DE2_PM4_L1B_000000_20160903T165824_20160903T165826_DE2_11972_7C1F/c41bf3ad_@/DE2_MS4_L1B_000000_20160903T165824_20160903T165826_DE2_11972_7C1F_965_s3e.tif"
         },
         {
             "id": "files",

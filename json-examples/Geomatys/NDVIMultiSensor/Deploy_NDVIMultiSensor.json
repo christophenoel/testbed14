@@ -7,7 +7,7 @@
                 "offering": {
                     "code": "http://www.opengis.net/eoc/applicationContext/cwl",
                     "content": {
-                        "href": "https://raw.githubusercontent.com/Geomatys/Testbed14/master/application-packages/NDVIMultiSensor/NDVIMultiSensor.cwl"
+                        "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/NDVIMultiSensor/multisensor-ndvi.cwl"
                     }
                 }
             },
@@ -26,9 +26,12 @@
                         },{
                             "mimeType": "image/tiff"
                         }
+                        ,{
+                            "mimeType": "application/x-binary"
+                        }
                     ],
                     "minOccurs": "1",
-                    "maxOccurs": "unbounded",
+                    "maxOccurs": "1",
                     "additionalParameters": [
                         {
                             "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",

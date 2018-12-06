@@ -31,8 +31,7 @@
           } ]
         }, {
           "role" : "http://www.opengis.net/eoc/inputBinding",
-          "parameters" : [ {
-            "name" : "position",
+          "parameters" : [ {            "name" : "position",
             "values" : [ "1" ]
           } ]
         }, {
@@ -61,7 +60,7 @@
         "formats" : [ {
           "default" : true,
           "mimeType" : "image/tiff"
-              } ]
+        } ]
       } ]
     },
     "processVersion" : "1.0.0",

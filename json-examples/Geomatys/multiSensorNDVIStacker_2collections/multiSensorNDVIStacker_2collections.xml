@@ -13,10 +13,14 @@
                         {
                             "mimeType": "application/zip",
                             "default": true
+                        },{
+                            "mimeType": "application/x-hdf"
+                        },{
+                            "mimeType": "image/tiff"
                         }
                     ],
                     "minOccurs": 1,
-                    "maxOccurs": "unbounded",
+                    "maxOccurs": 1,
                     "additionalParameters": [
                         {
                             "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
@@ -38,10 +42,14 @@
                         {
                             "mimeType": "application/zip",
                             "default": true
+                        },{
+                            "mimeType": "application/x-hdf"
+                        },{
+                            "mimeType": "image/tiff"
                         }
                     ],
                     "minOccurs": 1,
-                    "maxOccurs": "unbounded",
+                    "maxOccurs": 1,
                     "additionalParameters": [
                         {
                             "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
@@ -80,7 +88,7 @@
     },
     "executionUnit": [
         {
-            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_2collections/multiSensorNDVIStacker_2collections-v4.cwl"
+            "href": "https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/multiSensorNDVIStacker_2collections/multiSensorNDVIStacker_2collections-v5.cwl"
         }
     ],
     "deploymentProfileName": "http://www.opengis.net/profiles/eoc/workflow"
