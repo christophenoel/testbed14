@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: OGC Testbed 14 EOC - Transactional Web Processing Service 2.0 with Billing and Quotation - REST/JSON Extension API
-  version: "Testbed14.SPB-IMPL"
+  version: "OGC.Hackaton1"
   description: 'This is the Transactional Web Processing Service 2.0 with Billing and Quotation REST/JSON Extension API developped in the frame of the OGC Testbed 14 EOC. This work is based on the WPS REST binding (https://github.com/opengeospatial/wps-rest-binding) by Benjamin Proß with updates from Patrick Jacques (Spacebel), Jerome Gasperi (Geomatys) and Christophe Noël (Spacebel).'
   contact:
     name: Open Geospatial Consortium
@@ -74,64 +74,48 @@ paths:
               $ref: '#/components/schemas/deploy'
             example:
               processDescription:
-                processVersion: 1.0.0
-                jobControlOptions:
-                  - async-execute
-                outputTransmission:
-                  - reference
                 process:
-                  id: Stacker
-                  title: Stacker
-                  abstract: ''
-                  keywords: []
+                  id: GeomatysNDVIMultiSensor
+                  title: NDVIMultiSensor
                   owsContext:
                     offering:
                       code: 'http://www.opengis.net/eoc/applicationContext/cwl'
                       content:
-                        href: 'https://raw.githubusercontent.com/crim-ca/testbed14/master/application-packages/StackCreation-graph-json-remote.cwl'
+                        href: 'https://raw.githubusercontent.com/spacebel/testbed14/master/cwl-examples/NDVIMultiSensor/multisensor-ndvi.cwl'
+                  abstract: Normalized Difference Vegetation Index (NDVI) from an input list of satellite images.
+                  keywords:
+                    - NDVI
                   inputs:
                     - id: files
                       title: Input Image
                       formats:
                         - mimeType: application/zip
                           default: true
-                      minOccurs: 1
-                      maxOccurs: unbounded
+                        - mimeType: application/x-hdf
+                        - mimeType: image/tiff
+                        - mimeType: application/x-binary
+                      minOccurs: '1'
+                      maxOccurs: '1'
                       additionalParameters:
                         - role: 'http://www.opengis.net/eoc/applicationContext/inputMetadata'
                           parameters:
                             - name: EOImage
-                              values: 
+                              values:
                                 - 'true'
-                    - id: output_file_type
-                      title: Type of Stacked Image
-                      formats:
-                        - mimeType: text/plain
-                          default: true
-                      minOccurs: 1
-                      maxOccurs: 1
-                      literalDataDomains:
-                        - dataType: 
-                            name: String
-                    - id: output_name
-                      title: Name of the Produced Image
-                      formats:
-                        - mimeType: text/plain
-                          default: true
-                      minOccurs: 1
-                      maxOccurs: 1
-                      literalDataDomains:
-                        - dataType: 
-                            name: String
                   outputs:
                     - id: output
-                      title: Stacked Image
+                      title: NDVI Images
                       formats:
-                        - mimeType: application/octet-stream
+                        - mimeType: image/tiff
                           default: true
-              immediateDeployment: 'false'
+                processVersion: 1.0.0
+                jobControlOptions:
+                  - async-execute
+                outputTransmission:
+                  - reference
+              immediateDeployment: true
               executionUnit:
-                - href: 'docker-registry.crim.ca/ogc-public/snap6-stack-creation:v2'
+                - href: 'images.geomatys.com/ndvims:latest'
               deploymentProfileName: 'http://www.opengis.net/profiles/eoc/dockerizedApplication'
       responses:
         '200':
@@ -894,137 +878,6 @@ paths:
                 $ref: '#/components/schemas/exceptionReportType'
         '404':
           description: 'The process with id {id} does not exist.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        default:
-          description: An error occured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-  /quotations:
-    get:
-      summary: Retrieve the list of all quotation ids.
-      operationId: getQuotationList
-      tags:
-        - Unsupported
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: A list of quotation ids for all server processes.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/quotationList'
-        '401':
-          description: Access token is missing.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        '403':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        default:
-          description: An error occured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-  '/quotations/{quotationID}':
-    get:
-      summary: Retrieve quotation information
-      operationId: getQuotation
-      tags:
-        - Unsupported
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: path
-          name: quotationID
-          description: The id of a quotation
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Quotation information.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/quotation'
-        '401':
-          description: Access token is missing.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        '403':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        '404':
-          description: 'The quotation with id {quotationID} does not exist.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        default:
-          description: An error occured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-    post:
-      summary: Execute a quoted process
-      operationId: executeQuotation
-      tags:
-        - Unsupported
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: path
-          name: quotationID
-          description: The id of a quotation
-          required: true
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Started execution. Created job.
-          headers:
-            Location:
-              schema:
-                type: string
-              description: URL to check the status of the execution/job.
-        '401':
-          description: Access token is missing.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        '403':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        '404':
-          description: 'The quotation with id {quotationID} does not exist.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exceptionReportType'
-        '410':
-          description: 'The quotation with id {quotationID} expired.'
           content:
             application/json:
               schema:
@@ -1877,6 +1730,8 @@ tags:
   - name: Unsupported
     description: Unsupported operations.
 servers:
+  - description: Hackaton 80
+    url: 'http://34.77.240.214/ades-proxy'
   - description: boreal
     url: 'https://borealweb.nfis.org/ogctestbed14_spacebel/wps-proxy'
   - description: Google ADES WPS 80
