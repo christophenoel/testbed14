@@ -1730,25 +1730,7 @@ tags:
   - name: Unsupported
     description: Unsupported operations.
 servers:
-  - description: Hackaton 80
-    url: 'http://34.77.240.214/ades-proxy'
-  - description: boreal
-    url: 'https://borealweb.nfis.org/ogctestbed14_spacebel/wps-proxy'
-  - description: Google ADES WPS 80
-    url: 'http://35.187.26.24/wps-proxy'
-  - description: Google EMS WPS 80
-    url: 'http://146.148.6.205/wps-proxy'
-  - description: IPT Poland ADES WPS 80
-    url: 'http://185.52.193.7/wps-proxy'
-  - description: Localhost ADES WPS
-    url: 'http://localhost:8080/ades-proxy'
-  - description: Localhost EMS WPS
-    url: 'http://localhost:8080/ems-proxy'
-  - description: Geomatys ADES
-    url: 'http://ades.vgt.vito.be/WS/wps/default'
-  - description: Geomatys EMS
-    url: 'http://tbd14.geomatys.com/WS/wps/default'
-  - description: CRIM EMS
-    url: 'https://ogc.crim.ca/ems'
-  - description: CUBEWerx
-    url: 'http://www.pvretano.com/cubewerx/cubeserv/default/wps/3.0.0'
+  - description: EO APPS Pilot
+    url: 'http://ogc.geo-cloud.eu/wps-json'
+  - description: OGC EO Apps Pilot (localhost)
+    url: 'http://localhost:8080/wps-json'
